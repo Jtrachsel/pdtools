@@ -1,5 +1,3 @@
-
-
 #' List available PDG accessions for an organism
 #'
 #' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
@@ -30,9 +28,6 @@ list_PDGs <- function(organism){
     arrange(desc(release_date))
 
   return(PDG_table)
-
-
-
 
 }
 
