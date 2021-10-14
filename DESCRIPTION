@@ -1,0 +1,20 @@
+Package: pdtools
+Title: Provides tools to interact with NCBI's Pathogen Detection project
+Version: 0.0.0.9000
+Authors@R: 
+    person("Julian", "Trachsel", , "julestrachsel@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "https://orcid.org/0000-0003-2357-7737"))
+Description: What the package does (one paragraph).
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Imports:
+  rvest,
+  tidyverse,
+  lubridate,
+  curl
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
