@@ -5,7 +5,7 @@
 #' @return returns a tibble or PDG accessions and release dates
 #' @export
 #'
-#' @examples
+#' @examples  list_PDGs('Klebsiella')
 list_PDGs <- function(organism){
   #Checks the NCBI Path Det Database for the most recent version number
   # Returns a nicely formatted table
@@ -37,13 +37,13 @@ list_PDGs <- function(organism){
 #' Download Pathogen Detection metadata for a given organism
 #'
 #' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
-#' @param PDG
-#' @param folder_prefix
+#' @param PDG The Pathogen Detection accession number to download
+#' @param folder_prefix a string to append to the download path, ie './data/'
 #'
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples download_PDD_metadata(organism = 'Campylobacter',PDG = 'PDG000000003.1517')
 download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
 
   # Given an organism and a PDG accession
@@ -68,6 +68,41 @@ download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
   print('downloading cluster data...')
   curl_download(url = cluster_url, destfile = cluster_dest)
 }
+
+
+
+#' Download the most recent complete metadata for a specified organism
+#'
+#' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
+#' @param folder_prefix a string to append to the download path, ie './data/'
+#'
+#' @return
+#' @export
+#'
+#' @examples download_most_recent_complete('Salmonella')
+download_most_recent_complete <- function(organism, folder_prefix=NULL){
+  # the most recent entry in the PDD doesnt have complete metadata,
+  # So we have to download the 2nd most recent.
+  second_most_recent <-
+    list_PDGs(organism) |>
+    mutate(ORDER=sub(pattern = 'PDG[0-9]+\\.([0-9]+)', replacement = '\\1', PDG),
+           ORDER=as.numeric(ORDER)) |>
+    arrange(desc(ORDER)) |>
+    slice_head(n=2) |>
+    slice_tail()
+
+  PDG <- second_most_recent |> pull(PDG)
+
+
+  msg <- paste('downloading',organism, PDG, 'released', second_most_recent$release_date)
+  print(msg)
+
+  download_PDD_metadata(organism = organism, PDG = PDG, folder_prefix = folder_prefix)
+
+}
+
+
+
 
 #
 #

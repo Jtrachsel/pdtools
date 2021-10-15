@@ -9,11 +9,16 @@ download_PDD_metadata(organism, PDG, folder_prefix = NULL)
 \arguments{
 \item{organism}{a string ie 'Salmonella' or 'Campylobacter' etc}
 
-\item{folder_prefix}{}
+\item{PDG}{The Pathogen Detection accession number to download}
+
+\item{folder_prefix}{a string to append to the download path, ie './data/'}
 }
 \value{
 
 }
 \description{
 Download Pathogen Detection metadata for a given organism
+}
+\examples{
+download_PDD_metadata(organism = 'Campylobacter',PDG = 'PDG000000003.1517')
 }
