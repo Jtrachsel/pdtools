@@ -1,5 +1,5 @@
 Package: pdtools
-Title: Provides tools to interact with NCBI's Pathogen Detection project
+Title: Tools to interact with NCBI's Pathogen Detection project
 Version: 0.0.0.9000
 Authors@R: 
     person("Julian", "Trachsel", , "julestrachsel@gmail.com", role = c("aut", "cre"),
