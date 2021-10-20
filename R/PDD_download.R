@@ -84,9 +84,9 @@ download_most_recent_complete <- function(organism, folder_prefix=NULL){
 
   PDG <- find_most_recent_complete(organism = organism)
 
-  msg <- paste('downloading',organism, PDG, 'released', second_most_recent$release_date)
+  msg <- paste('downloading',organism, PDG[1], 'released', PDG[2])
   print(msg)
-  download_PDD_metadata(organism = organism, PDG = PDG, folder_prefix = folder_prefix)
+  download_PDD_metadata(organism = organism, PDG = PDG[1], folder_prefix = folder_prefix)
 
 }
 
@@ -112,9 +112,10 @@ find_most_recent_complete <- function(organism){
   while (FOUND_IT == FALSE) {
     FOUND_IT <- check_complete_PDG(PDG_table$URL[index])
     CURRENT_PDG <- PDG_table$PDG[index]
+    RELEASE_DATE <- PDG_table$release_date[index]
     index <- index+1
   }
-  return(CURRENT_PDG)
+  return(c(CURRENT_PDG, RELEASE_DATE))
 }
 
 
