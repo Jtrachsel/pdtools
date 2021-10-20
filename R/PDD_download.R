@@ -81,26 +81,62 @@ download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
 #'
 #' @examples download_most_recent_complete('Salmonella')
 download_most_recent_complete <- function(organism, folder_prefix=NULL){
-  # the most recent entry in the PDD doesnt have complete metadata,
-  # So we have to download the 2nd most recent.
-  second_most_recent <-
-    list_PDGs(organism) |>
-    mutate(ORDER=sub(pattern = 'PDG[0-9]+\\.([0-9]+)', replacement = '\\1', PDG),
-           ORDER=as.numeric(ORDER)) |>
-    arrange(desc(ORDER)) |>
-    slice_head(n=2) |>
-    slice_tail()
 
-  PDG <- second_most_recent |> pull(PDG)
-
+  PDG <- find_most_recent_complete(organism = organism)
 
   msg <- paste('downloading',organism, PDG, 'released', second_most_recent$release_date)
   print(msg)
-
   download_PDD_metadata(organism = organism, PDG = PDG, folder_prefix = folder_prefix)
 
 }
 
+
+#' Find most recent complete PDG
+#'
+#' @param organism
+#'
+#' @return
+#' @export
+#'
+#' @examples find_most_recent_complete('Salmonella')
+find_most_recent_complete <- function(organism){
+  # should go through the list of available PDGs and look for presence of
+  # amr and cluster metadata as well
+  # browser()
+  url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/', organism)
+  PDG_table <- list_PDGs(organism = organism) %>%
+    mutate(URL=paste0(url, '/', PDG))
+
+  index <- 1
+  FOUND_IT <- FALSE
+  while (FOUND_IT == FALSE) {
+    FOUND_IT <- check_complete_PDG(PDG_table$URL[index])
+    CURRENT_PDG <- PDG_table$PDG[index]
+    index <- index+1
+  }
+  return(CURRENT_PDG)
+}
+
+
+#' Check if a single PDG is complete (AMR and Cluster metadata)
+#'
+#' @param url
+#'
+#' @return
+#' @export
+#'
+#' @examples check_complete_PDG(URL)
+check_complete_PDG <- function(url){
+  contents <- read_html(url) %>%
+    rvest::html_text2()
+  AMR <- grepl('AMR', contents)
+  META <- grepl('Metadata', contents)
+  CLUSTERS <- grepl('Clusters', contents)
+  return(all(c(AMR, META, CLUSTERS)))
+}
+
+
+# find_most_recent_complete('Escherichia_coli_Shigella')
 
 
 
