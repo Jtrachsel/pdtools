@@ -48,10 +48,9 @@ download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
 
   # Given an organism and a PDG accession
   # downloads the 3 metadata files from ncbi
-  # must have a ./data/ folder in the working directory
-
-  meta_url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism, '/',PDG,'/Metadata/',PDG,'.metadata.tsv')
-  meta_dest <- paste0(folder_prefix, PDG, '.metadata.tsv')
+  # seems like I dont need the "metadata" becuase the AMR table has the same info
+  # meta_url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism, '/',PDG,'/Metadata/',PDG,'.metadata.tsv')
+  # meta_dest <- paste0(folder_prefix, PDG, '.metadata.tsv')
 
   # wget https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Salmonella/"$PDG"/AMR/"$PDG".amr.metadata.tsv
   amr_url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/',PDG,'/AMR/',PDG,'.amr.metadata.tsv')
@@ -61,8 +60,8 @@ download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
   cluster_url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/',PDG,'/Clusters/',PDG,'.reference_target.cluster_list.tsv')
   cluster_dest <- paste0(folder_prefix, PDG, '.cluster_list.tsv')
 
-  print('downloading metadata...')
-  curl_download(url = meta_url, destfile = meta_dest)
+  # print('downloading metadata...')
+  # curl_download(url = meta_url, destfile = meta_dest)
   print('downloading amr data...')
   curl_download(url = amr_url, destfile = amr_dest)
   print('downloading cluster data...')
@@ -134,6 +133,60 @@ check_complete_PDG <- function(url){
   META <- grepl('Metadata', contents)
   CLUSTERS <- grepl('Clusters', contents)
   return(all(c(AMR, META, CLUSTERS)))
+}
+
+
+
+
+#' add a Year column to PDD metadata containing the earliest year from the
+#' available 'date' fields.
+#'
+#' @param PDD_metadata_table
+#'
+#' @return returns the input metadata table with an added `Year` column
+#' @export
+#'
+#' @examples
+get_earliest_year <- function(PDD_metadata_table){
+  # given a PDD metadata table, extract the earliest year from the date
+  # columns and return the original table with the 'Year' variable added
+  result <-
+    PDD_metadata_table %>%
+    select(target_acc, ends_with('date')) %>%
+    mutate(across(.cols = ends_with('date'), .fns = as.character)) %>%
+    pivot_longer(cols = ends_with('date'), names_to = 'type', values_to = 'date') %>%
+    mutate(year = as.numeric(sub('([0-9][0-9][0-9][0-9]).*','\\1',date))) %>%
+    group_by(target_acc) %>%
+    summarise(Year=year[which.min(year)]) %>%
+    left_join(PDD_metadata_table)
+
+  return(result)
+
+}
+
+
+#' Generate ftp urls for fna files from a vector of genbank assembly accessions
+#'
+#' @param asm_accessions character vector of genbank accessions
+#' @param assembly_summary assembly summary downloaded from ncbi, must have asm_acc column
+#'
+#'
+#'
+#' @return returns a vector of ftp urls
+#' @export
+#'
+#' @examples
+make_fna_urls <- function(asm_accessions, assembly_summary){
+  # assembly summary needs to have the accessions changed from
+  # `# assembly_accession` to asm_acc
+  ass_sum <- ass_sum %>%
+    filter(asm_acc %in% asm_accessions)
+  paste0(ass_sum$ftp_path,
+         '/',
+         sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
+             ass_sum$ftp_path),
+         '_genomic.fna.gz')
+
 }
 
 
