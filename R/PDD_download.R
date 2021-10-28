@@ -45,7 +45,7 @@ list_PDGs <- function(organism){
 #'
 #' @examples download_PDD_metadata(organism = 'Campylobacter',PDG = 'PDG000000003.1517')
 download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
-
+  # browser()
   # Given an organism and a PDG accession
   # downloads the 3 metadata files from ncbi
   # seems like I dont need the "metadata" becuase the AMR table has the same info
@@ -103,15 +103,14 @@ find_most_recent_complete <- function(organism){
   # amr and cluster metadata as well
   # browser()
   url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/', organism)
-  PDG_table <- list_PDGs(organism = organism) %>%
-    mutate(URL=paste0(url, '/', PDG))
+  PDG_table <- list_PDGs(organism = organism)
 
   index <- 1
-  FOUND_IT <- FALSE
-  while (FOUND_IT == FALSE) {
-    FOUND_IT <- check_complete_PDG(PDG_table$URL[index])
+  complete_PDG <- FALSE
+  while (complete_PDG == FALSE) {
     CURRENT_PDG <- PDG_table$PDG[index]
     RELEASE_DATE <- PDG_table$release_date[index]
+    complete_PDG <- check_complete_PDG(organism, PDG_table$PDG[index])
     index <- index+1
   }
   return(c(CURRENT_PDG, RELEASE_DATE))
@@ -120,19 +119,25 @@ find_most_recent_complete <- function(organism){
 
 #' Check if a single PDG is complete (AMR and Cluster metadata)
 #'
-#' @param url
+#' @param organism
+#' @param PDG
 #'
 #' @return
 #' @export
 #'
 #' @examples check_complete_PDG(URL)
-check_complete_PDG <- function(url){
-  contents <- read_html(url) %>%
-    rvest::html_text2()
-  AMR <- grepl('AMR', contents)
-  META <- grepl('Metadata', contents)
-  CLUSTERS <- grepl('Clusters', contents)
-  return(all(c(AMR, META, CLUSTERS)))
+check_complete_PDG <- function(organism, PDG){
+  # browser()
+
+  amr_url <-paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/',PDG,'/AMR/',PDG,'.amr.metadata.tsv')
+  clusters_url <-  paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/',PDG,'/Clusters/',PDG,'.reference_target.cluster_list.tsv')
+
+  all_urls_exist <-
+    c(amr_url, clusters_url) %>%
+    url.exists() %>%
+    all()
+
+  return(all_urls_exist)
 }
 
 
@@ -188,30 +193,3 @@ make_fna_urls <- function(asm_accessions, assembly_summary){
          '_genomic.fna.gz')
 
 }
-
-
-# find_most_recent_complete('Escherichia_coli_Shigella')
-
-
-
-#
-#
-# # test on Sal and Campy
-# Sal_PDGs <- list_PDGs('Salmonella')
-#
-#
-# PDG <- Sal_PDGs %>% slice_head() %>% pull(PDG)
-#
-#
-# download_PDD_metadata('Salmonella', PDG = PDG)
-#
-#
-# Campy_PDGs <- list_PDGs('Campylobacter')
-#
-#
-#
-# Campy_PDG <- Campy_PDGs %>% slice_head() %>% pull(PDG)
-#
-# download_PDD_metadata('Campylobacter', PDG = Campy_PDG)
-#
-#
