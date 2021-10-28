@@ -20,5 +20,5 @@ download_PDD_metadata(organism, PDG, folder_prefix = NULL)
 Download Pathogen Detection metadata for a given organism
 }
 \examples{
-download_PDD_metadata(organism = 'Campylobacter',PDG = 'PDG000000003.1517')
+#download_PDD_metadata(organism = 'Campylobacter',PDG = 'PDG000000003.1517')
 }

@@ -5,7 +5,7 @@
 #' @return returns a tibble or PDG accessions and release dates
 #' @export
 #'
-#' @examples  list_PDGs('Klebsiella')
+#' @examples  #list_PDGs('Klebsiella')
 list_PDGs <- function(organism){
   #Checks the NCBI Path Det Database for the most recent version number
   # Returns a nicely formatted table
@@ -43,7 +43,7 @@ list_PDGs <- function(organism){
 #' @return
 #' @export
 #'
-#' @examples download_PDD_metadata(organism = 'Campylobacter',PDG = 'PDG000000003.1517')
+#' @examples #download_PDD_metadata(organism = 'Campylobacter',PDG = 'PDG000000003.1517')
 download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
   # browser()
   # Given an organism and a PDG accession
@@ -78,7 +78,7 @@ download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
 #' @return
 #' @export
 #'
-#' @examples download_most_recent_complete('Salmonella')
+#' @examples #download_most_recent_complete('Salmonella')
 download_most_recent_complete <- function(organism, folder_prefix=NULL){
 
   PDG <- find_most_recent_complete(organism = organism)
@@ -92,12 +92,12 @@ download_most_recent_complete <- function(organism, folder_prefix=NULL){
 
 #' Find most recent complete PDG
 #'
-#' @param organism
+#' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
 #'
 #' @return
 #' @export
 #'
-#' @examples find_most_recent_complete('Salmonella')
+#' @examples #find_most_recent_complete('Salmonella')
 find_most_recent_complete <- function(organism){
   # should go through the list of available PDGs and look for presence of
   # amr and cluster metadata as well
@@ -119,13 +119,13 @@ find_most_recent_complete <- function(organism){
 
 #' Check if a single PDG is complete (AMR and Cluster metadata)
 #'
-#' @param organism
+#' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
 #' @param PDG
 #'
-#' @return
+#' @return TRUE/FALSE depending on if all URLs for download exist
 #' @export
 #'
-#' @examples check_complete_PDG(URL)
+#' @examples #check_complete_PDG(URL)
 check_complete_PDG <- function(organism, PDG){
   # browser()
 
@@ -151,7 +151,7 @@ check_complete_PDG <- function(organism, PDG){
 #' @return returns the input metadata table with an added `Year` column
 #' @export
 #'
-#' @examples
+#' @examples #soon
 get_earliest_year <- function(PDD_metadata_table){
   # given a PDD metadata table, extract the earliest year from the date
   # columns and return the original table with the 'Year' variable added
@@ -180,7 +180,7 @@ get_earliest_year <- function(PDD_metadata_table){
 #' @return returns a vector of ftp urls
 #' @export
 #'
-#' @examples
+#' @examples #soon
 make_fna_urls <- function(asm_accessions, assembly_summary){
   # assembly summary needs to have the accessions changed from
   # `# assembly_accession` to asm_acc

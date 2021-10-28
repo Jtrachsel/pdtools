@@ -17,3 +17,6 @@ returns the input metadata table with an added \code{Year} column
 add a Year column to PDD metadata containing the earliest year from the
 available 'date' fields.
 }
+\examples{
+#soon
+}

@@ -18,5 +18,5 @@ download_most_recent_complete(organism, folder_prefix = NULL)
 Download the most recent complete metadata for a specified organism
 }
 \examples{
-download_most_recent_complete('Salmonella')
+#download_most_recent_complete('Salmonella')
 }

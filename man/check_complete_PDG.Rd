@@ -4,17 +4,19 @@
 \alias{check_complete_PDG}
 \title{Check if a single PDG is complete (AMR and Cluster metadata)}
 \usage{
-check_complete_PDG(url)
+check_complete_PDG(organism, PDG)
 }
 \arguments{
-\item{url}{}
+\item{organism}{a string ie 'Salmonella' or 'Campylobacter' etc}
+
+\item{PDG}{}
 }
 \value{
-
+TRUE/FALSE depending on if all URLs for download exist
 }
 \description{
 Check if a single PDG is complete (AMR and Cluster metadata)
 }
 \examples{
-check_complete_PDG(URL)
+#check_complete_PDG(URL)
 }

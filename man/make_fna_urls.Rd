@@ -17,3 +17,6 @@ returns a vector of ftp urls
 \description{
 Generate ftp urls for fna files from a vector of genbank assembly accessions
 }
+\examples{
+#soon
+}

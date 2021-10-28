@@ -7,7 +7,7 @@
 find_most_recent_complete(organism)
 }
 \arguments{
-\item{organism}{}
+\item{organism}{a string ie 'Salmonella' or 'Campylobacter' etc}
 }
 \value{
 
@@ -16,5 +16,5 @@ find_most_recent_complete(organism)
 Find most recent complete PDG
 }
 \examples{
-find_most_recent_complete('Salmonella')
+#find_most_recent_complete('Salmonella')
 }
