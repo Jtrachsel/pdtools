@@ -61,3 +61,66 @@ camp$isolation_source %>% unique()
 # isolation_source
 # host
 # ontol
+
+
+
+
+tst <-
+  generate_pangenome(core_genome_fraction = .1, num_genomes = 1000, num_genes = 10000) %>%
+  get_gene_content_reps(desired_coverage = .95, starting_set_size = 10, num_iters_per_size = 250)
+
+
+
+
+
+param_sweep <- tibble(core_genome_fraction=seq(from=.01, to =.5, by = .01),
+                      pangenome=list(generate_pangenome(core_genome_fraction = core_genome_fraction)),
+                      results=map(pangenome, ~get_gene_content_reps(.x)))
+
+param_sweep %>% map(results)
+
+
+param_sweep$results
+
+tst$value
+hist(tst$scores)
+
+
+
+
+# get_gene_content_reps(pan_mat = example_mat, desired_coverage = .99, starting_set_size = 5)
+
+# return_set_score(example_mat, set_size = 10)
+# return_set_score(example_mat, set_size = 10)
+# return_set_score(example_mat, set_size = 10)
+#
+
+
+
+#
+#
+# example_mat <- example_mat[,colSums(example_mat) > 0]
+# best_score <- ncol(example_mat)
+
+# if desired coverage is reached, reduce the size of the set and recalc
+# in progress..
+# scores <- c()
+# num_iter <- 100
+# for (x in 1:num_iter) {
+#   genome_set <- sample(1:tot_genomes, size = 5)
+#   set_mat <- example_mat[genome_set,]
+#   score <- sum(colSums(set_mat) > 1)
+#   scores <- c(scores, score)
+#
+# }
+# return(scores)
+#
+# hist(scores)
+#
+#
+# now i want to select a set of genomes that maximizes the coverage of the pangenome
+# I want to remove redundant genomes, select the smallest set of genomes that represents
+# the maximum gene content of the pangenome
+
+
+
