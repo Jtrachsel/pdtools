@@ -8,7 +8,9 @@ get_gene_content_reps(
   pan_mat,
   desired_coverage = 0.95,
   starting_set_size = 1,
-  num_iters_per_size = 500
+  num_iters_per_size = 500,
+  set_size_step = 1,
+  PARALLEL = TRUE
 )
 }
 \arguments{

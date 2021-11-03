@@ -5,25 +5,25 @@ library(lubridate)
 library(RCurl)
 library(curl)
 
-PDGs <- list_PDGs('Campylobacter')
+# PDGs <- list_PDGs('Campylobacter')
 
 
 # download most recent complete data
-download_most_recent_complete('Campylobacter')
-# PDG000000003.1527
-
-
-library(data.table)
-camp <- fread('./PDG000000003.1527.amr.metadata.tsv', quote='')
-camp$isolation_source %>% unique()
-
-camp <- camp %>% filter(host != 'Homo sapiens')
-camp <- camp %>% filter(host != 'Chicken')
-camp_ovine <- camp %>% filter(grepl('Sheep|Lamb|Ovine', isolation_source))
-
-camp$host %>% table()
-
-camp$isolation_source %>% unique()
+# download_most_recent_complete('Campylobacter')
+# # PDG000000003.1527
+#
+#
+# library(data.table)
+# camp <- fread('./PDG000000003.1527.amr.metadata.tsv', quote='')
+# camp$isolation_source %>% unique()
+#
+# camp <- camp %>% filter(host != 'Homo sapiens')
+# camp <- camp %>% filter(host != 'Chicken')
+# camp_ovine <- camp %>% filter(grepl('Sheep|Lamb|Ovine', isolation_source))
+#
+# camp$host %>% table()
+#
+# camp$isolation_source %>% unique()
 
 
 # ideas
@@ -62,29 +62,29 @@ camp$isolation_source %>% unique()
 # host
 # ontol
 
+#
+#
+#
+# tst <-
+#   generate_pangenome(core_genome_fraction = .1, num_genomes = 1000, num_genes = 10000) %>%
+#   get_gene_content_reps(desired_coverage = .95, starting_set_size = 10, num_iters_per_size = 250)
+#
+#
+#
+#
+#
+# param_sweep <- tibble(core_genome_fraction=seq(from=.01, to =.5, by = .01),
+#                       pangenome=list(generate_pangenome(core_genome_fraction = core_genome_fraction)),
+#                       results=map(pangenome, ~get_gene_content_reps(.x)))
+#
+# param_sweep %>% map(results)
+#
 
-
-
-tst <-
-  generate_pangenome(core_genome_fraction = .1, num_genomes = 1000, num_genes = 10000) %>%
-  get_gene_content_reps(desired_coverage = .95, starting_set_size = 10, num_iters_per_size = 250)
-
-
-
-
-
-param_sweep <- tibble(core_genome_fraction=seq(from=.01, to =.5, by = .01),
-                      pangenome=list(generate_pangenome(core_genome_fraction = core_genome_fraction)),
-                      results=map(pangenome, ~get_gene_content_reps(.x)))
-
-param_sweep %>% map(results)
-
-
-param_sweep$results
-
-tst$value
-hist(tst$scores)
-
+# param_sweep$results
+#
+# tst$value
+# hist(tst$scores)
+#
 
 
 
@@ -121,6 +121,5 @@ hist(tst$scores)
 # now i want to select a set of genomes that maximizes the coverage of the pangenome
 # I want to remove redundant genomes, select the smallest set of genomes that represents
 # the maximum gene content of the pangenome
-
 
 
