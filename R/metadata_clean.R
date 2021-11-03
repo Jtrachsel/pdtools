@@ -69,3 +69,32 @@ extract_consensus_ag_species <- function(dat){
 #
 # TEST <- extract_consensus_ag_species(meta)
 # TEST %>% count(ag_match)
+
+
+
+
+#' add a Year column to PDD metadata containing the earliest year from the
+#' available 'date' fields.
+#'
+#' @param PDD_metadata_table
+#'
+#' @return returns the input metadata table with an added `Year` column
+#' @export
+#'
+#' @examples #soon
+get_earliest_year <- function(PDD_metadata_table){
+  # given a PDD metadata table, extract the earliest year from the date
+  # columns and return the original table with the 'Year' variable added
+  result <-
+    PDD_metadata_table %>%
+    select(target_acc, ends_with('date')) %>%
+    mutate(across(.cols = ends_with('date'), .fns = as.character)) %>%
+    pivot_longer(cols = ends_with('date'), names_to = 'type', values_to = 'date') %>%
+    mutate(year = as.numeric(sub('([0-9][0-9][0-9][0-9]).*','\\1',date))) %>%
+    group_by(target_acc) %>%
+    summarise(Year=year[which.min(year)]) %>%
+    left_join(PDD_metadata_table)
+
+  return(result)
+
+}

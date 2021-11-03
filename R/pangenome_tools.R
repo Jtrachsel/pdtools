@@ -1,4 +1,53 @@
 
+#' Build a ppanggolin file from fastas
+#'
+#' @param complete_genomes_paths
+#' @param incomplete_genome_paths
+#'
+#' @return a tibble satisfying the ppanggolin file requirements with the complete genome contigs indicated as circular
+#' @export
+#'
+#' @examples #soon
+build_ppanggolin_file_fastas <-
+  function(complete_genome_paths=NULL,
+           incomplete_genome_paths=NULL){
+    # browser()
+    complete_genomes_table <- NULL
+    incomplete_genomes_table <- NULL
+    if (is.null(complete_genome_paths) & is.null(incomplete_genome_paths)){
+
+      errorCondition('you must specify either complete_genome_paths or incomplete_genome_paths')
+    }
+
+    if (!is.null(complete_genome_paths)){
+      # browser()
+      complete_genomes_table <-
+        tibble(paths=complete_genome_paths,
+               ID=sub('(.*)\\.f.*a$','\\1',basename(paths)),
+               fasta=map(.x = paths, .f=readDNAStringSet),
+               c_names=map(.x=fasta, .f=names),
+               c_ids=map(c_names,~sub('(\\w+).*', '\\1', .x)),
+               contig_names=map_chr(.x=c_ids, .f=~paste(.x, collapse='\t'))) |>
+        select(ID, paths, contig_names)
+    }
+
+    if (!is.null(incomplete_genome_paths)){
+      incomplete_genomes_table <-
+        tibble(paths=incomplete_genome_paths,
+               ID=sub('(.*)\\.f.*a$','\\1',basename(paths)),
+               contig_names='') %>%
+        select(ID, paths, contig_names)
+    }
+
+    result <- bind_rows(complete_genomes_table, incomplete_genomes_table)
+
+    return(result)
+
+
+  }
+
+
+
 #' Generate a genome tibble containing presence/absence of genes in a fake pangenome
 #'
 #' @param genome_name name of the genome to generate
@@ -61,20 +110,6 @@ generate_pangenome <- function(num_genomes=100, num_genes=1000, core_genome_frac
 # generate_pangenome(core_genome_fraction = .75)
 
 
-# example_dat <-
-#   map(genomes, ~generate_genome_vector(.x, num_genes = 1000)) %>%
-#   bind_rows() %>%
-#   pivot_wider(names_from = gene_name, values_from = gene_presence)
-#
-# example_mat <- example_dat %>% column_to_rownames(var='genome_name') %>% as.matrix()
-#
-# hist(colSums(example_mat), breaks = 100)
-# hist(rowSums(example_mat), breaks = 100)
-#
-#
-# tot_genomes <- nrow(example_mat)
-# desired_coverage=.95
-# desired_score <- best_score * desired_coverage
 
 #' return the coverage score (proportion coverage) of a random set of genomes
 #'
@@ -98,7 +133,7 @@ return_set_score <- function(pan_mat, set_size){
   return(list(score=score, set_indicies=set_indicies))
 }
 
-#' look for small sets of pangenomes that produce the desired gene content coverage of a pangenome
+#' THIS IS A BAD WAY TO LOOK FOR REPS look for small sets of pangenomes that produce the desired gene content coverage of a pangenome
 #'
 #' @param pan_mat input pangenome PA matrix
 #' @param desired_coverage proportion of the pangenome to cover (.95)
@@ -164,58 +199,17 @@ get_gene_content_reps <-
       print('desired score not reached, increasing set size')
     }
   }
-#
-#
-# intersect(c('gene_1', 'gene_2', 'gene_3'), c('gene_1', 'gene_2', 'gene_4'))
-# base::intersect()
-#
-#
-#
-# (x <- c(sort(sample(1:20, 9)), NA))
-# (y <- c(sort(sample(3:23, 7)), NA))
-# union(x, y)
-# intersect(x, y)
-# setdiff(x, y)
-# setdiff(y, x)
-# setequal(x, y)
-
-## True for all possible x & y :
-# setequal( union(x, y),
-#           c(setdiff(x, y), intersect(x, y), setdiff(y, x)))
-#
-#
-# is.element(y, x) # length  8
-
-#
-#
-# existing_pan <- c('gene_1', 'gene_2', 'gene_3', 'gene_5', 'gene_6')
-# new_genome <- c('gene_1', 'gene_A', 'gene_4')
-#
-# sum(!(is.element(new_genome, existing_pan))) # this is the number of genes the new genome will add to the collection
-
-# different algorithm, idea
-
-# decompose pangenome into character vectors of gene_names
-# randomly select starting representative genome
-
-# rep_genome_index <- sample(1:nrow(pan_mat), size = 1)
-# cumulative_pan <- genomes$gene_vec[rep_genome_index]
-# cumulative_genomes <- genomes$genome_name[rep_genome_index]
-# genomes <- genomes[-rep_genome_index,]
-#
-# score <- length(cumulative_pan)
-# while score not reached
-#    best_addition_genome <-
-#     genomes %>%
-#     mutate(num_new=map(gene_vec, .f= ~sum(!(is.element(.x, cumulative_pan))))) %>%
-#     arrange(desc(num_new)) %>%
-#     slice_head(1)
-
-#   cumulative_pan <- c(cumulative_pan, best_addition_genome$gene_vec) %>% unique()
-#   cumulative_genomes <- c(cumulative_genomes, best_addition_genome$genome_name)
 
 
 
+#' Convert a pangenome PA matrix to a tibble of gene vectors
+#'
+#' @param pan_mat presence absence matrix, genes are columns, rows are genomes 1/0
+#'
+#' @return a tibble with gene vectors for each genome
+#' @export
+#'
+#' @examples #soon
 pan_mat_to_gene_vec_tibble <- function(pan_mat){
 # browser()
   gene_vec_tibble <-
@@ -241,7 +235,18 @@ pan_mat_to_gene_vec_tibble <- function(pan_mat){
 
 
 
-get_gene_content_reps2 <-
+#' Select a minimum set of genomes that best represent the gene content of the pangenome
+#'
+#'
+#' @param pan_mat
+#' @param desired_coverage
+#' @param SEED
+#'
+#' @return
+#' @export
+#'
+#' @examples
+get_pangenome_representatives <-
   function(pan_mat, desired_coverage=.95, SEED=3){
     # hopefully get smallest set of genomes that gives desired coverage of pangenome
     # browser()
@@ -289,24 +294,3 @@ get_gene_content_reps2 <-
   }
 
 
-# TST <- get_gene_content_reps2(pan_mat = pan_PA, desired_coverage = .975)
-
-
-
-# plot(1:length(TST[[2]]), TST[[2]]/ncol(pan_PA))
-
-# while coverage not reached:
-# randomly select addition set of size ZZZ,
-# calculate overlap sim between rep. set and addition set.
-# add top X% into rep set
-# check if coverage reached with new set
-#   if coverage reached, return representative set
-
-
-
-
-# set prob for selection proportional to overlap similarity
-# select set additions
-# calculate overlap sim between cumulative set and all remaining genomes
-# set prob for selection proportional to overlap similarity
-# select
