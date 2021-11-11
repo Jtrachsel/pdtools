@@ -17,7 +17,7 @@ Imports:
   purrr,
   lubridate,
   curl, 
-  Rcurl, 
+  RCurl, 
   tibble, 
   Biostrings
 Suggests: 
