@@ -14,7 +14,7 @@ download_PDD_metadata(organism, PDG, folder_prefix = NULL)
 \item{folder_prefix}{a string to append to the download path, ie './data/'}
 }
 \value{
-
+returns nothing, but probably should. Will initiate a download of the specified files
 }
 \description{
 Download Pathogen Detection metadata for a given organism

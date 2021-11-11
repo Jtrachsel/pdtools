@@ -16,5 +16,5 @@ returns a tibble or PDG accessions and release dates
 List available PDG accessions for an organism
 }
 \examples{
- #list_PDGs('Klebsiella')
+ list_PDGs('Klebsiella')
 }

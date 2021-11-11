@@ -7,11 +7,18 @@
 get_pangenome_representatives(pan_mat, desired_coverage = 0.95, SEED = 3)
 }
 \arguments{
-\item{SEED}{}
+\item{pan_mat}{a presence absence matrix of 1/0, rows are genomes, columns are genes}
+
+\item{desired_coverage}{proportion of the pangenome's gene content you want the reduced set to contain (.95)}
+
+\item{SEED}{random seed to use when selecting the first genome of the collection.}
 }
 \value{
-
+returns a list of length 3. [\link{1}]=names of the genomes, [\link{2}]=scores for each iteration , [\link{3}]=proportion coverage for each iteration
 }
 \description{
 Select a minimum set of genomes that best represent the gene content of the pangenome
+}
+\examples{
+gen_pangenome_representatives(pan_mat)
 }

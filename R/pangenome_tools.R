@@ -1,13 +1,13 @@
 
 #' Build a ppanggolin file from fastas
 #'
-#' @param complete_genomes_paths
-#' @param incomplete_genome_paths
+#' @param complete_genomes_paths vector of paths to complete genome assemblies (all contigs are circular)
+#' @param incomplete_genome_paths vector of paths to incomplete genome assemblies (all contigs not circular)
 #'
 #' @return a tibble satisfying the ppanggolin file requirements with the complete genome contigs indicated as circular
 #' @export
 #'
-#' @examples #soon
+#' @examples build_ppanggolin_file_fastas(complete_genomes=complete_genome_paths, incomplete_genomes=incomplete_genome_paths)
 build_ppanggolin_file_fastas <-
   function(complete_genome_paths=NULL,
            incomplete_genome_paths=NULL){
@@ -57,7 +57,7 @@ build_ppanggolin_file_fastas <-
 #' @return 3 column tibble 1) genome_name; 2) gene_name 3) gene_presence
 #' @export
 #'
-#' @examples #soon
+#' @examples generate_genome_vector(genome_name='genome_1', num_genes=2000)
 generate_genome_vector <- function(genome_name, num_genes, core_genome_fraction=.75){
 
   core_genome_size= floor(num_genes * core_genome_fraction)
@@ -95,7 +95,7 @@ generate_genome_vector <- function(genome_name, num_genes, core_genome_fraction=
 #' @return gene presence absence matrix (0/1), rows are genomes, columns are genes
 #' @export
 #'
-#' @examples #soon
+#' @examples generate_pangenome()
 generate_pangenome <- function(num_genomes=100, num_genes=1000, core_genome_fraction=.75){
   genomes <- paste0('genome_', 1:num_genomes)
   pangenome_matrix <-
@@ -107,31 +107,9 @@ generate_pangenome <- function(num_genomes=100, num_genes=1000, core_genome_frac
     as.matrix()
   return(pangenome_matrix)
 }
-# generate_pangenome(core_genome_fraction = .75)
 
 
 
-#' return the coverage score (proportion coverage) of a random set of genomes
-#'
-#' @param pan_mat input pangenome PA matrix
-#' @param set_size number of genomes to randomly select
-#'
-#' @return returns a named list of length 2, [[1]] = scores, [[2]] genome indicies
-#' @export
-#'
-#' @examples #soon
-return_set_score <- function(pan_mat, set_size){
-  #subset a pangenome to a random collection of a defined size
-  # return a score that describes the proportion of pangenomes total gene content
-  # contained within the reduced set.
-
-  pan_mat <- pan_mat[,colSums(pan_mat) > 0]
-  tot_genomes <- nrow(pan_mat)
-  set_indicies <- sample(x = 1:tot_genomes, size = set_size)
-  set_mat <- pan_mat[set_indicies,]
-  score <- sum(colSums(set_mat) > 1)
-  return(list(score=score, set_indicies=set_indicies))
-}
 
 
 
@@ -142,7 +120,7 @@ return_set_score <- function(pan_mat, set_size){
 #' @return a tibble with gene vectors for each genome
 #' @export
 #'
-#' @examples #soon
+#' @examples pan_mat_to_gene_vec_tibble(pangenome_presence_absence_matrix)
 pan_mat_to_gene_vec_tibble <- function(pan_mat){
 # browser()
   gene_vec_tibble <-
@@ -157,28 +135,19 @@ pan_mat_to_gene_vec_tibble <- function(pan_mat){
 
 }
 
-# test <- pan_mat_to_gene_vec_tibble(pan_PA)
-
-# present_features <- function(logical_vec, char_vec){
-#   char_vec[logical_vec]
-#   }
-
-
-
-
 
 
 #' Select a minimum set of genomes that best represent the gene content of the pangenome
 #'
 #'
-#' @param pan_mat
-#' @param desired_coverage
-#' @param SEED
+#' @param pan_mat a presence absence matrix of 1/0, rows are genomes, columns are genes
+#' @param desired_coverage proportion of the pangenome's gene content you want the reduced set to contain (.95)
+#' @param SEED random seed to use when selecting the first genome of the collection.
 #'
-#' @return
+#' @return returns a list of length 3. [[1]]=names of the genomes, [[2]]=scores for each iteration , [[3]]=proportion coverage for each iteration
 #' @export
 #'
-#' @examples
+#' @examples gen_pangenome_representatives(pan_mat)
 get_pangenome_representatives <-
   function(pan_mat, desired_coverage=.95, SEED=3){
     # hopefully get smallest set of genomes that gives desired coverage of pangenome

@@ -5,7 +5,7 @@
 #' @return returns a tibble or PDG accessions and release dates
 #' @export
 #'
-#' @examples  #list_PDGs('Klebsiella')
+#' @examples  list_PDGs('Klebsiella')
 list_PDGs <- function(organism){
   #Checks the NCBI Path Det Database for the most recent version number
   # Returns a nicely formatted table
@@ -40,7 +40,7 @@ list_PDGs <- function(organism){
 #' @param PDG The Pathogen Detection accession number to download
 #' @param folder_prefix a string to append to the download path, ie './data/'
 #'
-#' @return
+#' @return returns nothing, but probably should. Will initiate a download of the specified files
 #' @export
 #'
 #' @examples #download_PDD_metadata(organism = 'Campylobacter',PDG = 'PDG000000003.1517')

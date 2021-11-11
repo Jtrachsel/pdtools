@@ -20,5 +20,5 @@ generate_genome_vector(genome_name, num_genes, core_genome_fraction = 0.75)
 Generate a genome tibble containing presence/absence of genes in a fake pangenome
 }
 \examples{
-#soon
+generate_genome_vector(genome_name='genome_1', num_genes=2000)
 }

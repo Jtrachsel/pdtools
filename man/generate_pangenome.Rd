@@ -24,5 +24,5 @@ gene presence absence matrix (0/1), rows are genomes, columns are genes
 Generate a random synthetic pangenome gene presence absence matrix
 }
 \examples{
-#soon
+generate_pangenome()
 }

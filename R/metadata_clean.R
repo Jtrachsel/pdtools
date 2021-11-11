@@ -25,7 +25,7 @@ return_ag_match <-
 #'
 #' @param dat an ncbi pathogen detection metadata table
 #'
-#' @return # returns a tibble of 2 columns, 1st = target_acc, 2nd = ag_match
+#' @return returns a tibble of 2 columns, 1st = target_acc, 2nd = ag_match
 #' @export
 #'
 #' @examples #soon

@@ -122,6 +122,31 @@
 #' # I want to remove redundant genomes, select the smallest set of genomes that represents
 #' # the maximum gene content of the pangenome
 #'
+
+
+#' return the coverage score (proportion coverage) of a random set of genomes
+#'
+#' @param pan_mat input pangenome PA matrix
+#' @param set_size number of genomes to randomly select
+#'
+#' @return returns a named list of length 2, [[1]] = scores, [[2]] genome indicies
+#' @export
+#'
+#' @examples return_set_score()
+# return_set_score <- function(pan_mat, set_size){
+#   #subset a pangenome to a random collection of a defined size
+#   # return a score that describes the proportion of pangenomes total gene content
+#   # contained within the reduced set.
+#
+#   pan_mat <- pan_mat[,colSums(pan_mat) > 0]
+#   tot_genomes <- nrow(pan_mat)
+#   set_indicies <- sample(x = 1:tot_genomes, size = set_size)
+#   set_mat <- pan_mat[set_indicies,]
+#   score <- sum(colSums(set_mat) > 1)
+#   return(list(score=score, set_indicies=set_indicies))
+# }
+
+
 #' #' THIS IS A BAD WAY TO LOOK FOR REPS look for small sets of pangenomes that produce the desired gene content coverage of a pangenome
 #' #'
 #' #' @param pan_mat input pangenome PA matrix
