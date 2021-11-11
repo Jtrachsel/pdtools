@@ -4,7 +4,10 @@ Version: 0.0.1.9000
 Authors@R: 
     person("Julian", "Trachsel", , "julestrachsel@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "https://orcid.org/0000-0003-2357-7737"))
-Description: What the package does (one paragraph).
+Description: A collection of functions to help work with data from the ncbi pathogen detection project/database.
+    Has functions for downloading the most recent metadata, cleaning metadata, downloading genome assemblies,
+    and setting up and working with pangenomes.  
+Depends: R (>= 4.1.0)
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
