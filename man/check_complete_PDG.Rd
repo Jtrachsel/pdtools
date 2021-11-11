@@ -19,4 +19,5 @@ Check if a single PDG is complete (AMR and Cluster metadata)
 }
 \examples{
 #check_complete_PDG(URL)
+
 }

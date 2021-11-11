@@ -8,6 +8,7 @@
 #' @export
 #'
 #' @examples #build_ppanggolin_file_fastas(incomplete_genome_paths=c('genome1.fasta', 'genome2.fasta))
+#' @importFrom rlang .data
 build_ppanggolin_file_fastas <-
   function(complete_genome_paths=NULL,
            incomplete_genome_paths=NULL){
@@ -23,20 +24,20 @@ build_ppanggolin_file_fastas <-
       # browser()
       complete_genomes_table <-
        tibble::tibble(paths=complete_genome_paths,
-                 ID=sub('(.*)\\.f.*a$','\\1',base::basename(paths)),
-                 fasta=purrr::map(.x = paths, .f=Biostrings::readDNAStringSet),
-                 c_names=purrr::map(.x=fasta, .f=base::names),
-                 c_ids=purrr::map(c_names,~base::sub('(\\w+).*', '\\1', .x)),
-                 contig_names=purrr::map_chr(.x=c_ids, .f=~base::paste(.x, collapse='\t'))) |>
-        dplyr::select(ID, paths, contig_names)
+                 ID=sub('(.*)\\.f.*a$','\\1',base::basename(.data$paths)),
+                 fasta=purrr::map(.x = .data$paths, .f=Biostrings::readDNAStringSet),
+                 c_names=purrr::map(.x=.data$fasta, .f=base::names),
+                 c_ids=purrr::map(.data$c_names,~base::sub('(\\w+).*', '\\1', .x)),
+                 contig_names=purrr::map_chr(.x=.data$c_ids, .f=~base::paste(.x, collapse='\t'))) |>
+        dplyr::select(.data$ID, .data$paths, .data$contig_names)
     }
 
     if (!base::is.null(incomplete_genome_paths)){
       incomplete_genomes_table <-
         tibble::tibble(paths=incomplete_genome_paths,
-                       ID=base::sub('(.*)\\.f.*a$','\\1',basename(paths)),
+                       ID=base::sub('(.*)\\.f.*a$','\\1',basename(.data$paths)),
                        contig_names='') |>
-        dplyr::select(ID, paths, contig_names)
+        dplyr::select(.data$ID, .data$paths, .data$contig_names)
     }
 
     result <- dplyr::bind_rows(complete_genomes_table, incomplete_genomes_table)
@@ -96,13 +97,14 @@ generate_genome_vector <- function(genome_name, num_genes, core_genome_fraction=
 #' @export
 #'
 #' @examples generate_pangenome()
+#' @importFrom rlang .data
 generate_pangenome <- function(num_genomes=100, num_genes=1000, core_genome_fraction=.75){
   genomes <- base::paste0('genome_', 1:num_genomes)
   pangenome_matrix <-
     purrr::map(genomes,
         ~generate_genome_vector(.x, num_genes = num_genes, core_genome_fraction=core_genome_fraction)) |>
     dplyr::bind_rows() |>
-    tidyr::pivot_wider(names_from = gene_name, values_from = gene_presence) |>
+    tidyr::pivot_wider(names_from = .data$gene_name, values_from = .data$gene_presence) |>
     tibble::column_to_rownames(var='genome_name') |>
     base::as.matrix()
   return(pangenome_matrix)
@@ -121,6 +123,7 @@ generate_pangenome <- function(num_genomes=100, num_genes=1000, core_genome_frac
 #' @export
 #'
 #' @examples #pan_mat_to_gene_vec_tibble(pangenome_presence_absence_matrix)
+#'
 pan_mat_to_gene_vec_tibble <- function(pan_mat){
 # browser()
   gene_vec_tibble <-
@@ -148,6 +151,7 @@ pan_mat_to_gene_vec_tibble <- function(pan_mat){
 #' @export
 #'
 #' @examples #gen_pangenome_representatives(pan_mat)
+#' @importFrom rlang .data
 get_pangenome_representatives <-
   function(pan_mat, desired_coverage=.95, SEED=3){
     # hopefully get smallest set of genomes that gives desired coverage of pangenome
@@ -183,8 +187,8 @@ get_pangenome_representatives <-
       # selects the first one and adds it to the cumulative pangenome.
       best_addition_genome <-
         genomes |>
-        dplyr::mutate(num_new=purrr::map_int(.x = gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) |>
-        dplyr::arrange(dplyr::desc(num_new)) |>
+        dplyr::mutate(num_new=purrr::map_int(.x = .data$gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) |>
+        dplyr::arrange(dplyr::desc(.data$num_new)) |>
         dplyr::slice_head(n = 1)
 
       cumulative_pan <- base::c(cumulative_pan, best_addition_genome$gene_vec[[1]]) |> base::unique()
@@ -197,5 +201,83 @@ get_pangenome_representatives <-
     }
     return(base::list(cumulative_genomes, scores, proportion_coverages))
   }
+
+
+
+
+
+# artifacts
+
+# return_set_score <- function(pan_mat, set_size){
+#   #subset a pangenome to a random collection of a defined size
+#   # return a score that describes the proportion of pangenomes total gene content
+#   # contained within the reduced set.
+#
+#   pan_mat <- pan_mat[,colSums(pan_mat) > 0]
+#   tot_genomes <- nrow(pan_mat)
+#   set_indicies <- sample(x = 1:tot_genomes, size = set_size)
+#   set_mat <- pan_mat[set_indicies,]
+#   score <- sum(colSums(set_mat) > 1)
+#   return(list(score=score, set_indicies=set_indicies))
+# }
+
+
+# THIS IS A BAD WAY TO LOOK FOR REPS look for small sets of pangenomes that produce the desired gene content coverage of a pangenome
+
+# get_gene_content_reps <-
+#   function(pan_mat,
+#            desired_coverage=.95,
+#            starting_set_size=1,
+#            num_iters_per_size=500,
+#            set_size_step=1,
+#            PARALLEL=TRUE){
+#     # hopefully get smallest set of genomes that gives desired coverage of pangenome
+#     # browser()
+#     best_score <- ncol(pan_mat)
+#     tot_genomes <- nrow(pan_mat)
+#     desired_score <- best_score * desired_coverage
+#
+#     print(paste(tot_genomes, 'total genomes'))
+#     print(paste(best_score, '= best possible score'))
+#     print(paste(desired_score, ' = desired score'))
+#     desired_score_reached <- FALSE
+#
+#     set_size <- starting_set_size
+#
+#     if(starting_set_size < 2){
+#       print('must use starting set size of 2 or smaller')
+#       set_size <- 1
+#     }
+#     while(!desired_score_reached){
+#       # browser()
+#       set_size=set_size + set_size_step
+#       print(paste0('using set size ', set_size))
+#
+#       if (PARALLEL){
+#         set_size_results <- future_map(progress=TRUE, furrr_options(seed=TRUE),
+#                                        .x = 1:num_iters_per_size,
+#                                        .f = ~return_set_score(pan_mat = pan_mat, set_size = set_size))
+#
+#       } else {
+#         set_size_results <- map(.x = 1:num_iters_per_size,.f = ~return_set_score(pan_mat = pan_mat, set_size = set_size))
+#       }
+#
+#
+#
+#
+#       results_frame <-
+#         enframe(set_size_results) |>
+#         mutate(scores=map_dbl(value, 'score'),
+#                genome_indicies=map(value, 'set_indicies'),
+#                set_size=set_size)
+#
+#       passing_results <- results_frame |> filter(scores >= desired_score)
+#       if (nrow(passing_results) > 0){
+#         desired_score_reached <- TRUE
+#         return(passing_results |> arrange(desc(scores)))
+#       }
+#       print('desired score not reached, increasing set size')
+#     }
+#   }
 
 

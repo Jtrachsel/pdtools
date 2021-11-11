@@ -12,7 +12,7 @@ download_most_recent_complete(organism, folder_prefix = NULL)
 \item{folder_prefix}{a string to append to the download path, ie './data/'}
 }
 \value{
-
+Returns nothing, but probably should
 }
 \description{
 Download the most recent complete metadata for a specified organism

@@ -10,7 +10,7 @@ find_most_recent_complete(organism)
 \item{organism}{a string ie 'Salmonella' or 'Campylobacter' etc}
 }
 \value{
-
+returns a vector of length 2, 1=PDG accession of most recent complete, 2=release date
 }
 \description{
 Find most recent complete PDG

@@ -6,6 +6,7 @@
 #' @export
 #'
 #' @examples  #list_PDGs('Klebsiella')
+#' @importFrom rlang .data
 list_PDGs <- function(organism){
   #Checks the NCBI Path Det Database for the most recent version number
   # Returns a nicely formatted table
@@ -22,10 +23,10 @@ list_PDGs <- function(organism){
 
   PDG_table <-
     tibble::tibble(raw=PDGs,  # 1st and last lines are not PDGs
-            PDG=paste('PDG',sub('(.*)/(.*)','\\1',raw), sep = ''),
-            release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',raw))) |>
-    dplyr::select(-raw) |>
-    dplyr::arrange(desc(release_date))
+            PDG=paste('PDG',sub('(.*)/(.*)','\\1',.data$raw), sep = ''),
+            release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) |>
+    dplyr::select(-.data$raw) |>
+    dplyr::arrange(dplyr::desc(.data$release_date))
 
   return(PDG_table)
 
@@ -74,7 +75,7 @@ download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
 #' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
 #' @param folder_prefix a string to append to the download path, ie './data/'
 #'
-#' @return
+#' @return Returns nothing, but probably should
 #' @export
 #'
 #' @examples #download_most_recent_complete('Salmonella')
@@ -93,7 +94,7 @@ download_most_recent_complete <- function(organism, folder_prefix=NULL){
 #'
 #' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
 #'
-#' @return
+#' @return returns a vector of length 2, 1=PDG accession of most recent complete, 2=release date
 #' @export
 #'
 #' @examples #find_most_recent_complete('Salmonella')
@@ -125,6 +126,7 @@ find_most_recent_complete <- function(organism){
 #' @export
 #'
 #' @examples #check_complete_PDG(URL)
+#'
 check_complete_PDG <- function(organism, PDG){
   # browser()
 
@@ -154,11 +156,12 @@ check_complete_PDG <- function(organism, PDG){
 #' @export
 #'
 #' @examples #soon
+#' @importFrom rlang .data
 make_fna_urls <- function(asm_accessions, assembly_summary){
   # assembly summary needs to have the accessions changed from
   # `# assembly_accession` to asm_acc
   ass_sum <- ass_sum |>
-    dplyr::filter(asm_acc %in% asm_accessions)
+    dplyr::filter(.data$asm_acc %in% asm_accessions)
   base::paste0(ass_sum$ftp_path,
          '/',
          base::sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',

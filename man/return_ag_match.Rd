@@ -19,4 +19,5 @@ Return a string of names of the matching regex patterns
 }
 \examples{
 #soon
+
 }

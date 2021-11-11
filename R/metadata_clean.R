@@ -9,6 +9,7 @@
 #' @export
 #'
 #' @examples #soon
+#'
 return_ag_match <-
   function(pattern_vec, search_string){
     # browser()
@@ -29,6 +30,7 @@ return_ag_match <-
 #' @export
 #'
 #' @examples #soon
+#' @importFrom rlang .data
 extract_consensus_ag_species <- function(dat){
   # browser()
   pattern_vec <-
@@ -47,20 +49,20 @@ extract_consensus_ag_species <- function(dat){
 
   first_pass <-
     dat |>
-    dplyr::transmute(target_acc,
-              search_vals=paste(isolation_source, host, ontological_term,epi_type, sep = '_')) |>
-    dplyr::mutate(ag_match=map_chr(.x = search_vals, ~return_ag_match(pattern_vec, search_vec = .x)))
+    dplyr::transmute(target_acc=.data$target_acc,
+              search_vals=paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) |>
+    dplyr::mutate(ag_match=purrr::map_chr(.x = .data$search_vals, ~return_ag_match(pattern_vec, search_vec = .x)))
 
     finished <- first_pass |>
-      dplyr::filter(ag_match != '')
+      dplyr::filter(.data$ag_match != '')
 
     second_pass <- first_pass |>
-      dplyr::filter(ag_match == '') |>
-      dplyr::mutate(ag_match=ifelse(grepl('clinical', search_vals), 'Human', 'Other'))
+      dplyr::filter(.data$ag_match == '') |>
+      dplyr::mutate(ag_match=ifelse(grepl('clinical', .data$search_vals), 'Human', 'Other'))
 
 
     result <- dplyr::bind_rows(finished, second_pass) |>
-              dplyr::select(target_acc, ag_match)
+              dplyr::select(.data$target_acc, .data$ag_match)
     return(result)
 
 
@@ -84,17 +86,18 @@ extract_consensus_ag_species <- function(dat){
 #' @export
 #'
 #' @examples #soon
+#' @importFrom rlang .data
 get_earliest_year <- function(PDD_metadata_table){
   # given a PDD metadata table, extract the earliest year from the date
   # columns and return the original table with the 'Year' variable added
   result <-
     PDD_metadata_table |>
-    dplyr::select(target_acc, dplyr::ends_with('date')) |>
+    dplyr::select(.data$target_acc, dplyr::ends_with('date')) |>
     dplyr::mutate(dplyr::across(.cols = dplyr::ends_with('date'), .fns = base::as.character)) |>
     tidyr::pivot_longer(cols = dplyr::ends_with('date'), names_to = 'type', values_to = 'date') |>
-    dplyr::mutate(year = base::as.numeric(base::sub('([0-9][0-9][0-9][0-9]).*','\\1',date))) |>
-    dplyr::group_by(target_acc) |>
-    dplyr::summarise(Year=year[base::which.min(year)]) |>
+    dplyr::mutate(year = base::as.numeric(base::sub('([0-9][0-9][0-9][0-9]).*','\\1',.data$date))) |>
+    dplyr::group_by(.data$target_acc) |>
+    dplyr::summarise(Year=.data$year[base::which.min(.data$year)]) |>
     dplyr::left_join(PDD_metadata_table)
 
   return(result)

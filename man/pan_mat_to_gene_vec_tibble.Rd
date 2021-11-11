@@ -17,4 +17,5 @@ Convert a pangenome PA matrix to a tibble of gene vectors
 }
 \examples{
 #pan_mat_to_gene_vec_tibble(pangenome_presence_absence_matrix)
+
 }
