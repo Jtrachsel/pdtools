@@ -14,18 +14,18 @@ list_PDGs <- function(organism){
 
   PDD_url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/', organism)
 
-  PDGs <- read_html(PDD_url) %>%
-    rvest::html_text2() %>%
-    str_split(pattern = '-PDG') %>%
+  PDGs <- rvest::read_html(PDD_url) |>
+    rvest::html_text2() |>
+    str_split(pattern = '-PDG') |>
     unlist()
   PDGs <- PDGs[-c(1, length(PDGs))]
 
   PDG_table <-
-    tibble(raw=PDGs,  # 1st and last lines are not PDGs
-           PDG=paste('PDG',sub('(.*)/(.*)','\\1',raw), sep = ''),
-           release_date=ymd_hm(sub('(.*)/(.*)','\\2',raw))) %>%
-    select(-raw) %>%
-    arrange(desc(release_date))
+    tibble::tibble(raw=PDGs,  # 1st and last lines are not PDGs
+            PDG=paste('PDG',sub('(.*)/(.*)','\\1',raw), sep = ''),
+            release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',raw))) |>
+    dplyr::select(-raw) |>
+    dplyr::arrange(desc(release_date))
 
   return(PDG_table)
 
@@ -63,11 +63,10 @@ download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
   # print('downloading metadata...')
   # curl_download(url = meta_url, destfile = meta_dest)
   print('downloading amr data...')
-  curl_download(url = amr_url, destfile = amr_dest)
+  curl::curl_download(url = amr_url, destfile = amr_dest)
   print('downloading cluster data...')
-  curl_download(url = cluster_url, destfile = cluster_dest)
+  curl::curl_download(url = cluster_url, destfile = cluster_dest)
 }
-
 
 
 #' Download the most recent complete metadata for a specified organism
@@ -133,10 +132,10 @@ check_complete_PDG <- function(organism, PDG){
   clusters_url <-  paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/',PDG,'/Clusters/',PDG,'.reference_target.cluster_list.tsv')
 
   all_urls_exist <-
-    c(amr_url, clusters_url) %>%
-    url.exists() %>%
+    c(amr_url, clusters_url) |>
+    Rcurl::url.exists() |>
     all()
-
+|>
   return(all_urls_exist)
 }
 
@@ -158,8 +157,8 @@ check_complete_PDG <- function(organism, PDG){
 make_fna_urls <- function(asm_accessions, assembly_summary){
   # assembly summary needs to have the accessions changed from
   # `# assembly_accession` to asm_acc
-  ass_sum <- ass_sum %>%
-    filter(asm_acc %in% asm_accessions)
+  ass_sum <- ass_sum |>
+    curl::filter(asm_acc %in% asm_accessions)
   paste0(ass_sum$ftp_path,
          '/',
          sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
