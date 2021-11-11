@@ -5,7 +5,7 @@
 #' @return returns a tibble or PDG accessions and release dates
 #' @export
 #'
-#' @examples  list_PDGs('Klebsiella')
+#' @examples  #list_PDGs('Klebsiella')
 list_PDGs <- function(organism){
   #Checks the NCBI Path Det Database for the most recent version number
   # Returns a nicely formatted table
@@ -16,8 +16,8 @@ list_PDGs <- function(organism){
 
   PDGs <- rvest::read_html(PDD_url) |>
     rvest::html_text2() |>
-    str_split(pattern = '-PDG') |>
-    unlist()
+    stringr::str_split(pattern = '-PDG') |>
+    base::unlist()
   PDGs <- PDGs[-c(1, length(PDGs))]
 
   PDG_table <-
@@ -82,8 +82,8 @@ download_most_recent_complete <- function(organism, folder_prefix=NULL){
 
   PDG <- find_most_recent_complete(organism = organism)
 
-  msg <- paste('downloading',organism, PDG[1], 'released', PDG[2])
-  print(msg)
+  msg <- base::paste('downloading',organism, PDG[1], 'released', PDG[2])
+  base::print(msg)
   download_PDD_metadata(organism = organism, PDG = PDG[1], folder_prefix = folder_prefix)
 
 }
@@ -101,7 +101,7 @@ find_most_recent_complete <- function(organism){
   # should go through the list of available PDGs and look for presence of
   # amr and cluster metadata as well
   # browser()
-  url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/', organism)
+  url <- base::paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/', organism)
   PDG_table <- list_PDGs(organism = organism)
 
   index <- 1
@@ -119,7 +119,7 @@ find_most_recent_complete <- function(organism){
 #' Check if a single PDG is complete (AMR and Cluster metadata)
 #'
 #' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
-#' @param PDG
+#' @param PDG the ncbi pathogen detection accession to check
 #'
 #' @return TRUE/FALSE depending on if all URLs for download exist
 #' @export
@@ -134,7 +134,7 @@ check_complete_PDG <- function(organism, PDG){
   all_urls_exist <-
     c(amr_url, clusters_url) |>
     RCurl::url.exists() |>
-    all()
+    base::all()
 
   return(all_urls_exist)
 }
@@ -158,10 +158,10 @@ make_fna_urls <- function(asm_accessions, assembly_summary){
   # assembly summary needs to have the accessions changed from
   # `# assembly_accession` to asm_acc
   ass_sum <- ass_sum |>
-    curl::filter(asm_acc %in% asm_accessions)
-  paste0(ass_sum$ftp_path,
+    dplyr::filter(asm_acc %in% asm_accessions)
+  base::paste0(ass_sum$ftp_path,
          '/',
-         sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
+         base::sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
              ass_sum$ftp_path),
          '_genomic.fna.gz')
 

@@ -8,7 +8,7 @@ available 'date' fields.}
 get_earliest_year(PDD_metadata_table)
 }
 \arguments{
-\item{PDD_metadata_table}{}
+\item{PDD_metadata_table}{an ncbi pathogen detection metadata table}
 }
 \value{
 returns the input metadata table with an added \code{Year} column

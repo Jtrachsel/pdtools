@@ -9,7 +9,7 @@ check_complete_PDG(organism, PDG)
 \arguments{
 \item{organism}{a string ie 'Salmonella' or 'Campylobacter' etc}
 
-\item{PDG}{}
+\item{PDG}{the ncbi pathogen detection accession to check}
 }
 \value{
 TRUE/FALSE depending on if all URLs for download exist

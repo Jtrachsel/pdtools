@@ -10,9 +10,9 @@ build_ppanggolin_file_fastas(
 )
 }
 \arguments{
-\item{incomplete_genome_paths}{vector of paths to incomplete genome assemblies (all contigs not circular)}
+\item{complete_genome_paths}{vector of paths to complete genome assemblies (all contigs are circular)}
 
-\item{complete_genomes_paths}{vector of paths to complete genome assemblies (all contigs are circular)}
+\item{incomplete_genome_paths}{vector of paths to incomplete genome assemblies (all contigs not circular)}
 }
 \value{
 a tibble satisfying the ppanggolin file requirements with the complete genome contigs indicated as circular
@@ -21,5 +21,5 @@ a tibble satisfying the ppanggolin file requirements with the complete genome co
 Build a ppanggolin file from fastas
 }
 \examples{
-build_ppanggolin_file_fastas(complete_genomes=complete_genome_paths, incomplete_genomes=incomplete_genome_paths)
+#build_ppanggolin_file_fastas(incomplete_genome_paths=c('genome1.fasta', 'genome2.fasta))
 }

@@ -12,11 +12,11 @@
 return_ag_match <-
   function(pattern_vec, search_string){
     # browser()
-  match_vec <- purrr::map(.x =pattern_vec, .f=~grepl(.x, search_string, ignore.case = TRUE)) |>
-    unlist()
+  match_vec <- purrr::map(.x =pattern_vec, .f=~base::grepl(.x, search_string, ignore.case = TRUE)) |>
+    base::unlist()
 
   res <- names(match_vec)[match_vec] |>
-    paste(collapse = '_')
+    base::paste(collapse = '_')
   return(res)
 }
 
@@ -78,7 +78,7 @@ extract_consensus_ag_species <- function(dat){
 #' add a Year column to PDD metadata containing the earliest year from the
 #' available 'date' fields.
 #'
-#' @param PDD_metadata_table
+#' @param PDD_metadata_table an ncbi pathogen detection metadata table
 #'
 #' @return returns the input metadata table with an added `Year` column
 #' @export
@@ -89,12 +89,12 @@ get_earliest_year <- function(PDD_metadata_table){
   # columns and return the original table with the 'Year' variable added
   result <-
     PDD_metadata_table |>
-    dplyr::select(target_acc, ends_with('date')) |>
-    dplyr::mutate(across(.cols = ends_with('date'), .fns = as.character)) |>
-    tidyr::pivot_longer(cols = ends_with('date'), names_to = 'type', values_to = 'date') |>
-    dplyr::mutate(year = as.numeric(sub('([0-9][0-9][0-9][0-9]).*','\\1',date))) |>
+    dplyr::select(target_acc, dplyr::ends_with('date')) |>
+    dplyr::mutate(dplyr::across(.cols = dplyr::ends_with('date'), .fns = base::as.character)) |>
+    tidyr::pivot_longer(cols = dplyr::ends_with('date'), names_to = 'type', values_to = 'date') |>
+    dplyr::mutate(year = base::as.numeric(base::sub('([0-9][0-9][0-9][0-9]).*','\\1',date))) |>
     dplyr::group_by(target_acc) |>
-    dplyr::summarise(Year=year[which.min(year)]) |>
+    dplyr::summarise(Year=year[base::which.min(year)]) |>
     dplyr::left_join(PDD_metadata_table)
 
   return(result)

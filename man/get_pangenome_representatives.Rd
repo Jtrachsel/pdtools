@@ -14,11 +14,11 @@ get_pangenome_representatives(pan_mat, desired_coverage = 0.95, SEED = 3)
 \item{SEED}{random seed to use when selecting the first genome of the collection.}
 }
 \value{
-returns a list of length 3. [\link{1}]=names of the genomes, [\link{2}]=scores for each iteration , [\link{3}]=proportion coverage for each iteration
+returns a list of length 3. 1:names of the genomes, 2:scores for each iteration , 3:proportion coverage for each iteration
 }
 \description{
 Select a minimum set of genomes that best represent the gene content of the pangenome
 }
 \examples{
-gen_pangenome_representatives(pan_mat)
+#gen_pangenome_representatives(pan_mat)
 }
