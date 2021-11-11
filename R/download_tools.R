@@ -133,7 +133,7 @@ check_complete_PDG <- function(organism, PDG){
 
   all_urls_exist <-
     c(amr_url, clusters_url) |>
-    Rcurl::url.exists() |>
+    RCurl::url.exists() |>
     all()
 |>
   return(all_urls_exist)
