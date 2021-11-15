@@ -51,19 +51,29 @@ extract_consensus_ag_species <- function(dat){
     dat |>
     dplyr::transmute(target_acc=.data$target_acc,
               search_vals=paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) |>
-    dplyr::mutate(ag_match=purrr::map_chr(.x = .data$search_vals, ~return_ag_match(pattern_vec, search_vec = .x)))
+    dplyr::mutate(ag_match=purrr::map_chr(.x = .data$search_vals, ~return_ag_match(pattern_vec, search_string = .x)))
 
     finished <- first_pass |>
       dplyr::filter(.data$ag_match != '')
 
-    second_pass <- first_pass |>
-      dplyr::filter(.data$ag_match == '') |>
-      dplyr::mutate(ag_match=ifelse(grepl('clinical', .data$search_vals), 'Human', 'Other'))
+    if (base::nrow(finished) == base::nrow(dat)) {
+      result <- finished |> dplyr::select(.data$target_acc, .data$ag_match)
+      return(result)
+    } else {
+
+      second_pass <- first_pass |>
+        dplyr::filter(.data$ag_match == '') |>
+        dplyr::mutate(ag_match=ifelse(grepl('clinical', .data$search_vals), 'Human', 'Other'))
 
 
-    result <- dplyr::bind_rows(finished, second_pass) |>
-              dplyr::select(.data$target_acc, .data$ag_match)
-    return(result)
+      result <- dplyr::bind_rows(finished, second_pass) |>
+        dplyr::select(.data$target_acc, .data$ag_match)
+
+      return(result)
+
+    }
+
+
 
 
 }
