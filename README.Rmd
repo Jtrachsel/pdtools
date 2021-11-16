@@ -1,44 +1,48 @@
-pdtools
-================
-Julian Trachsel
-11/16/2021
+---
+title: "pdtools"
+author: "Julian Trachsel"
+date: "11/16/2021"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ## Installation
 
-*Requires R &gt;= 4.1* *Requires biostrings, need to install from
-biocmanager*
-
-``` r
+*Requires R >= 4.1* 
+*Requires biostrings, need to install from biocmanager*
+```{r, eval=FALSE}
 BiocManager::install('Biostrings')
 remotes::install_github('jtrachsel/pdtools')
 ```
 
-## Description
+## Description  
 
-A collection of functions for working with data from the [NCBI Pathogen
-Detection project](https://www.ncbi.nlm.nih.gov/pathogens/)
+A collection of functions for working with data from the
+[NCBI Pathogen Detection project](https://www.ncbi.nlm.nih.gov/pathogens/)  
 
-## Examples
 
-#### Download the most recent metadata for an organism:
 
-``` r
+## Examples  
+
+#### Download the most recent metadata for an organism:  
+```{r, eval=FALSE}
 system('mkdir data')
 pdtools::download_most_recent_complete('Campylobacter', folder_prefix = './data/')
 ```
 
-#### Extract the earliest year from all date fields:
-
-``` r
+#### Extract the earliest year from all date fields:  
+```{r, eval=FALSE}
 # The names of these files will change based on the most recent complete data
 # you will have to adjust these
 meta <- readr::read_tsv('./data/PDG000000003.1540.amr.metadata.tsv') %>% 
   dplyr::left_join(readr::read_tsv('./data/PDG000000003.1540.cluster_list.tsv'))
 ```
 
-#### Extract agricultural host species from several metadata fields:
-
-``` r
+#### Extract agricultural host species from several metadata fields:  
+```{r, eval=FALSE}
 # create a two column tibble containing consensus host for each isolate
 host_info <- pdtools::extract_consensus_ag_species(meta)
 
@@ -46,15 +50,14 @@ host_info <- pdtools::extract_consensus_ag_species(meta)
 meta <- meta %>% left_join(host_info)
 ```
 
-#### Extract earliest year from 3 date columns
-
-``` r
+#### Extract earliest year from 3 date columns  
+```{r, eval=FALSE}
 meta <- meta %>% pdtools::get_earliest_year()
 ```
 
-#### Generate ftp download paths for a collection of isolates
 
-``` r
+#### Generate ftp download paths for a collection of isolates
+```{r, eval=FALSE}
 # download most recent assembly summary
 curl::curl_download('https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt',
                     destfile = './data/assembly_summary.txt')
@@ -79,11 +82,13 @@ ftp_paths <-
 names(ftp_paths) <-paste0('./data/',meta_filt$asm_acc, '.fna')
 
 Map(function(u, d) download.file(u, d, mode="wb"), ftp_paths, names(ftp_paths))
+
+
 ```
 
-#### Generate an input file for caclulating a pangenome with [ppanggolin](https://github.com/labgem/PPanGGOLiN)
+#### Generate an input file for caclulating a pangenome with [ppanggolin](https://github.com/labgem/PPanGGOLiN)  
 
-``` r
+```{r, eval=FALSE}
 # if you have some reference genomes that are complete (circularized) you can 
 # feed their paths into the 'complete_genome_paths parameter and the function
 # will correctly specify cirular contigs for ppanggolin.  
@@ -92,11 +97,14 @@ fna_files <- list.files('./data/', '.fna', full.names = T)
 
 pdtools::build_ppanggolin_file_fastas(incomplete_genome_paths = fna_files) %>% 
   write_tsv('ppanggolin_file.tsv')
+
+
+
 ```
 
-#### Select a representative set of isolates from a pangenome
 
-``` r
+#### Select a representative set of isolates from a pangenome  
+```{r, eval=FALSE}
 # Read in presence/absence matrix and format correctly:
 pan_PA <-
   read_tsv('./pan/gene_presence_absence.Rtab')  %>% 
@@ -109,13 +117,14 @@ pan_PA <-
 
 # this set of genomes will contain 99% of all the genes detected in the pangenome
 get_pangenome_representatives(pan_mat = pan_PA, SEED = 2, desired_coverage = .99)
+
 ```
 
-## TODO
 
--   update\_collection() function?
-    -   Should take and old metadata file and a new metadata file as
-        inputs.  
-    -   return a vector of new genomes that were not present in the old
-        list.
-    -   also return genomes with newer assembly accession version
+## TODO  
+- update_collection() function?
+  - Should take and old metadata file and a new metadata file as inputs.  
+  - return a vector of new genomes that were not present in the old list. 
+  - also return genomes with newer assembly accession version 
+
+
