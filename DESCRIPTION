@@ -1,6 +1,6 @@
 Package: pdtools
 Title: Tools to interact with NCBI's Pathogen Detection project
-Version: 0.0.1.9000
+Version: 0.0.1
 Authors@R: 
     person("Julian", "Trachsel", , "julestrachsel@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "https://orcid.org/0000-0003-2357-7737"))
@@ -24,7 +24,8 @@ Imports:
     tibble,
     Biostrings,
     stringr,
-    rlang
+    rlang,
+    readr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

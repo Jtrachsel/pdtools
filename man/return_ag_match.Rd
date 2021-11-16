@@ -18,6 +18,6 @@ names of matching patterns concatenated with '_'
 Return a string of names of the matching regex patterns
 }
 \examples{
-#soon
+#pat_vec <- c(Swine='hog|swine|sow'); pdtools:::return_ag_match(pattern_vec=pat_vec, 'Hog')
 
 }

@@ -16,5 +16,5 @@ returns a tibble of 2 columns, 1st = target_acc, 2nd = ag_match
 Extract a consensus ag host species from metadata
 }
 \examples{
-#soon
+extract_consensus_ag_species(klebsiella_example_dat)
 }

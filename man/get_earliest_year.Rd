@@ -18,5 +18,5 @@ add a Year column to PDD metadata containing the earliest year from the
 available 'date' fields.
 }
 \examples{
-#soon
+get_earliest_year(klebsiella_example_dat)
 }

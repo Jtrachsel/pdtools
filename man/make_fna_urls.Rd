@@ -2,21 +2,21 @@
 % Please edit documentation in R/download_tools.R
 \name{make_fna_urls}
 \alias{make_fna_urls}
-\title{Generate ftp urls for fna files from a vector of genbank assembly accessions}
+\title{generate fasta ftp download paths for a vector of assembly accessions}
 \usage{
-make_fna_urls(asm_accessions, assembly_summary)
+make_fna_urls(asm_accessions, assembly_summary_path)
 }
 \arguments{
-\item{asm_accessions}{character vector of genbank accessions}
+\item{asm_accessions}{vector of assembly accessions to generate ftp paths for}
 
-\item{assembly_summary}{assembly summary downloaded from ncbi, must have asm_acc column}
+\item{assembly_summary_path}{path to an assembly_summary.txt file downloaded from ncbi}
 }
 \value{
-returns a vector of ftp urls
+returns a vector of ftp paths for use with curl wget etc.
 }
 \description{
-Generate ftp urls for fna files from a vector of genbank assembly accessions
+generate fasta ftp download paths for a vector of assembly accessions
 }
 \examples{
-#soon
+# tst <- make_fna_urls(klebsiella_example_dat$asm_acc, './data/assembly_summary.txt')
 }

@@ -6,9 +6,9 @@
 #' @param search_string a sting to search for matches
 #'
 #' @return names of matching patterns concatenated with '_'
-#' @export
 #'
-#' @examples #soon
+#'
+#' @examples #pat_vec <- c(Swine='hog|swine|sow'); pdtools:::return_ag_match(pattern_vec=pat_vec, 'Hog')
 #'
 return_ag_match <-
   function(pattern_vec, search_string){
@@ -29,7 +29,7 @@ return_ag_match <-
 #' @return returns a tibble of 2 columns, 1st = target_acc, 2nd = ag_match
 #' @export
 #'
-#' @examples #soon
+#' @examples extract_consensus_ag_species(klebsiella_example_dat)
 #' @importFrom rlang .data
 extract_consensus_ag_species <- function(dat){
   # browser()
@@ -78,14 +78,6 @@ extract_consensus_ag_species <- function(dat){
 
 }
 
-#
-# meta <- read_tsv('~/Documents/O157_overview/data/O157:H7_meta.tsv')
-#
-# TEST <- extract_consensus_ag_species(meta)
-# TEST |> count(ag_match)
-
-
-
 
 #' add a Year column to PDD metadata containing the earliest year from the
 #' available 'date' fields.
@@ -95,7 +87,7 @@ extract_consensus_ag_species <- function(dat){
 #' @return returns the input metadata table with an added `Year` column
 #' @export
 #'
-#' @examples #soon
+#' @examples get_earliest_year(klebsiella_example_dat)
 #' @importFrom rlang .data
 get_earliest_year <- function(PDD_metadata_table){
   # given a PDD metadata table, extract the earliest year from the date

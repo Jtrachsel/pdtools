@@ -142,30 +142,45 @@ check_complete_PDG <- function(organism, PDG){
 }
 
 
+#' Generate a two column tibble mapping ftp paths to assembly accessions
+#'
+#' @param filename path to the ncbi genbank assembly_summary.txt
+#'     curl -O https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt
+#'
+#' @return returns a two column tibble of asm_acc and ftp
+#'
+#' @examples #ftp_paths <- ftp_paths_from_assem_sum('./data/assembly_summary.txt')
+#' @importFrom rlang .data
+ftp_paths_from_assem_sum <- function(filename){
+  # browser()
+  dat <- readr::read_tsv(filename, skip=1) |>
+    dplyr::transmute(asm_acc=.data$`# assembly_accession`,
+              .data$ftp_path)
+  return(dat)
+}
 
 
 
-#' Generate ftp urls for fna files from a vector of genbank assembly accessions
+#' generate fasta ftp download paths for a vector of assembly accessions
 #'
-#' @param asm_accessions character vector of genbank accessions
-#' @param assembly_summary assembly summary downloaded from ncbi, must have asm_acc column
+#' @param asm_accessions vector of assembly accessions to generate ftp paths for
+#' @param assembly_summary_path path to an assembly_summary.txt file downloaded from ncbi
 #'
-#'
-#'
-#' @return returns a vector of ftp urls
+#' @return returns a vector of ftp paths for use with curl wget etc.
 #' @export
 #'
-#' @examples #soon
-#' @importFrom rlang .data
-make_fna_urls <- function(asm_accessions, assembly_summary){
+#' @examples # tst <- make_fna_urls(klebsiella_example_dat$asm_acc, './data/assembly_summary.txt')
+make_fna_urls <- function(asm_accessions, assembly_summary_path){
   # assembly summary needs to have the accessions changed from
   # `# assembly_accession` to asm_acc
-  ass_sum <- ass_sum |>
+  selected_ftp_paths <-
+    ftp_paths_from_assem_sum(assembly_summary_path) |>
     dplyr::filter(.data$asm_acc %in% asm_accessions)
-  base::paste0(ass_sum$ftp_path,
-         '/',
-         base::sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
-             ass_sum$ftp_path),
-         '_genomic.fna.gz')
+
+  base::paste0(selected_ftp_paths$ftp_path,
+               '/',
+               base::sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
+                         selected_ftp_paths$ftp_path),
+               '_genomic.fna.gz')
 
 }
