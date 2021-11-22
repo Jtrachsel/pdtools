@@ -24,18 +24,18 @@ test_that('return_ag_match returns expected species',{
 test_that('extract_consensus_ag_species returns a tibble',{
   expect_equal(
     dim(extract_consensus_ag_species(klebsiella_example_dat)),
-    c(100,2))
+    c(200,2))
   })
 
 
-test_that('get_earliest_year warns about NA coersions', {
-  expect_warning(year_dat <- get_earliest_year(klebsiella_example_dat))
+test_that('return_earliest_year warns about NA coersions', {
+  expect_warning(year_dat <- return_earliest_year(klebsiella_example_dat))
 
 })
 
-test_that('get_earliest_year adds an appropriate year column',{
+test_that('return_earliest_year adds an appropriate year column',{
   tst <-function(dat){
-    get_earliest_year(dat) |> dplyr::pull(Year) |> is.numeric()
+    return_earliest_year(dat) |> dplyr::pull(Year) |> is.numeric()
   }
   quiet_tst <- purrr::quietly(tst)
   res <- quiet_tst(klebsiella_example_dat)

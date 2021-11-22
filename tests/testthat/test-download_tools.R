@@ -57,3 +57,12 @@ test_that('check_complete_PDG returns TRUE for a complete PDG',{
 
 })
 
+
+
+test_that('all snp tree urls match expected pattern', {
+  snp_tree_urls <- make_SNPtree_urls(organism = 'Klebsiella', data = klebsiella_example_dat, PDG = 'PDG000000012.1053')
+  expect_true(all(grepl('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG[0-9]+\\.[0-9]+/SNP_trees/PDS[0-9]+\\.[0-9]+\\.tar\\.gz', snp_tree_urls)))
+
+
+
+})

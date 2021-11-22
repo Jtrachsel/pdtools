@@ -4,14 +4,16 @@ library(pdtools)
 list_PDGs('Klebsiella')
 system('mkdir data')
 download_most_recent_complete('Klebsiella', folder_prefix = './data/')
-dat <- read_tsv('./data/PDG000000012.1049.amr.metadata.tsv')
+dat <- read_tsv('./data/PDG000000012.1053.amr.metadata.tsv')
+clusts <- read_tsv('./data/PDG000000012.1053.cluster_list.tsv')
+dat <- dat %>% left_join(clusts)
 
 set.seed(1)
 klebsiella_example_dat <-
   dat %>%
   filter(isolation_source != 'NULL') %>%
   filter(host != 'NULL') %>%
-  slice_sample(n = 100)
+  slice_sample(n = 200)
 
 usethis::use_data(klebsiella_example_dat, overwrite = TRUE)
 

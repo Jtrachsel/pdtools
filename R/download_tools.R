@@ -184,3 +184,30 @@ make_fna_urls <- function(asm_accessions, assembly_summary_path){
                '_genomic.fna.gz')
 
 }
+
+
+
+#' generate ftp site download urls for all SNP trees containing the provided isolates
+#'
+#' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
+#' @param data a metadata table, must contain the column 'PDS_acc' from merging in the SNP cluster data
+#' @param PDG The PDG version the metadata is from.
+#'
+#' @return returns a vector of ftp download urls for each tar.gz file containing the SNP tree info
+#' @export
+#'
+#' @examples make_SNPtree_urls(organism = 'Klebsiella',
+#'  data = klebsiella_example_dat, PDG = 'PDG000000012.1053')
+make_SNPtree_urls <- function(organism, data, PDG){
+  # One SNP tree for each PDG represented in the data
+  # Organism <- 'Klebsiella'
+  # PDG <- 'PDG000000012.1053'
+
+  num_no_clust <- base::sum(base::is.na(data$PDS_acc))
+
+  PDSs <- data |> dplyr::filter(!is.na(.data$PDS_acc)) |> dplyr::pull(.data$PDS_acc) |> base::unique()
+  urls <- base::paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/', PDG, '/SNP_trees/', PDSs, '.tar.gz')
+  base::message(base::paste(num_no_clust, 'Isolates in the collection are not represented in SNP trees'))
+  return(urls)
+}
+

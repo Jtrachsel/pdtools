@@ -34,7 +34,7 @@ return_ag_match <-
 extract_consensus_ag_species <- function(dat){
   # browser()
   pattern_vec <-
-    c(Swine="swine|pork|porcine|sow|sus|hog|pig|scrofa",
+    base::c(Swine="swine|pork|porcine|sow|sus|hog|pig|scrofa",
       Bovine="bovine|beef|veal|cow|cattle|bos|steer|taurus|calf|bull|dairy|milk",
       Chicken="chicken|chick|gallus|broiler|egg",
       Turkey="turkey|meleagris|gallopavo",
@@ -50,7 +50,7 @@ extract_consensus_ag_species <- function(dat){
   first_pass <-
     dat |>
     dplyr::transmute(target_acc=.data$target_acc,
-              search_vals=paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) |>
+              search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) |>
     dplyr::mutate(ag_match=purrr::map_chr(.x = .data$search_vals, ~return_ag_match(pattern_vec, search_string = .x)))
 
     finished <- first_pass |>
@@ -63,7 +63,7 @@ extract_consensus_ag_species <- function(dat){
 
       second_pass <- first_pass |>
         dplyr::filter(.data$ag_match == '') |>
-        dplyr::mutate(ag_match=ifelse(grepl('clinical', .data$search_vals), 'Human', 'Other'))
+        dplyr::mutate(ag_match=base::ifelse(base::grepl('clinical', .data$search_vals), 'Human', 'Other'))
 
 
       result <- dplyr::bind_rows(finished, second_pass) |>
@@ -79,28 +79,26 @@ extract_consensus_ag_species <- function(dat){
 }
 
 
-#' add a Year column to PDD metadata containing the earliest year from the
+#' return a Year column containing the earliest year from the
 #' available 'date' fields.
 #'
 #' @param PDD_metadata_table an ncbi pathogen detection metadata table
 #'
-#' @return returns the input metadata table with an added `Year` column
+#' @return returns the a tibble with a `Year` column,
 #' @export
 #'
-#' @examples get_earliest_year(klebsiella_example_dat)
+#' @examples return_earliest_year(klebsiella_example_dat)
 #' @importFrom rlang .data
-get_earliest_year <- function(PDD_metadata_table){
-  # given a PDD metadata table, extract the earliest year from the date
-  # columns and return the original table with the 'Year' variable added
-  result <-
+return_earliest_year <- function(PDD_metadata_table){
+
+    result <-
     PDD_metadata_table |>
     dplyr::select(.data$target_acc, dplyr::ends_with('date')) |>
     dplyr::mutate(dplyr::across(.cols = dplyr::ends_with('date'), .fns = base::as.character)) |>
     tidyr::pivot_longer(cols = dplyr::ends_with('date'), names_to = 'type', values_to = 'date') |>
     dplyr::mutate(year = base::as.numeric(base::sub('([0-9][0-9][0-9][0-9]).*','\\1',.data$date))) |>
     dplyr::group_by(.data$target_acc) |>
-    dplyr::summarise(Year=.data$year[base::which.min(.data$year)]) |>
-    dplyr::left_join(PDD_metadata_table)
+    dplyr::summarise(Year=.data$year[base::which.min(.data$year)])
 
   return(result)
 
