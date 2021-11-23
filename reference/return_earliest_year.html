@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Download Pathogen Detection metadata for a given organism — download_PDD_metadata • pdtools</title>
+<title>return a Year column containing the earliest year from the
+available 'date' fields. — return_earliest_year • pdtools</title>
 
 
 <!-- jquery -->
@@ -39,8 +40,10 @@
 
 
 
-<meta property="og:title" content="Download Pathogen Detection metadata for a given organism — download_PDD_metadata" />
-<meta property="og:description" content="Download Pathogen Detection metadata for a given organism" />
+<meta property="og:title" content="return a Year column containing the earliest year from the
+available 'date' fields. — return_earliest_year" />
+<meta property="og:description" content="return a Year column containing the earliest year from the
+available 'date' fields." />
 
 
 
@@ -103,41 +106,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Download Pathogen Detection metadata for a given organism</h1>
+    <h1>return a Year column containing the earliest year from the
+available 'date' fields.</h1>
     
-    <div class="hidden name"><code>download_PDD_metadata.Rd</code></div>
+    <div class="hidden name"><code>return_earliest_year.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Download Pathogen Detection metadata for a given organism</p>
+    <p>return a Year column containing the earliest year from the
+available 'date' fields.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>download_PDD_metadata</span><span class='op'>(</span><span class='va'>organism</span>, <span class='va'>PDG</span>, folder_prefix <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>return_earliest_year</span><span class='op'>(</span><span class='va'>PDD_metadata_table</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>organism</th>
-      <td><p>a string ie 'Salmonella' or 'Campylobacter' etc</p></td>
-    </tr>
-    <tr>
-      <th>PDG</th>
-      <td><p>The Pathogen Detection accession number to download</p></td>
-    </tr>
-    <tr>
-      <th>folder_prefix</th>
-      <td><p>a string to append to the download path, ie './data/'</p></td>
+      <th>PDD_metadata_table</th>
+      <td><p>an ncbi pathogen detection metadata table</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>returns nothing, but probably should. Will initiate a download of the specified files</p>
+    <p>returns the a tibble with a <code>Year</code> column,</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'>#download_PDD_metadata(organism = 'Campylobacter',PDG = 'PDG000000003.1517')</span></span>
-<span class='r-in'></span>
+    <pre class="examples"><span class='r-in'><span class='fu'>return_earliest_year</span><span class='op'>(</span><span class='va'>klebsiella_example_dat</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>NAs introduced by coercion</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 200 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    target_acc      Year</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> PDT000022726.1  <span style='text-decoration: underline;'>2</span>014</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> PDT000063449.1  <span style='text-decoration: underline;'>2</span>012</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> PDT000131462.1  <span style='text-decoration: underline;'>2</span>006</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> PDT000134609.1  <span style='text-decoration: underline;'>2</span>006</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> PDT000136218.2  <span style='text-decoration: underline;'>2</span>010</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> PDT000136232.2  <span style='text-decoration: underline;'>2</span>011</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> PDT000136461.2  <span style='text-decoration: underline;'>2</span>011</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> PDT000136481.2  <span style='text-decoration: underline;'>2</span>011</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> PDT000143925.3  <span style='text-decoration: underline;'>2</span>013</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> PDT000145829.3  <span style='text-decoration: underline;'>2</span>014</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 190 more rows</span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

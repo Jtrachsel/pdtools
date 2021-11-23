@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pdtools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -116,7 +116,88 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-download-helpers" class="hasAnchor"><a href="#section-download-helpers" class="anchor"></a>Download helpers</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="list_PDGs.html">list_PDGs()</a></code> </p>
+        </td>
+        <td><p>List available PDG accessions for an organism</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="download_PDD_metadata.html">download_PDD_metadata()</a></code> </p>
+        </td>
+        <td><p>Download Pathogen Detection metadata for a given organism</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="download_most_recent_complete.html">download_most_recent_complete()</a></code> </p>
+        </td>
+        <td><p>Download the most recent complete metadata for a specified organism</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="find_most_recent_complete.html">find_most_recent_complete()</a></code> </p>
+        </td>
+        <td><p>Find most recent complete PDG</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="check_complete_PDG.html">check_complete_PDG()</a></code> </p>
+        </td>
+        <td><p>Check if a single PDG is complete (AMR and Cluster metadata)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="make_fna_urls.html">make_fna_urls()</a></code> </p>
+        </td>
+        <td><p>generate fasta ftp download paths for a vector of assembly accessions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="make_SNPtree_urls.html">make_SNPtree_urls()</a></code> </p>
+        </td>
+        <td><p>generate ftp site download urls for all SNP trees containing the provided isolates</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-metadata-manipulations" class="hasAnchor"><a href="#section-metadata-manipulations" class="anchor"></a>Metadata manipulations</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="extract_consensus_ag_species.html">extract_consensus_ag_species()</a></code> </p>
+        </td>
+        <td><p>Extract a consensus ag host species from metadata</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="return_earliest_year.html">return_earliest_year()</a></code> </p>
+        </td>
+        <td><p>return a Year column containing the earliest year from the
+available 'date' fields.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-pangenome-tools" class="hasAnchor"><a href="#section-pangenome-tools" class="anchor"></a>Pangenome tools</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -134,42 +215,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="check_complete_PDG.html">check_complete_PDG()</a></code> </p>
-        </td>
-        <td><p>Check if a single PDG is complete (AMR and Cluster metadata)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="download_PDD_metadata.html">download_PDD_metadata()</a></code> </p>
-        </td>
-        <td><p>Download Pathogen Detection metadata for a given organism</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="download_most_recent_complete.html">download_most_recent_complete()</a></code> </p>
-        </td>
-        <td><p>Download the most recent complete metadata for a specified organism</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_consensus_ag_species.html">extract_consensus_ag_species()</a></code> </p>
-        </td>
-        <td><p>Extract a consensus ag host species from metadata</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="find_most_recent_complete.html">find_most_recent_complete()</a></code> </p>
-        </td>
-        <td><p>Find most recent complete PDG</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ftp_paths_from_assem_sum.html">ftp_paths_from_assem_sum()</a></code> </p>
-        </td>
-        <td><p>Generate a two column tibble mapping ftp paths to assembly accessions</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="generate_genome_vector.html">generate_genome_vector()</a></code> </p>
         </td>
         <td><p>Generate a genome tibble containing presence/absence of genes in a fake pangenome</p></td>
@@ -182,46 +227,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="get_earliest_year.html">get_earliest_year()</a></code> </p>
-        </td>
-        <td><p>add a Year column to PDD metadata containing the earliest year from the
-available 'date' fields.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_pangenome_representatives.html">get_pangenome_representatives()</a></code> </p>
-        </td>
-        <td><p>Select a minimum set of genomes that best represent the gene content of the pangenome</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="klebsiella_example_dat.html">klebsiella_example_dat</a></code> </p>
-        </td>
-        <td><p>NCBI Pathogen Detection metadata for 100 Klebsiella isolates</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="list_PDGs.html">list_PDGs()</a></code> </p>
-        </td>
-        <td><p>List available PDG accessions for an organism</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_fna_urls.html">make_fna_urls()</a></code> </p>
-        </td>
-        <td><p>generate fasta ftp download paths for a vector of assembly accessions</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="pan_mat_to_gene_vec_tibble.html">pan_mat_to_gene_vec_tibble()</a></code> </p>
         </td>
         <td><p>Convert a pangenome PA matrix to a tibble of gene vectors</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="return_ag_match.html">return_ag_match()</a></code> </p>
+          <p><code><a href="get_pangenome_representatives.html">get_pangenome_representatives()</a></code> </p>
         </td>
-        <td><p>Return a string of names of the matching regex patterns</p></td>
+        <td><p>Select a minimum set of genomes that best represent the gene content of the pangenome</p></td>
       </tr>
     </tbody>
     </table>

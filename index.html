@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pdtools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -111,7 +111,9 @@
 <h4 class="hasAnchor">
 <a href="#extract-earliest-year-from-3-date-columns" class="anchor"></a>Extract earliest year from 3 date columns</h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/get_earliest_year.html">get_earliest_year</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">earliest_year</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="va">pdtools</span><span class="op">:</span><span class="fu"><a href="reference/return_earliest_year.html">return_earliest_year</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">earliest_year</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="generate-ftp-download-paths-for-a-collection-of-isolates" class="section level4">
 <h4 class="hasAnchor">
@@ -185,6 +187,13 @@
 <li>return a vector of new genomes that were not present in the old list.</li>
 <li>also return genomes with newer assembly accession version</li>
 </ul>
+</li>
+<li>Download_SNP_trees
+<ul>
+<li>generate_SNPtree_urls</li>
+</ul>
+</li>
+<li>Reference README? <a href="https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt" class="uri">https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt</a>
 </li>
 </ul>
 </div>
