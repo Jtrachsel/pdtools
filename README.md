@@ -49,7 +49,9 @@ meta <- meta %>% left_join(host_info)
 #### Extract earliest year from 3 date columns
 
 ``` r
-meta <- meta %>% pdtools::get_earliest_year()
+earliest_year <- meta %>% pdtools:return_earliest_year()
+
+meta <- meta %>% left_join(earliest_year)
 ```
 
 #### Generate ftp download paths for a collection of isolates
@@ -119,3 +121,6 @@ get_pangenome_representatives(pan_mat = pan_PA, SEED = 2, desired_coverage = .99
     -   return a vector of new genomes that were not present in the old
         list.
     -   also return genomes with newer assembly accession version
+-   Download\_SNP\_trees
+    -   generate\_SNPtree\_urls
+-   Reference README? <https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt>

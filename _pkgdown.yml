@@ -1,2 +1,23 @@
 url: ~
 
+reference:
+- title: Download helpers
+- contents:
+  - list_PDGs
+  - download_PDD_metadata
+  - download_most_recent_complete
+  - find_most_recent_complete
+  - check_complete_PDG
+  - make_fna_urls
+  - make_SNPtree_urls
+- title: Metadata manipulations
+- contents:
+  - extract_consensus_ag_species
+  - return_earliest_year
+- title: Pangenome tools
+- contents:
+  - build_ppanggolin_file_fastas
+  - generate_genome_vector
+  - generate_pangenome
+  - pan_mat_to_gene_vec_tibble
+  - get_pangenome_representatives
