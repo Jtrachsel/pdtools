@@ -18,6 +18,8 @@ remotes::install_github('jtrachsel/pdtools')
 A collection of functions for working with data from the [NCBI Pathogen
 Detection project](https://www.ncbi.nlm.nih.gov/pathogens/)
 
+<https://jtrachsel.github.io/pdtools/index.html>
+
 ## Examples
 
 #### Download the most recent metadata for an organism:
