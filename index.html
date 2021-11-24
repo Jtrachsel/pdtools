@@ -82,17 +82,23 @@
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
+<div id="list-available-organisms" class="section level4">
+<h4 class="hasAnchor">
+<a href="#list-available-organisms" class="anchor"></a>List available organisms</h4>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/list_organisms.html">list_organisms</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+</div>
 <div id="download-the-most-recent-metadata-for-an-organism" class="section level4">
 <h4 class="hasAnchor">
 <a href="#download-the-most-recent-metadata-for-an-organism" class="anchor"></a>Download the most recent metadata for an organism:</h4>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">'mkdir data'</span><span class="op">)</span>
 <span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/download_most_recent_complete.html">download_most_recent_complete</a></span><span class="op">(</span><span class="st">'Campylobacter'</span>, folder_prefix <span class="op">=</span> <span class="st">'./data/'</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="extract-the-earliest-year-from-all-date-fields" class="section level4">
 <h4 class="hasAnchor">
 <a href="#extract-the-earliest-year-from-all-date-fields" class="anchor"></a>Extract the earliest year from all date fields:</h4>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The names of these files will change based on the most recent complete data</span>
 <span class="co"># you will have to adjust these</span>
 <span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_tsv</a></span><span class="op">(</span><span class="st">'./data/PDG000000003.1540.amr.metadata.tsv'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -101,7 +107,7 @@
 <div id="extract-agricultural-host-species-from-several-metadata-fields" class="section level4">
 <h4 class="hasAnchor">
 <a href="#extract-agricultural-host-species-from-several-metadata-fields" class="anchor"></a>Extract agricultural host species from several metadata fields:</h4>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create a two column tibble containing consensus host for each isolate</span>
 <span class="va">host_info</span> <span class="op">&lt;-</span> <span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/extract_consensus_ag_species.html">extract_consensus_ag_species</a></span><span class="op">(</span><span class="va">meta</span><span class="op">)</span>
 
@@ -111,7 +117,7 @@
 <div id="extract-earliest-year-from-3-date-columns" class="section level4">
 <h4 class="hasAnchor">
 <a href="#extract-earliest-year-from-3-date-columns" class="anchor"></a>Extract earliest year from 3 date columns</h4>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">earliest_year</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="va">pdtools</span><span class="op">:</span><span class="fu"><a href="reference/return_earliest_year.html">return_earliest_year</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">earliest_year</span><span class="op">)</span></code></pre></div>
@@ -119,7 +125,7 @@
 <div id="generate-ftp-download-paths-for-a-collection-of-isolates" class="section level4">
 <h4 class="hasAnchor">
 <a href="#generate-ftp-download-paths-for-a-collection-of-isolates" class="anchor"></a>Generate ftp download paths for a collection of isolates</h4>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># download most recent assembly summary</span>
 <span class="fu">curl</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/curl/man/curl_download.html">curl_download</a></span><span class="op">(</span><span class="st">'https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt'</span>,
                     destfile <span class="op">=</span> <span class="st">'./data/assembly_summary.txt'</span><span class="op">)</span>
@@ -149,7 +155,7 @@
 <h4 class="hasAnchor">
 <a href="#generate-an-input-file-for-caclulating-a-pangenome-with-ppanggolin" class="anchor"></a>Generate an input file for caclulating a pangenome with <a href="https://github.com/labgem/PPanGGOLiN">ppanggolin</a>
 </h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># if you have some reference genomes that are complete (circularized) you can </span>
 <span class="co"># feed their paths into the 'complete_genome_paths parameter and the function</span>
 <span class="co"># will correctly specify cirular contigs for ppanggolin.  </span>
@@ -162,7 +168,7 @@
 <div id="select-a-representative-set-of-isolates-from-a-pangenome" class="section level4">
 <h4 class="hasAnchor">
 <a href="#select-a-representative-set-of-isolates-from-a-pangenome" class="anchor"></a>Select a representative set of isolates from a pangenome</h4>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Read in presence/absence matrix and format correctly:</span>
 <span class="va">pan_PA</span> <span class="op">&lt;-</span>
   <span class="fu">read_tsv</span><span class="op">(</span><span class="st">'./pan/gene_presence_absence.Rtab'</span><span class="op">)</span>  <span class="op">%&gt;%</span> 
