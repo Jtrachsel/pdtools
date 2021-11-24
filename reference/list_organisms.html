@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NCBI Pathogen Detection metadata for 100 Klebsiella isolates — klebsiella_example_dat • pdtools</title>
+<title>List organisms available in the Pathogens database — list_organisms • pdtools</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="NCBI Pathogen Detection metadata for 100 Klebsiella isolates — klebsiella_example_dat" />
-<meta property="og:description" content="An example dataset of 100 Klebsiella isolates included for testing and
-example purposes" />
+<meta property="og:title" content="List organisms available in the Pathogens database — list_organisms" />
+<meta property="og:description" content="List organisms available in the Pathogens database" />
 
 
 
@@ -104,26 +103,39 @@ example purposes" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>NCBI Pathogen Detection metadata for 100 Klebsiella isolates</h1>
+    <h1>List organisms available in the Pathogens database</h1>
     
-    <div class="hidden name"><code>klebsiella_example_dat.Rd</code></div>
+    <div class="hidden name"><code>list_organisms.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>An example dataset of 100 Klebsiella isolates included for testing and
-example purposes</p>
+    <p>List organisms available in the Pathogens database</p>
     </div>
 
-    <pre class="usage"><span class='va'>klebsiella_example_dat</span></pre>
+    <pre class="usage"><span class='fu'>list_organisms</span><span class='op'>(</span><span class='op'>)</span></pre>
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with 100 rows and 64 variables:</p>
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+    <p>a tibble of available organisms</p>
 
-    <p><a href='https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1049/AMR/PDG000000012.1049.amr.metadata.tsv'>https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1049/AMR/PDG000000012.1049.amr.metadata.tsv</a></p>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='r-in'> <span class='fu'>list_organisms</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 47 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    organism                 release_date       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> Aeromonas                2021-11-05 <span style='color: #949494;'>07:51:00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> Aeromonas_salmonicida    2021-10-31 <span style='color: #949494;'>21:42:00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> Aeromonas_sobria         2021-11-04 <span style='color: #949494;'>07:14:00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> Aeromonas_veronii        2021-10-28 <span style='color: #949494;'>11:51:00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> Bacillus_cereus_group    2021-11-20 <span style='color: #949494;'>04:17:00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> Campylobacter            2021-11-24 <span style='color: #949494;'>00:05:00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> Candida_auris            2021-11-23 <span style='color: #949494;'>00:06:00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> Citrobacter_freundii     2021-11-23 <span style='color: #949494;'>00:07:00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> Clostridioides_difficile 2021-11-23 <span style='color: #949494;'>00:08:00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> Clostridium_botulinum    2021-11-13 <span style='color: #949494;'>08:46:00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 37 more rows</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
