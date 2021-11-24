@@ -22,6 +22,12 @@ Detection project](https://www.ncbi.nlm.nih.gov/pathogens/)
 
 ## Examples
 
+#### List available organisms
+
+``` r
+pdtools::list_organisms()
+```
+
 #### Download the most recent metadata for an organism:
 
 ``` r
