@@ -27,6 +27,16 @@ A collection of functions for working with data from the
 
 ## Examples  
 
+#### List available organisms
+
+```{r, eval=FALSE}
+
+pdtools::list_organisms()
+
+```
+
+
+
 #### Download the most recent metadata for an organism:  
 ```{r, eval=FALSE}
 system('mkdir data')
