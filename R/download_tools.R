@@ -211,3 +211,32 @@ make_SNPtree_urls <- function(organism, data, PDG){
   return(urls)
 }
 
+#' List organisms available in the Pathogens database
+#'
+#' @return a tibble of available organisms
+#' @export
+#'
+#' @examples  list_organisms()
+list_organisms <- function(){
+  url <- 'https://ftp.ncbi.nlm.nih.gov/pathogen/Results/'
+
+  organisms <-
+    rvest::read_html(url) |>
+    rvest::html_text2() |>
+    stringr::str_split(pattern = ' -') |>
+    base::unlist()
+  organisms <- organisms[-c(1, length(organisms))]
+
+  organism_table <-
+    tibble::tibble(raw=organisms,
+                   organism=base::sub('(.*)/(.*)','\\1',.data$raw),
+                   release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) |>
+    dplyr::select(-.data$raw)
+
+  return(organism_table)
+
+
+}
+
+
+

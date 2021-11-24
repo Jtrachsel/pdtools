@@ -66,3 +66,11 @@ test_that('all snp tree urls match expected pattern', {
 
 
 })
+
+
+
+test_that('list_organisms returns a two column tibble', {
+  skip_if_offline()
+  orgs <- list_organisms()
+  expect_equal(ncol(orgs), 2)
+})
