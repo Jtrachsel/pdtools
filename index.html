@@ -21,6 +21,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -33,18 +35,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pdtools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -61,52 +57,52 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="pdtools" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#pdtools" class="anchor"></a>pdtools</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="pdtools">pdtools<a class="anchor" aria-label="anchor" href="#pdtools"></a>
+</h1></div>
 <p>Julian Trachsel 11/16/2021</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p><em>Requires R &gt;= 4.1</em> <em>Requires biostrings, need to install from biocmanager</em></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="st">'Biostrings'</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'jtrachsel/pdtools'</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="description" class="section level2">
-<h2 class="hasAnchor">
-<a href="#description" class="anchor"></a>Description</h2>
-<p>A collection of functions for working with data from the <a href="https://www.ncbi.nlm.nih.gov/pathogens/">NCBI Pathogen Detection project</a></p>
-<p><a href="https://jtrachsel.github.io/pdtools/index.html" class="uri">https://jtrachsel.github.io/pdtools/index.html</a></p>
+<div class="section level2">
+<h2 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
+</h2>
+<p>A collection of functions for working with data from the <a href="https://www.ncbi.nlm.nih.gov/pathogens/" class="external-link">NCBI Pathogen Detection project</a></p>
+<p><a href="https://jtrachsel.github.io/pdtools/index.html" class="external-link uri">https://jtrachsel.github.io/pdtools/index.html</a></p>
 </div>
-<div id="examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
-<div id="list-available-organisms" class="section level4">
-<h4 class="hasAnchor">
-<a href="#list-available-organisms" class="anchor"></a>List available organisms</h4>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
+<div class="section level4">
+<h4 id="list-available-organisms">List available organisms<a class="anchor" aria-label="anchor" href="#list-available-organisms"></a>
+</h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/list_organisms.html">list_organisms</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="download-the-most-recent-metadata-for-an-organism" class="section level4">
-<h4 class="hasAnchor">
-<a href="#download-the-most-recent-metadata-for-an-organism" class="anchor"></a>Download the most recent metadata for an organism:</h4>
+<div class="section level4">
+<h4 id="download-the-most-recent-metadata-for-an-organism">Download the most recent metadata for an organism:<a class="anchor" aria-label="anchor" href="#download-the-most-recent-metadata-for-an-organism"></a>
+</h4>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">'mkdir data'</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span><span class="st">'mkdir data'</span><span class="op">)</span>
 <span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/download_most_recent_complete.html">download_most_recent_complete</a></span><span class="op">(</span><span class="st">'Campylobacter'</span>, folder_prefix <span class="op">=</span> <span class="st">'./data/'</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="extract-the-earliest-year-from-all-date-fields" class="section level4">
-<h4 class="hasAnchor">
-<a href="#extract-the-earliest-year-from-all-date-fields" class="anchor"></a>Extract the earliest year from all date fields:</h4>
+<div class="section level4">
+<h4 id="extract-the-earliest-year-from-all-date-fields">Extract the earliest year from all date fields:<a class="anchor" aria-label="anchor" href="#extract-the-earliest-year-from-all-date-fields"></a>
+</h4>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The names of these files will change based on the most recent complete data</span>
 <span class="co"># you will have to adjust these</span>
-<span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_tsv</a></span><span class="op">(</span><span class="st">'./data/PDG000000003.1540.amr.metadata.tsv'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_tsv</a></span><span class="op">(</span><span class="st">'./data/PDG000000003.1540.cluster_list.tsv'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_tsv</a></span><span class="op">(</span><span class="st">'./data/PDG000000003.1540.amr.metadata.tsv'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_tsv</a></span><span class="op">(</span><span class="st">'./data/PDG000000003.1540.cluster_list.tsv'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="extract-agricultural-host-species-from-several-metadata-fields" class="section level4">
-<h4 class="hasAnchor">
-<a href="#extract-agricultural-host-species-from-several-metadata-fields" class="anchor"></a>Extract agricultural host species from several metadata fields:</h4>
+<div class="section level4">
+<h4 id="extract-agricultural-host-species-from-several-metadata-fields">Extract agricultural host species from several metadata fields:<a class="anchor" aria-label="anchor" href="#extract-agricultural-host-species-from-several-metadata-fields"></a>
+</h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create a two column tibble containing consensus host for each isolate</span>
 <span class="va">host_info</span> <span class="op">&lt;-</span> <span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/extract_consensus_ag_species.html">extract_consensus_ag_species</a></span><span class="op">(</span><span class="va">meta</span><span class="op">)</span>
@@ -114,26 +110,26 @@
 <span class="co"># join back to metadata</span>
 <span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">host_info</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="extract-earliest-year-from-3-date-columns" class="section level4">
-<h4 class="hasAnchor">
-<a href="#extract-earliest-year-from-3-date-columns" class="anchor"></a>Extract earliest year from 3 date columns</h4>
+<div class="section level4">
+<h4 id="extract-earliest-year-from-3-date-columns">Extract earliest year from 3 date columns<a class="anchor" aria-label="anchor" href="#extract-earliest-year-from-3-date-columns"></a>
+</h4>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">earliest_year</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="va">pdtools</span><span class="op">:</span><span class="fu"><a href="reference/return_earliest_year.html">return_earliest_year</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">earliest_year</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="generate-ftp-download-paths-for-a-collection-of-isolates" class="section level4">
-<h4 class="hasAnchor">
-<a href="#generate-ftp-download-paths-for-a-collection-of-isolates" class="anchor"></a>Generate ftp download paths for a collection of isolates</h4>
+<div class="section level4">
+<h4 id="generate-ftp-download-paths-for-a-collection-of-isolates">Generate ftp download paths for a collection of isolates<a class="anchor" aria-label="anchor" href="#generate-ftp-download-paths-for-a-collection-of-isolates"></a>
+</h4>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># download most recent assembly summary</span>
-<span class="fu">curl</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/curl/man/curl_download.html">curl_download</a></span><span class="op">(</span><span class="st">'https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt'</span>,
+<span class="fu">curl</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/curl/man/curl_download.html" class="external-link">curl_download</a></span><span class="op">(</span><span class="st">'https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt'</span>,
                     destfile <span class="op">=</span> <span class="st">'./data/assembly_summary.txt'</span><span class="op">)</span>
 
 <span class="co"># only download isolates from swine after 2015</span>
 <span class="va">meta_filt</span> <span class="op">&lt;-</span>
   <span class="va">meta</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">&gt;</span> <span class="fl">2015</span> <span class="op">&amp;</span> <span class="va">ag_match</span> <span class="op">==</span> <span class="st">'Swine'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">&gt;</span> <span class="fl">2015</span> <span class="op">&amp;</span> <span class="va">ag_match</span> <span class="op">==</span> <span class="st">'Swine'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">write_tsv</span><span class="op">(</span><span class="st">'./data/swine_2015_meta.tsv'</span><span class="op">)</span>
 
 <span class="va">ftp_paths</span> <span class="op">&lt;-</span> 
@@ -147,34 +143,34 @@
 
 <span class="co"># or within R:</span>
 <span class="co"># set names to the desired path </span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ftp_paths</span><span class="op">)</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">'./data/'</span>,<span class="va">meta_filt</span><span class="op">$</span><span class="va">asm_acc</span>, <span class="st">'.fna'</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ftp_paths</span><span class="op">)</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'./data/'</span>,<span class="va">meta_filt</span><span class="op">$</span><span class="va">asm_acc</span>, <span class="st">'.fna'</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/funprog.html">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">u</span>, <span class="va">d</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span><span class="va">u</span>, <span class="va">d</span>, mode<span class="op">=</span><span class="st">"wb"</span><span class="op">)</span>, <span class="va">ftp_paths</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ftp_paths</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">u</span>, <span class="va">d</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="va">u</span>, <span class="va">d</span>, mode<span class="op">=</span><span class="st">"wb"</span><span class="op">)</span>, <span class="va">ftp_paths</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ftp_paths</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="generate-an-input-file-for-caclulating-a-pangenome-with-ppanggolin" class="section level4">
-<h4 class="hasAnchor">
-<a href="#generate-an-input-file-for-caclulating-a-pangenome-with-ppanggolin" class="anchor"></a>Generate an input file for caclulating a pangenome with <a href="https://github.com/labgem/PPanGGOLiN">ppanggolin</a>
+<div class="section level4">
+<h4 id="generate-an-input-file-for-caclulating-a-pangenome-with-ppanggolin">Generate an input file for caclulating a pangenome with <a href="https://github.com/labgem/PPanGGOLiN" class="external-link">ppanggolin</a>
+<a class="anchor" aria-label="anchor" href="#generate-an-input-file-for-caclulating-a-pangenome-with-ppanggolin"></a>
 </h4>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># if you have some reference genomes that are complete (circularized) you can </span>
 <span class="co"># feed their paths into the 'complete_genome_paths parameter and the function</span>
 <span class="co"># will correctly specify cirular contigs for ppanggolin.  </span>
 
-<span class="va">fna_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">'./data/'</span>, <span class="st">'.fna'</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
+<span class="va">fna_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">'./data/'</span>, <span class="st">'.fna'</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
 <span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/build_ppanggolin_file_fastas.html">build_ppanggolin_file_fastas</a></span><span class="op">(</span>incomplete_genome_paths <span class="op">=</span> <span class="va">fna_files</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">write_tsv</span><span class="op">(</span><span class="st">'ppanggolin_file.tsv'</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="select-a-representative-set-of-isolates-from-a-pangenome" class="section level4">
-<h4 class="hasAnchor">
-<a href="#select-a-representative-set-of-isolates-from-a-pangenome" class="anchor"></a>Select a representative set of isolates from a pangenome</h4>
+<div class="section level4">
+<h4 id="select-a-representative-set-of-isolates-from-a-pangenome">Select a representative set of isolates from a pangenome<a class="anchor" aria-label="anchor" href="#select-a-representative-set-of-isolates-from-a-pangenome"></a>
+</h4>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Read in presence/absence matrix and format correctly:</span>
 <span class="va">pan_PA</span> <span class="op">&lt;-</span>
   <span class="fu">read_tsv</span><span class="op">(</span><span class="st">'./pan/gene_presence_absence.Rtab'</span><span class="op">)</span>  <span class="op">%&gt;%</span> 
   <span class="fu">column_to_rownames</span><span class="op">(</span>var <span class="op">=</span> <span class="st">'Gene'</span><span class="op">)</span>  <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>  <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span>  <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># this will return a a small set of genomes that contain at least the proportion of</span>
 <span class="co"># genes you specify</span>
@@ -183,9 +179,9 @@
 <span class="fu"><a href="reference/get_pangenome_representatives.html">get_pangenome_representatives</a></span><span class="op">(</span>pan_mat <span class="op">=</span> <span class="va">pan_PA</span>, SEED <span class="op">=</span> <span class="fl">2</span>, desired_coverage <span class="op">=</span> <span class="fl">.99</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="todo" class="section level2">
-<h2 class="hasAnchor">
-<a href="#todo" class="anchor"></a>TODO</h2>
+<div class="section level2">
+<h2 id="todo">TODO<a class="anchor" aria-label="anchor" href="#todo"></a>
+</h2>
 <ul>
 <li>update_collection() function?
 <ul>
@@ -200,7 +196,7 @@
 <li>generate_SNPtree_urls</li>
 </ul>
 </li>
-<li>Reference README? <a href="https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt" class="uri">https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt</a>
+<li>Reference README? <a href="https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt" class="external-link uri">https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt</a>
 </li>
 </ul>
 </div>
@@ -209,29 +205,42 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small>GPL (&gt;= 3) + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Julian Trachsel <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/https://orcid.org/0000-0003-2357-7737" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html#citation">Citing pdtools</a></li>
 </ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Julian Trachsel <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/https://orcid.org/0000-0003-2357-7737" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Julian Trachsel.</p>
+  <p></p>
+<p>Developed by Julian Trachsel.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -239,6 +248,8 @@
 
   
 
+
+  
 
   </body>
 </html>
