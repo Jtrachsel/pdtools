@@ -4,6 +4,7 @@ reference:
 - title: Download helpers
 - contents:
   - list_PDGs
+  - list_organisms
   - download_PDD_metadata
   - download_most_recent_complete
   - find_most_recent_complete
@@ -14,6 +15,7 @@ reference:
 - contents:
   - extract_consensus_ag_species
   - return_earliest_year
+  - extract_collection_agency
 - title: Pangenome tools
 - contents:
   - build_ppanggolin_file_fastas
@@ -21,3 +23,5 @@ reference:
   - generate_pangenome
   - pan_mat_to_gene_vec_tibble
   - get_pangenome_representatives
+  - get_pangenome_representatives2
+  - remove_strict_core
