@@ -18,7 +18,7 @@ generate_pangenome(
 \item{core_genome_fraction}{fraction of genes that are part of the core genome}
 }
 \value{
-gene presence absence matrix (0/1), rows are genomes, columns are genes
+gene presence absence matrix (0/1), rows are genes, columns are genomes
 }
 \description{
 Generate a random synthetic pangenome gene presence absence matrix

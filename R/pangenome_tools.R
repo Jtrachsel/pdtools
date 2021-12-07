@@ -211,8 +211,8 @@ get_pangenome_representatives <-
 
 #' Removes genes present in all genomes from pangenome presence/absence matrix
 #'
-#' @param pan_PA
-#' @param rows_are_genes
+#' @param pan_PA a pangenome presence absence matrix
+#' @param rows_are_genes a logical indicating if genes are rows in the matrix
 #'
 #' @return returns a pangenome presence/absence matrix with the strict core removed
 #' @export
@@ -240,10 +240,10 @@ remove_strict_core <- function(pan_PA, rows_are_genes=NULL){
 
 #' Get pangenome representatives from a gene_vec_tibble
 #'
-#' @param gene_vec_tibble
-#' @param desired_coverage
-#' @param SEED
-#' @param best_possible_score
+#' @param gene_vec_tibble an object returned by pan_mat_to_gene_vec_tibble()
+#' @param desired_coverage proportion of gene content desired 0-1
+#' @param SEED random seed to use (for selecting 1st genome)
+#' @param best_possible_score to save time you can pre-calculate the best possible score (total gene content of pangenome)
 #'
 #' @return a list of 3; list(cumulative_genomes, scores, proportion_coverages)
 #' @export
