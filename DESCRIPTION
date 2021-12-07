@@ -1,6 +1,6 @@
 Package: pdtools
 Title: Tools to interact with NCBI's Pathogen Detection project
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: 
     person("Julian", "Trachsel", , "julestrachsel@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "https://orcid.org/0000-0003-2357-7737"))

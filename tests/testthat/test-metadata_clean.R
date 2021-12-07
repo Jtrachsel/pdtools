@@ -44,3 +44,14 @@ test_that('return_earliest_year adds an appropriate year column',{
 
 
   })
+
+
+test_that('extract_collection_agency() extracts the appropriate values',{
+  test <- klebsiella_example_dat |>
+          extract_collection_agency() |>
+          dplyr::pull() |>
+          base::unique()
+  expect_equal(test, 'CDC')
+
+
+})

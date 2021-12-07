@@ -103,3 +103,37 @@ return_earliest_year <- function(PDD_metadata_table){
   return(result)
 
 }
+
+
+
+
+#' extract collecting agency from several metadata fields
+#'
+#' @param meta an ncbi pathogen detection metadata table
+#'
+#' @return a tibble with 2 columns, 1 = target_acc, 2 = collection_agency
+#' @export
+#'
+#' @examples klebsiella_example_dat |> extract_collection_agency()
+extract_collection_agency <-
+  function(meta){
+  pattern_vec <-
+    base::c(CDC="CDC|Center for Disease Control",
+            FDA="FDA|Food and Drug Administration",
+            FSIS="FSIS|Food Saftey Inspection Service",
+            USDA="USDA|United States? Department of Agriculture")
+
+  first_pass <-
+    meta |>
+    dplyr::transmute(target_acc=.data$target_acc,
+                     search_vals=base::paste(.data$collected_by, .data$bioproject_center, sep = '_')) |>
+    dplyr::mutate(collection_agency=purrr::map_chr(.x = .data$search_vals, ~return_ag_match(pattern_vec, search_string = .x)))
+
+  finished <- first_pass |>
+    dplyr::filter(.data$collection_agency != '') |>
+    dplyr::select(.data$target_acc, .data$collection_agency)
+  return(finished)
+}
+
+
+
