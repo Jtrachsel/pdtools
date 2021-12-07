@@ -93,7 +93,7 @@ generate_genome_vector <- function(genome_name, num_genes, core_genome_fraction=
 #' @param num_genes number of genes the matrix will contain
 #' @param core_genome_fraction fraction of genes that are part of the core genome
 #'
-#' @return gene presence absence matrix (0/1), rows are genomes, columns are genes
+#' @return gene presence absence matrix (0/1), rows are genes, columns are genomes
 #' @export
 #'
 #' @examples generate_pangenome()
@@ -106,7 +106,8 @@ generate_pangenome <- function(num_genomes=100, num_genes=1000, core_genome_frac
     dplyr::bind_rows() |>
     tidyr::pivot_wider(names_from = .data$gene_name, values_from = .data$gene_presence) |>
     tibble::column_to_rownames(var='genome_name') |>
-    base::as.matrix()
+    base::as.matrix() |>
+    t()
   return(pangenome_matrix)
 }
 
@@ -125,12 +126,14 @@ generate_pangenome <- function(num_genomes=100, num_genes=1000, core_genome_frac
 #' @examples #pan_mat_to_gene_vec_tibble(pangenome_presence_absence_matrix)
 #'
 pan_mat_to_gene_vec_tibble <- function(pan_mat){
-# browser()
+  # browser()
+
+  # expects genes as columns...
   gene_vec_tibble <-
     base::apply(pan_mat > 0,
-          1,
+          2,
           function(logical_vec, char_vec){char_vec[logical_vec]},
-          base::colnames(pan_mat)) |>
+          base::rownames(pan_mat)) |>
     tibble::enframe(name = 'genome_name',
                     value = 'gene_vec')
   return(gene_vec_tibble)
@@ -159,7 +162,7 @@ get_pangenome_representatives <-
     genomes <- pan_mat_to_gene_vec_tibble(pan_mat)
 
     # random starting genome
-    rep_genome_index <- base::sample(1:nrow(pan_mat), size = 1)
+    rep_genome_index <- base::sample(1:nrow(genomes), size = 1)
 
     # starting pangenome
     cumulative_pan <- genomes$gene_vec[[rep_genome_index]]
@@ -169,8 +172,8 @@ get_pangenome_representatives <-
     genomes <- genomes[-rep_genome_index,]
 
     # best score = total number of genes in pangenome
-    best_score <- base::ncol(pan_mat)
-    tot_genomes <- base::nrow(pan_mat)
+    best_score <- base::nrow(pan_mat)
+    tot_genomes <- base::col(pan_mat)
     desired_score <- best_score * desired_coverage
 
     print(base::paste(tot_genomes, 'total genomes'))
@@ -183,13 +186,14 @@ get_pangenome_representatives <-
     while (score < desired_score){
 
       # calculates the number of new genes each genome would contribute to the cumulative pangenome
-      # arranges the genomes by the number of new genes they would contribute
+      # filters the genomes to only those that contain the max number of new genes for that iteration
       # selects the first one and adds it to the cumulative pangenome.
       best_addition_genome <-
         genomes |>
         dplyr::mutate(num_new=purrr::map_int(.x = .data$gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) |>
-        dplyr::arrange(dplyr::desc(.data$num_new)) |>
-        dplyr::slice_head(n = 1)
+        dplyr::filter(num_new == max(num_new)) |>
+        # dplyr::arrange(dplyr::desc(.data$num_new)) |>
+        dplyr::slice_sample(n = 1)
 
       cumulative_pan <- base::c(cumulative_pan, best_addition_genome$gene_vec[[1]]) |> base::unique()
       cumulative_genomes <- base::c(cumulative_genomes, best_addition_genome$genome_name[[1]])
@@ -205,14 +209,46 @@ get_pangenome_representatives <-
 # genomes <- pan_mat_to_gene_vec_tibble(pan_mat)
 
 
-remove_strict_core <- function(pan_PA){
+#' Removes genes present in all genomes from pangenome presence/absence matrix
+#'
+#' @param pan_PA
+#' @param rows_are_genes
+#'
+#' @return returns a pangenome presence/absence matrix with the strict core removed
+#' @export
+#'
+#' @examples generate_pangenome() |> remove_strict_core()
+remove_strict_core <- function(pan_PA, rows_are_genes=NULL){
+  # check that strict core exists first!
 
-  pan_PA_strict_core_removed <- pan_PA[,colSums(pan_PA) != max(colSums(pan_PA))]
+
+  if (is.null(rows_are_genes)){
+    print('you did not specify if rows or columns are genes')
+    rows_are_genes <- ifelse(nrow(pan_PA) > ncol(pan_PA), TRUE, FALSE)
+    print(paste('I think rows_are_genes =', rows_are_genes))
+  }
+
+  if (rows_are_genes){
+    pan_PA_strict_core_removed <- pan_PA[rowSums(pan_PA) != ncol(pan_PA),]
+  } else {
+    pan_PA_strict_core_removed <- pan_PA[,colSums(pan_PA) != nrow(pan_PA)]
+    }
   return(pan_PA_strict_core_removed)
 
 }
 
 
+#' Get pangenome representatives from a gene_vec_tibble
+#'
+#' @param gene_vec_tibble
+#' @param desired_coverage
+#' @param SEED
+#' @param best_possible_score
+#'
+#' @return a list of 3; list(cumulative_genomes, scores, proportion_coverages)
+#' @export
+#'
+#' @examples generate_pangenome() |> pan_mat_to_gene_vec_tibble() |> get_pangenome_representatives2()
 get_pangenome_representatives2 <-
   function(gene_vec_tibble, desired_coverage=.95, SEED=3, best_possible_score=NULL){
     # hopefully get smallest set of genomes that gives desired coverage of pangenome
@@ -260,11 +296,11 @@ get_pangenome_representatives2 <-
         gene_vec_tibble |>
         dplyr::mutate(num_new=purrr::map_int(.x = .data$gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) |>
         # dplyr::arrange(dplyr::desc(.data$num_new)) |>
-        filter(num_new == max(num_new)) |>
+        dplyr::filter(num_new == max(num_new)) |>
         dplyr::slice_sample(n = 1)
 
       # remove selected genome from remaining genomes
-      gene_vec_tibble <- gene_vec_tibble %>% filter(genome_name != best_addition_genome$genome_name)
+      gene_vec_tibble <- gene_vec_tibble %>% dplyr::filter(genome_name != best_addition_genome$genome_name)
 
       cumulative_pan <- base::c(cumulative_pan, best_addition_genome$gene_vec[[1]]) |> base::unique()
       cumulative_genomes <- base::c(cumulative_genomes, best_addition_genome$genome_name[[1]])
