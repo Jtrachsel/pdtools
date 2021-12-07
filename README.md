@@ -35,7 +35,7 @@ system('mkdir data')
 pdtools::download_most_recent_complete('Campylobacter', folder_prefix = './data/')
 ```
 
-#### Extract the earliest year from all date fields:
+#### Join downloads: metadata and SNP clusters
 
 ``` r
 # The names of these files will change based on the most recent complete data
