@@ -131,7 +131,7 @@ extract_collection_agency <-
 
   finished <- first_pass |>
     dplyr::filter(.data$collection_agency != '') |>
-    dplyr::select(target_acc, collection_agency)
+    dplyr::select(.data$target_acc, .data$collection_agency)
   return(finished)
 }
 

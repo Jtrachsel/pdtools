@@ -191,7 +191,7 @@ get_pangenome_representatives <-
       best_addition_genome <-
         genomes |>
         dplyr::mutate(num_new=purrr::map_int(.x = .data$gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) |>
-        dplyr::filter(num_new == max(num_new)) |>
+        dplyr::filter(.data$num_new == max(.data$num_new)) |>
         # dplyr::arrange(dplyr::desc(.data$num_new)) |>
         dplyr::slice_sample(n = 1)
 
@@ -222,16 +222,16 @@ remove_strict_core <- function(pan_PA, rows_are_genes=NULL){
   # check that strict core exists first!
 
 
-  if (is.null(rows_are_genes)){
-    print('you did not specify if rows or columns are genes')
-    rows_are_genes <- ifelse(nrow(pan_PA) > ncol(pan_PA), TRUE, FALSE)
-    print(paste('I think rows_are_genes =', rows_are_genes))
+  if (base::is.null(rows_are_genes)){
+    base::print('you did not specify if rows or columns are genes')
+    rows_are_genes <- base::ifelse(base::nrow(pan_PA) > base::ncol(pan_PA), TRUE, FALSE)
+    base::print(base::paste('I think rows_are_genes =', rows_are_genes))
   }
 
   if (rows_are_genes){
-    pan_PA_strict_core_removed <- pan_PA[rowSums(pan_PA) != ncol(pan_PA),]
+    pan_PA_strict_core_removed <- pan_PA[base::rowSums(pan_PA) != base::ncol(pan_PA),]
   } else {
-    pan_PA_strict_core_removed <- pan_PA[,colSums(pan_PA) != nrow(pan_PA)]
+    pan_PA_strict_core_removed <- pan_PA[,base::colSums(pan_PA) != base::nrow(pan_PA)]
     }
   return(pan_PA_strict_core_removed)
 
@@ -256,16 +256,16 @@ get_pangenome_representatives2 <-
 
     # can save time by providing the best possible score
     # which will be total number of genes in not strict core genome
-    if(is.null(best_possible_score)){
-      print('calculating total number of genes, you can speed this up if you supply the best_possible_score parameter')
+    if(base::is.null(best_possible_score)){
+      base::print('calculating total number of genes, you can speed this up if you supply the best_possible_score parameter')
       best_possible_score <-
-        purrr::reduce(gene_vec_tibble$gene_vec, ~c(.x, .y) |> unique()) |>
-        length()
+        purrr::reduce(gene_vec_tibble$gene_vec, ~base::c(.x, .y) |> base::unique()) |>
+        base::length()
     }
 
     # gene_vec_tibble
     # random starting genome
-    chosen_genome_index <- base::sample(1:nrow(gene_vec_tibble), size = 1)
+    chosen_genome_index <- base::sample(1:base::nrow(gene_vec_tibble), size = 1)
 
     # starting pangenome
     cumulative_pan <- gene_vec_tibble$gene_vec[[chosen_genome_index]]
@@ -279,14 +279,14 @@ get_pangenome_representatives2 <-
     tot_genomes <- base::nrow(gene_vec_tibble)
     desired_score <- best_score * desired_coverage
 
-    print(base::paste(tot_genomes, 'total genomes'))
-    print(base::paste(best_score, '= best possible score'))
-    print(base::paste(desired_coverage, '= desired coverage'))
-    print(base::paste(desired_score, '= desired score'))
+    base::print(base::paste(tot_genomes, 'total genomes'))
+    base::print(base::paste(best_score, '= best possible score'))
+    base::print(base::paste(desired_coverage, '= desired coverage'))
+    base::print(base::paste(desired_score, '= desired score'))
 
     score <- base::length(cumulative_pan)
     scores <- base::c(score)
-    print(base::paste0('starting score = ', score))
+    base::print(base::paste0('starting score = ', score))
     while (score < desired_score){
 
       # calculates the number of new genes each genome would contribute to the cumulative pangenome
@@ -296,11 +296,11 @@ get_pangenome_representatives2 <-
         gene_vec_tibble |>
         dplyr::mutate(num_new=purrr::map_int(.x = .data$gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) |>
         # dplyr::arrange(dplyr::desc(.data$num_new)) |>
-        dplyr::filter(num_new == max(num_new)) |>
+        dplyr::filter(.data$num_new == max(.data$num_new)) |>
         dplyr::slice_sample(n = 1)
 
       # remove selected genome from remaining genomes
-      gene_vec_tibble <- gene_vec_tibble %>% dplyr::filter(genome_name != best_addition_genome$genome_name)
+      gene_vec_tibble <- gene_vec_tibble |> dplyr::filter(.data$genome_name != best_addition_genome$genome_name)
 
       cumulative_pan <- base::c(cumulative_pan, best_addition_genome$gene_vec[[1]]) |> base::unique()
       cumulative_genomes <- base::c(cumulative_genomes, best_addition_genome$genome_name[[1]])
