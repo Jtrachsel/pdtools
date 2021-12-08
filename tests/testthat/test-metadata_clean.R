@@ -1,6 +1,6 @@
 
 
-test_that('return_ag_match returns expected species',{
+test_that('matches_from_vector_of_patterns returns expected species',{
   ag_patterns <-
     c(Swine="swine|pork|porcine|sow|sus|hog|pig|scrofa",
       Bovine="bovine|beef|veal|cow|cattle|bos|steer|taurus|calf|bull|dairy|milk",
@@ -14,7 +14,7 @@ test_that('return_ag_match returns expected species',{
       Sheep="\\bovine|sheep|lamb",
       Duck="duck",
       Goose='goose')
-  expect_equal(pdtools:::return_ag_match(pattern_vec = ag_patterns, search_string = 'beef_pork'),
+  expect_equal(pdtools:::matches_from_vector_of_patterns(pattern_vec = ag_patterns, search_string = 'beef_pork'),
                'Swine_Bovine'
 )
   })
