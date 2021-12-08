@@ -1,7 +1,5 @@
 pdtools
 ================
-Julian Trachsel
-11/16/2021
 
 ## Installation
 
@@ -21,6 +19,12 @@ Detection project](https://www.ncbi.nlm.nih.gov/pathogens/)
 <https://jtrachsel.github.io/pdtools/index.html>
 
 ## Examples
+
+#### List available organisms
+
+``` r
+pdtools::list_organisms()
+```
 
 #### Download the most recent metadata for an organism:
 
@@ -105,8 +109,7 @@ pdtools::build_ppanggolin_file_fastas(incomplete_genome_paths = fna_files) %>%
 pan_PA <-
   read_tsv('./pan/gene_presence_absence.Rtab')  %>% 
   column_to_rownames(var = 'Gene')  %>% 
-  as.matrix()  %>% 
-  t()
+  as.matrix() 
 
 # this will return a a small set of genomes that contain at least the proportion of
 # genes you specify
