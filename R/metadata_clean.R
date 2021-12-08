@@ -9,8 +9,10 @@
 #'
 #'
 #' @examples #pat_vec <- c(Swine='hog|swine|sow'); pdtools:::return_ag_match(pattern_vec=pat_vec, 'Hog')
+#' @noRd
 #'
 matches_from_vector_of_patterns <-
+
   function(pattern_vec, search_string){
     # was return_ag_match()
     # browser()

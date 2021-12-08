@@ -23,9 +23,11 @@ Detection project](https://www.ncbi.nlm.nih.gov/pathogens/)
 #### List available organisms
 
 ``` r
+
 library(pdtools)
 
 list_organisms()
+
 ```
 
 #### Download the most recent metadata for an organism:
@@ -35,7 +37,8 @@ system('mkdir data')
 download_most_recent_complete('Campylobacter', folder_prefix = './data/')
 ```
 
-#### Join the downloaded files
+
+#### Join downloads: metadata and SNP clusters
 
 ``` r
 # The names of these files will change based on the most recent complete data

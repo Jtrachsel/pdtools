@@ -151,6 +151,7 @@ check_complete_PDG <- function(organism, PDG){
 #'
 #' @examples #ftp_paths <- ftp_paths_from_assem_sum('./data/assembly_summary.txt')
 #' @importFrom rlang .data
+#' @noRd
 ftp_paths_from_assem_sum <- function(filename){
   # browser()
   dat <- readr::read_tsv(filename, skip=1) |>
