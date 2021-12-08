@@ -22,6 +22,9 @@
     <loc>/reference/check_complete_PDG.html</loc>
   </url>
   <url>
+    <loc>/reference/country_vector.html</loc>
+  </url>
+  <url>
     <loc>/reference/download_PDD_metadata.html</loc>
   </url>
   <url>
@@ -32,6 +35,12 @@
   </url>
   <url>
     <loc>/reference/extract_consensus_ag_species.html</loc>
+  </url>
+  <url>
+    <loc>/reference/extract_country.html</loc>
+  </url>
+  <url>
+    <loc>/reference/extract_earliest_year.html</loc>
   </url>
   <url>
     <loc>/reference/find_most_recent_complete.html</loc>
@@ -71,8 +80,5 @@
   </url>
   <url>
     <loc>/reference/remove_strict_core.html</loc>
-  </url>
-  <url>
-    <loc>/reference/return_earliest_year.html</loc>
   </url>
 </urlset>

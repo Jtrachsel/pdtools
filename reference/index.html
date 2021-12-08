@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pdtools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@
         </td>
         <td><p>Extract a consensus ag host species from metadata</p></td>
       </tr><tr><td>
-          <p><code><a href="return_earliest_year.html">return_earliest_year()</a></code> </p>
+          <p><code><a href="extract_earliest_year.html">extract_earliest_year()</a></code> </p>
         </td>
         <td><p>return a Year column containing the earliest year from the
 available 'date' fields.</p></td>
@@ -90,6 +90,10 @@ available 'date' fields.</p></td>
           <p><code><a href="extract_collection_agency.html">extract_collection_agency()</a></code> </p>
         </td>
         <td><p>extract collecting agency from several metadata fields</p></td>
+      </tr><tr><td>
+          <p><code><a href="extract_country.html">extract_country()</a></code> </p>
+        </td>
+        <td><p>Extract a standardized country name from geo_loc_tag column</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="pangenome-tools">Pangenome tools <a href="#pangenome-tools" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
@@ -123,13 +127,17 @@ available 'date' fields.</p></td>
         </td>
         <td><p>Removes genes present in all genomes from pangenome presence/absence matrix</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
-          <h2 id="example-data">Example data <a href="#example-data" class="anchor" aria-hidden="true"></a></h2>
+          <h2 id="data">Data <a href="#data" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
       </tr></tbody><tbody><tr><td>
           <p><code><a href="klebsiella_example_dat.html">klebsiella_example_dat</a></code> </p>
         </td>
-        <td><p>NCBI Pathogen Detection metadata for 100 Klebsiella isolates</p></td>
+        <td><p>NCBI Pathogen Detection metadata for 200 Klebsiella isolates</p></td>
+      </tr><tr><td>
+          <p><code><a href="country_vector.html">country_vector</a></code> </p>
+        </td>
+        <td><p>A named vector of country names</p></td>
       </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

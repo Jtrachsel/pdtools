@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pdtools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
@@ -60,7 +60,6 @@
 <div class="section level1">
 <div class="page-header"><h1 id="pdtools">pdtools<a class="anchor" aria-label="anchor" href="#pdtools"></a>
 </h1></div>
-<p>Julian Trachsel 11/16/2021</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -82,14 +81,17 @@
 <h4 id="list-available-organisms">List available organisms<a class="anchor" aria-label="anchor" href="#list-available-organisms"></a>
 </h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/list_organisms.html">list_organisms</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pdtools</span><span class="op">)</span>
+
+<span class="fu"><a href="reference/list_organisms.html">list_organisms</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="download-the-most-recent-metadata-for-an-organism">Download the most recent metadata for an organism:<a class="anchor" aria-label="anchor" href="#download-the-most-recent-metadata-for-an-organism"></a>
 </h4>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span><span class="st">'mkdir data'</span><span class="op">)</span>
-<span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/download_most_recent_complete.html">download_most_recent_complete</a></span><span class="op">(</span><span class="st">'Campylobacter'</span>, folder_prefix <span class="op">=</span> <span class="st">'./data/'</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="reference/download_most_recent_complete.html">download_most_recent_complete</a></span><span class="op">(</span><span class="st">'Campylobacter'</span>, folder_prefix <span class="op">=</span> <span class="st">'./data/'</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="join-downloads-metadata-and-snp-clusters">Join downloads: metadata and SNP clusters<a class="anchor" aria-label="anchor" href="#join-downloads-metadata-and-snp-clusters"></a>
@@ -105,7 +107,7 @@
 </h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create a two column tibble containing consensus host for each isolate</span>
-<span class="va">host_info</span> <span class="op">&lt;-</span> <span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/extract_consensus_ag_species.html">extract_consensus_ag_species</a></span><span class="op">(</span><span class="va">meta</span><span class="op">)</span>
+<span class="va">host_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_consensus_ag_species.html">extract_consensus_ag_species</a></span><span class="op">(</span><span class="va">meta</span><span class="op">)</span>
 
 <span class="co"># join back to metadata</span>
 <span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">host_info</span><span class="op">)</span></code></pre></div>
@@ -114,7 +116,7 @@
 <h4 id="extract-earliest-year-from-3-date-columns">Extract earliest year from 3 date columns<a class="anchor" aria-label="anchor" href="#extract-earliest-year-from-3-date-columns"></a>
 </h4>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">earliest_year</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="va">pdtools</span><span class="op">:</span><span class="fu"><a href="reference/return_earliest_year.html">return_earliest_year</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">earliest_year</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/extract_earliest_year.html">extract_earliest_year</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">earliest_year</span><span class="op">)</span></code></pre></div>
 </div>
@@ -134,7 +136,7 @@
 
 <span class="va">ftp_paths</span> <span class="op">&lt;-</span> 
   <span class="va">meta_filt</span> <span class="op">%&gt;%</span> 
-  <span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/make_fna_urls.html">make_fna_urls</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">asm_acc</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/make_fna_urls.html">make_fna_urls</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">asm_acc</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">write_lines</span><span class="op">(</span><span class="st">'./data/ftp_download_paths.txt'</span><span class="op">)</span>
 
 <span class="co"># download from the command line:</span>
@@ -158,7 +160,7 @@
 
 <span class="va">fna_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">'./data/'</span>, <span class="st">'.fna'</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
-<span class="fu">pdtools</span><span class="fu">::</span><span class="fu"><a href="reference/build_ppanggolin_file_fastas.html">build_ppanggolin_file_fastas</a></span><span class="op">(</span>incomplete_genome_paths <span class="op">=</span> <span class="va">fna_files</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="fu"><a href="reference/build_ppanggolin_file_fastas.html">build_ppanggolin_file_fastas</a></span><span class="op">(</span>incomplete_genome_paths <span class="op">=</span> <span class="va">fna_files</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">write_tsv</span><span class="op">(</span><span class="st">'ppanggolin_file.tsv'</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level4">
@@ -169,8 +171,7 @@
 <span class="va">pan_PA</span> <span class="op">&lt;-</span>
   <span class="fu">read_tsv</span><span class="op">(</span><span class="st">'./pan/gene_presence_absence.Rtab'</span><span class="op">)</span>  <span class="op">%&gt;%</span> 
   <span class="fu">column_to_rownames</span><span class="op">(</span>var <span class="op">=</span> <span class="st">'Gene'</span><span class="op">)</span>  <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span>  <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span> 
 
 <span class="co"># this will return a a small set of genomes that contain at least the proportion of</span>
 <span class="co"># genes you specify</span>
@@ -188,14 +189,11 @@
 <li>Should take and old metadata file and a new metadata file as inputs.<br>
 </li>
 <li>return a vector of new genomes that were not present in the old list.</li>
-<li>also return genomes with newer assembly accession version</li>
+<li>also return genomes with newer assembly accession version<br>
+</li>
 </ul>
 </li>
-<li>Download_SNP_trees
-<ul>
-<li>generate_SNPtree_urls</li>
-</ul>
-</li>
+<li>extract_consensus_ag_species currently assumes isolates are from humans if the epi_type is clinical and no other information is available. This is probably wrong in some cases…</li>
 <li>Reference README? <a href="https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt" class="external-link uri">https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt</a>
 </li>
 </ul>
