@@ -10,11 +10,16 @@
 #'
 #' @examples #pat_vec <- c(Swine='hog|swine|sow'); pdtools:::return_ag_match(pattern_vec=pat_vec, 'Hog')
 #'
-return_ag_match <-
-  function(pattern_vec, search_string){
+matches_from_vector_of_patterns <-
+  function(pattern_vec, search_string, parallel){
+    # was return_ag_match()
     # browser()
-  match_vec <- purrr::map(.x =pattern_vec, .f=~base::grepl(.x, search_string, ignore.case = TRUE)) |>
-    base::unlist()
+    if (parallel){
+      match_vec <- furrr::future_map_lgl(.x =pattern_vec, .f=~base::grepl(.x, search_string, ignore.case = TRUE))
+    } else{
+      match_vec <- purrr::map_lgl(.x =pattern_vec, .f=~base::grepl(.x, search_string, ignore.case = TRUE))
+    }
+
 
   res <- names(match_vec)[match_vec] |>
     base::paste(collapse = '_')
@@ -51,7 +56,7 @@ extract_consensus_ag_species <- function(dat){
     dat |>
     dplyr::transmute(target_acc=.data$target_acc,
               search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) |>
-    dplyr::mutate(ag_match=purrr::map_chr(.x = .data$search_vals, ~return_ag_match(pattern_vec, search_string = .x)))
+    dplyr::mutate(ag_match=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
 
     finished <- first_pass |>
       dplyr::filter(.data$ag_match != '')
@@ -87,10 +92,10 @@ extract_consensus_ag_species <- function(dat){
 #' @return returns the a tibble with a `Year` column,
 #' @export
 #'
-#' @examples return_earliest_year(klebsiella_example_dat)
+#' @examples extract_earliest_year(klebsiella_example_dat)
 #' @importFrom rlang .data
-return_earliest_year <- function(PDD_metadata_table){
-
+extract_earliest_year <- function(PDD_metadata_table){
+  # was return_earliest_year
     result <-
     PDD_metadata_table |>
     dplyr::select(.data$target_acc, dplyr::ends_with('date')) |>
@@ -127,7 +132,7 @@ extract_collection_agency <-
     meta |>
     dplyr::transmute(target_acc=.data$target_acc,
                      search_vals=base::paste(.data$collected_by, .data$bioproject_center, sep = '_')) |>
-    dplyr::mutate(collection_agency=purrr::map_chr(.x = .data$search_vals, ~return_ag_match(pattern_vec, search_string = .x)))
+    dplyr::mutate(collection_agency=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
 
   finished <- first_pass |>
     dplyr::filter(.data$collection_agency != '') |>
@@ -135,5 +140,19 @@ extract_collection_agency <-
   return(finished)
 }
 
+extract_country <- function(meta){
+  # return an acceptable country column from a metadata table
 
+  pattern_vec <- pdtools::country_vector
+  first_pass <-
+    meta |>
+    dplyr::transmute(target_acc=.data$target_acc,
+                     search_vals=base::tolower(.data$geo_loc_name)) |>
+    dplyr::mutate(country=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(parallel=parallel, pattern_vec, search_string = .x)))
 
+  finished <- first_pass |>
+    dplyr::filter(.data$country != '') |>
+    dplyr::select(.data$target_acc, .data$country)
+  return(finished)
+
+}

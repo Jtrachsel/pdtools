@@ -19,11 +19,33 @@ usethis::use_data(klebsiella_example_dat, overwrite = TRUE)
 
 #######
 
-curl::curl_download('https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt',
+curl::curl_download('https://ftp.ncbi.nlm.nih.gov/genomes/ASSEMBLY_REPORTS/assembly_summary_genbank.txt',
                     destfile = './data/assembly_summary.txt')
 
 
 assembly_summary_example <- read_tsv('./data/assembly_summary.txt', skip=1) |>
   filter(`# assembly_accession` %in% klebsiella_example_dat$asm_acc)
 
+
+
+
+#### country vector #####
+library(tidyverse)
+library(maps)
+
+country_vector <-
+  world.cities$country.etc %>%
+  unique() %>%
+  sort()
+
+names(country_vector) <- country_vector
+
+country_vector <-
+  country_vector %>%
+  sub('UK', 'UK|United Kingdom', .) %>%
+  sub('USA', 'USA|United States|United States of America', .)
+
+names(country_vector)
+
+usethis::use_data(country_vector, overwrite = TRUE)
 
