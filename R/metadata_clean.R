@@ -11,15 +11,11 @@
 #' @examples #pat_vec <- c(Swine='hog|swine|sow'); pdtools:::return_ag_match(pattern_vec=pat_vec, 'Hog')
 #'
 matches_from_vector_of_patterns <-
-  function(pattern_vec, search_string, parallel){
+  function(pattern_vec, search_string){
     # was return_ag_match()
     # browser()
-    if (parallel){
-      match_vec <- furrr::future_map_lgl(.x =pattern_vec, .f=~base::grepl(.x, search_string, ignore.case = TRUE))
-    } else{
-      match_vec <- purrr::map_lgl(.x =pattern_vec, .f=~base::grepl(.x, search_string, ignore.case = TRUE))
-    }
 
+  match_vec <- purrr::map_lgl(.x =pattern_vec, .f=~base::grepl(.x, search_string, ignore.case = TRUE))
 
   res <- names(match_vec)[match_vec] |>
     base::paste(collapse = '_')
@@ -30,13 +26,14 @@ matches_from_vector_of_patterns <-
 #' Extract a consensus ag host species from metadata
 #'
 #' @param dat an ncbi pathogen detection metadata table
+#' @param parallel boolean, should furrr be used to parallelize? need to set your future::plan()
 #'
 #' @return returns a tibble of 2 columns, 1st = target_acc, 2nd = ag_match
 #' @export
 #'
 #' @examples extract_consensus_ag_species(klebsiella_example_dat)
 #' @importFrom rlang .data
-extract_consensus_ag_species <- function(dat){
+extract_consensus_ag_species <- function(dat, parallel=FALSE){
   # browser()
   pattern_vec <-
     base::c(Swine="swine|pork|porcine|sow|sus|hog|pig|scrofa",
@@ -52,11 +49,23 @@ extract_consensus_ag_species <- function(dat){
       Duck="duck",
       Goose='goose')
 
-  first_pass <-
-    dat |>
-    dplyr::transmute(target_acc=.data$target_acc,
-              search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) |>
-    dplyr::mutate(ag_match=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
+  if (parallel){
+    first_pass <-
+      dat |>
+      dplyr::transmute(target_acc=.data$target_acc,
+                       search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) |>
+      dplyr::mutate(ag_match=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
+
+
+  } else {
+    first_pass <-
+      dat |>
+      dplyr::transmute(target_acc=.data$target_acc,
+                       search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) |>
+      dplyr::mutate(ag_match=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
+
+
+  }
 
     finished <- first_pass |>
       dplyr::filter(.data$ag_match != '')
@@ -115,24 +124,38 @@ extract_earliest_year <- function(PDD_metadata_table){
 #' extract collecting agency from several metadata fields
 #'
 #' @param meta an ncbi pathogen detection metadata table
+#' @param parallel boolean, should furrr be used to parallelize? need to set your future::plan()
 #'
 #' @return a tibble with 2 columns, 1 = target_acc, 2 = collection_agency
 #' @export
 #'
 #' @examples klebsiella_example_dat |> extract_collection_agency()
 extract_collection_agency <-
-  function(meta){
+  function(meta, parallel=FALSE){
   pattern_vec <-
     base::c(CDC="CDC|Center for Disease Control",
             FDA="FDA|Food and Drug Administration",
             FSIS="FSIS|Food Saftey Inspection Service",
             USDA="USDA|United States? Department of Agriculture")
 
-  first_pass <-
-    meta |>
-    dplyr::transmute(target_acc=.data$target_acc,
-                     search_vals=base::paste(.data$collected_by, .data$bioproject_center, sep = '_')) |>
-    dplyr::mutate(collection_agency=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
+
+
+  if (parallel){
+    first_pass <-
+      meta |>
+      dplyr::transmute(target_acc=.data$target_acc,
+                       search_vals=base::paste(.data$collected_by, .data$bioproject_center, sep = '_')) |>
+      dplyr::mutate(collection_agency=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
+
+  } else {
+    first_pass <-
+      meta |>
+      dplyr::transmute(target_acc=.data$target_acc,
+                       search_vals=base::paste(.data$collected_by, .data$bioproject_center, sep = '_')) |>
+      dplyr::mutate(collection_agency=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
+
+  }
+
 
   finished <- first_pass |>
     dplyr::filter(.data$collection_agency != '') |>
@@ -140,15 +163,35 @@ extract_collection_agency <-
   return(finished)
 }
 
-extract_country <- function(meta){
+#' Extract a standardized country name from geo_loc_tag column
+#'
+#' @param meta A PDD metadata table
+#' @param parallel boolean, should furrr be used to parallelize? need to set your future::plan()
+#'
+#' @return a two column tibble with target_acc and country as columns
+#' @export
+#'
+#' @examples klebsiella_example_dat |> extract_country()
+extract_country <- function(meta, parallel=FALSE){
   # return an acceptable country column from a metadata table
 
   pattern_vec <- pdtools::country_vector
-  first_pass <-
-    meta |>
-    dplyr::transmute(target_acc=.data$target_acc,
-                     search_vals=base::tolower(.data$geo_loc_name)) |>
-    dplyr::mutate(country=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(parallel=parallel, pattern_vec, search_string = .x)))
+
+  if (parallel){
+    first_pass <-
+      meta |>
+      dplyr::transmute(target_acc=.data$target_acc,
+                       search_vals=base::tolower(.data$geo_loc_name)) |>
+      dplyr::mutate(country=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
+
+  } else {
+    first_pass <-
+      meta |>
+      dplyr::transmute(target_acc=.data$target_acc,
+                       search_vals=base::tolower(.data$geo_loc_name)) |>
+      dplyr::mutate(country=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
+
+  }
 
   finished <- first_pass |>
     dplyr::filter(.data$country != '') |>

@@ -4,10 +4,12 @@
 \alias{extract_consensus_ag_species}
 \title{Extract a consensus ag host species from metadata}
 \usage{
-extract_consensus_ag_species(dat)
+extract_consensus_ag_species(dat, parallel = FALSE)
 }
 \arguments{
 \item{dat}{an ncbi pathogen detection metadata table}
+
+\item{parallel}{boolean, should furrr be used to parallelize? need to set your future::plan()}
 }
 \value{
 returns a tibble of 2 columns, 1st = target_acc, 2nd = ag_match

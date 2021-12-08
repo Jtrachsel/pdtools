@@ -4,7 +4,7 @@
 \alias{matches_from_vector_of_patterns}
 \title{Return a string of names of the matching regex patterns}
 \usage{
-matches_from_vector_of_patterns(pattern_vec, search_string, parallel)
+matches_from_vector_of_patterns(pattern_vec, search_string)
 }
 \arguments{
 \item{pattern_vec}{a named vector of regex patterns to use}
