@@ -1,7 +1,5 @@
 pdtools
 ================
-Julian Trachsel
-11/16/2021
 
 ## Installation
 
@@ -25,15 +23,20 @@ Detection project](https://www.ncbi.nlm.nih.gov/pathogens/)
 #### List available organisms
 
 ``` r
-pdtools::list_organisms()
+
+library(pdtools)
+
+list_organisms()
+
 ```
 
 #### Download the most recent metadata for an organism:
 
 ``` r
 system('mkdir data')
-pdtools::download_most_recent_complete('Campylobacter', folder_prefix = './data/')
+download_most_recent_complete('Campylobacter', folder_prefix = './data/')
 ```
+
 
 #### Join downloads: metadata and SNP clusters
 
@@ -48,7 +51,7 @@ meta <- readr::read_tsv('./data/PDG000000003.1540.amr.metadata.tsv') %>%
 
 ``` r
 # create a two column tibble containing consensus host for each isolate
-host_info <- pdtools::extract_consensus_ag_species(meta)
+host_info <- extract_consensus_ag_species(meta)
 
 # join back to metadata
 meta <- meta %>% left_join(host_info)
@@ -57,7 +60,7 @@ meta <- meta %>% left_join(host_info)
 #### Extract earliest year from 3 date columns
 
 ``` r
-earliest_year <- meta %>% pdtools:return_earliest_year()
+earliest_year <- meta %>% extract_earliest_year()
 
 meta <- meta %>% left_join(earliest_year)
 ```
@@ -77,7 +80,7 @@ meta_filt <-
 
 ftp_paths <- 
   meta_filt %>% 
-  pdtools::make_fna_urls(.$asm_acc) %>% 
+  make_fna_urls(.$asm_acc) %>% 
   write_lines('./data/ftp_download_paths.txt')
 
 # download from the command line:
@@ -100,7 +103,7 @@ Map(function(u, d) download.file(u, d, mode="wb"), ftp_paths, names(ftp_paths))
 
 fna_files <- list.files('./data/', '.fna', full.names = T)
 
-pdtools::build_ppanggolin_file_fastas(incomplete_genome_paths = fna_files) %>% 
+build_ppanggolin_file_fastas(incomplete_genome_paths = fna_files) %>% 
   write_tsv('ppanggolin_file.tsv')
 ```
 
@@ -111,8 +114,7 @@ pdtools::build_ppanggolin_file_fastas(incomplete_genome_paths = fna_files) %>%
 pan_PA <-
   read_tsv('./pan/gene_presence_absence.Rtab')  %>% 
   column_to_rownames(var = 'Gene')  %>% 
-  as.matrix()  %>% 
-  t()
+  as.matrix() 
 
 # this will return a a small set of genomes that contain at least the proportion of
 # genes you specify
@@ -128,7 +130,8 @@ get_pangenome_representatives(pan_mat = pan_PA, SEED = 2, desired_coverage = .99
         inputs.  
     -   return a vector of new genomes that were not present in the old
         list.
-    -   also return genomes with newer assembly accession version
--   Download\_SNP\_trees
-    -   generate\_SNPtree\_urls
+    -   also return genomes with newer assembly accession version  
+-   extract\_consensus\_ag\_species currently assumes isolates are from
+    humans if the epi\_type is clinical and no other information is
+    available. This is probably wrong in some cases…
 -   Reference README? <https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt>

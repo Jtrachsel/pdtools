@@ -3,9 +3,9 @@
 \docType{data}
 \name{klebsiella_example_dat}
 \alias{klebsiella_example_dat}
-\title{NCBI Pathogen Detection metadata for 100 Klebsiella isolates}
+\title{NCBI Pathogen Detection metadata for 200 Klebsiella isolates}
 \format{
-A data frame with 100 rows and 64 variables:
+A data frame with 200 rows and 64 variables:
 }
 \source{
 \url{https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1049/AMR/PDG000000012.1049.amr.metadata.tsv}

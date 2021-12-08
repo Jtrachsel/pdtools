@@ -4,10 +4,12 @@
 \alias{extract_collection_agency}
 \title{extract collecting agency from several metadata fields}
 \usage{
-extract_collection_agency(meta)
+extract_collection_agency(meta, parallel = FALSE)
 }
 \arguments{
 \item{meta}{an ncbi pathogen detection metadata table}
+
+\item{parallel}{boolean, should furrr be used to parallelize? need to set your future::plan()}
 }
 \value{
 a tibble with 2 columns, 1 = target_acc, 2 = collection_agency
