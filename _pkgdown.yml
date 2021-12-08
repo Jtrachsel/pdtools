@@ -14,8 +14,9 @@ reference:
 - title: Metadata manipulations
 - contents:
   - extract_consensus_ag_species
-  - return_earliest_year
+  - extract_earliest_year
   - extract_collection_agency
+  - extract_country
 - title: Pangenome tools
 - contents:
   - build_ppanggolin_file_fastas
@@ -25,6 +26,7 @@ reference:
   - get_pangenome_representatives
   - get_pangenome_representatives2
   - remove_strict_core
-- title: Example data
+- title: Data
 - contents:
   - klebsiella_example_dat
+  - country_vector
