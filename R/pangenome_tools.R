@@ -174,7 +174,7 @@ get_pangenome_representatives <-
 
     # best score = total number of genes in pangenome
     best_score <- base::nrow(pan_mat)
-    tot_genomes <- base::col(pan_mat)
+    tot_genomes <- base::ncol(pan_mat)
     desired_score <- best_score * desired_coverage
 
     score <- base::length(cumulative_pan)
