@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pdtools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2</span>
       </span>
     </div>
 
@@ -44,7 +44,12 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_pangenome_representatives</span><span class="op">(</span><span class="va">pan_mat</span>, desired_coverage <span class="op">=</span> <span class="fl">0.95</span>, SEED <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_pangenome_representatives</span><span class="op">(</span>
+  <span class="va">pan_mat</span>,
+  desired_coverage <span class="op">=</span> <span class="fl">0.95</span>,
+  SEED <span class="op">=</span> <span class="fl">3</span>,
+  verbose <span class="op">=</span> <span class="cn">FALSE</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -55,6 +60,8 @@
 <dd><p>proportion of the pangenome's gene content you want the reduced set to contain (.95)</p></dd>
 <dt>SEED</dt>
 <dd><p>random seed to use when selecting the first genome of the collection.</p></dd>
+<dt>verbose</dt>
+<dd><p>T/F provides updates via print statements</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
