@@ -149,6 +149,7 @@ pan_mat_to_gene_vec_tibble <- function(pan_mat){
 #' @param pan_mat a presence absence matrix of 1/0, rows are genomes, columns are genes
 #' @param desired_coverage proportion of the pangenome's gene content you want the reduced set to contain (.95)
 #' @param SEED random seed to use when selecting the first genome of the collection.
+#' @param verbose T/F provides updates via print statements
 #'
 #' @return returns a list of length 3. 1:names of the genomes, 2:scores for each iteration , 3:proportion coverage for each iteration
 #' @export
@@ -156,7 +157,7 @@ pan_mat_to_gene_vec_tibble <- function(pan_mat){
 #' @examples #gen_pangenome_representatives(pan_mat)
 #' @importFrom rlang .data
 get_pangenome_representatives <-
-  function(pan_mat, desired_coverage=.95, SEED=3){
+  function(pan_mat, desired_coverage=.95, SEED=3, verbose=FALSE){
     # hopefully get smallest set of genomes that gives desired coverage of pangenome
     # browser()
     genomes <- pan_mat_to_gene_vec_tibble(pan_mat)
@@ -173,35 +174,47 @@ get_pangenome_representatives <-
 
     # best score = total number of genes in pangenome
     best_score <- base::nrow(pan_mat)
-    tot_genomes <- base::col(pan_mat)
+    tot_genomes <- base::ncol(pan_mat)
     desired_score <- best_score * desired_coverage
-
-    print(base::paste(tot_genomes, 'total genomes'))
-    print(base::paste(best_score, '= best possible score'))
-    print(base::paste(desired_score, ' = desired score'))
 
     score <- base::length(cumulative_pan)
     scores <- base::c(score)
-    print(base::paste0('starting score = ', score))
+
+    if (verbose) {
+      print(base::paste(tot_genomes, 'total genomes'))
+      print(base::paste(best_score, '= best possible score'))
+      print(base::paste(desired_score, ' = desired score'))
+      print(base::paste0('starting score = ', score))
+    }
+
     while (score < desired_score){
 
       # calculates the number of new genes each genome would contribute to the cumulative pangenome
-      # filters the genomes to only those that contain the max number of new genes for that iteration
-      # selects the first one and adds it to the cumulative pangenome.
-      best_addition_genome <-
+
+      genomes <-
         genomes |>
         dplyr::mutate(num_new=purrr::map_int(.x = .data$gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) |>
+        dplyr::filter(.data$num_new > 0) # removes genomes that do not contribute new information
+
+      # filters the genomes to only those that contain the max number of new genes for that iteration
+      # selects a random genome from those that contribute the max number of new genes
+      best_addition_genome <-
+        genomes |>
         dplyr::filter(.data$num_new == max(.data$num_new)) |>
-        # dplyr::arrange(dplyr::desc(.data$num_new)) |>
         dplyr::slice_sample(n = 1)
 
       cumulative_pan <- base::c(cumulative_pan, best_addition_genome$gene_vec[[1]]) |> base::unique()
       cumulative_genomes <- base::c(cumulative_genomes, best_addition_genome$genome_name[[1]])
       score <- base::length(cumulative_pan)
       scores <- base::c(scores, score)
-      base::print(base::paste0('new score = ', score))
       proportion_coverages <- scores/best_score
-      print(base::paste0('proportion covered = ', score/best_score))
+
+      if (verbose){
+
+        base::print(base::paste0('new score = ', score))
+        base::print(base::paste0('proportion covered = ', score/best_score))
+
+      }
     }
     return(base::list(cumulative_genomes, scores, proportion_coverages))
   }
