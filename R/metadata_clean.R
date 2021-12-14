@@ -200,3 +200,18 @@ extract_country <- function(meta, parallel=FALSE){
   return(finished)
 
 }
+
+
+#### WORK ON THIS
+# extract_state <- function(data){
+#
+#   pattern_vec <- state_vector
+#
+#   first_pass <-
+#     data |>
+#     dplyr::transmute(target_acc=.data$target_acc,
+#                      search_vals=base::tolower(.data$geo_loc_name)) |>
+#     dplyr::mutate(country=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
+#
+#
+# }
