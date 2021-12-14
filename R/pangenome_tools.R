@@ -190,13 +190,17 @@ get_pangenome_representatives <-
     while (score < desired_score){
 
       # calculates the number of new genes each genome would contribute to the cumulative pangenome
+
+      genomes <-
+        genomes |>
+        dplyr::mutate(num_new=purrr::map_int(.x = .data$gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) |>
+        dplyr::filter(.data$num_new > 0) # removes genomes that do not contribute new information
+
       # filters the genomes to only those that contain the max number of new genes for that iteration
       # selects a random genome from those that contribute the max number of new genes
       best_addition_genome <-
         genomes |>
-        dplyr::mutate(num_new=purrr::map_int(.x = .data$gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) |>
         dplyr::filter(.data$num_new == max(.data$num_new)) |>
-        # dplyr::arrange(dplyr::desc(.data$num_new)) |>
         dplyr::slice_sample(n = 1)
 
       cumulative_pan <- base::c(cumulative_pan, best_addition_genome$gene_vec[[1]]) |> base::unique()
