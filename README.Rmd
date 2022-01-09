@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Installation
 
-*Requires R >= 4.1* 
+*Requires R >= 4.0* 
 *Requires biostrings, need to install from biocmanager*
 ```{r, eval=FALSE}
 BiocManager::install('Biostrings')

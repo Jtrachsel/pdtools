@@ -18,5 +18,5 @@ a two column tibble with target_acc and country as columns
 Extract a standardized country name from geo_loc_tag column
 }
 \examples{
-klebsiella_example_dat |> extract_country()
+klebsiella_example_dat \%>\% extract_country()
 }

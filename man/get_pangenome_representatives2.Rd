@@ -27,5 +27,5 @@ a list of 3; list(cumulative_genomes, scores, proportion_coverages)
 Get pangenome representatives from a gene_vec_tibble
 }
 \examples{
-generate_pangenome() |> pan_mat_to_gene_vec_tibble() |> get_pangenome_representatives2()
+generate_pangenome() \%>\% pan_mat_to_gene_vec_tibble() \%>\% get_pangenome_representatives2()
 }
