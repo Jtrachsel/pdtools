@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pdtools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -99,7 +99,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The names of these files will change based on the most recent complete data</span>
 <span class="co"># you will have to adjust these</span>
-<span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_tsv</a></span><span class="op">(</span><span class="st">'./data/PDG000000003.1540.amr.metadata.tsv'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_tsv</a></span><span class="op">(</span><span class="st">'./data/PDG000000003.1540.amr.metadata.tsv'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_tsv</a></span><span class="op">(</span><span class="st">'./data/PDG000000003.1540.cluster_list.tsv'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level4">
@@ -110,15 +110,15 @@
 <span class="va">host_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_consensus_ag_species.html">extract_consensus_ag_species</a></span><span class="op">(</span><span class="va">meta</span><span class="op">)</span>
 
 <span class="co"># join back to metadata</span>
-<span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">host_info</span><span class="op">)</span></code></pre></div>
+<span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">left_join</span><span class="op">(</span><span class="va">host_info</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="extract-earliest-year-from-3-date-columns">Extract earliest year from 3 date columns<a class="anchor" aria-label="anchor" href="#extract-earliest-year-from-3-date-columns"></a>
 </h4>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">earliest_year</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/extract_earliest_year.html">extract_earliest_year</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">earliest_year</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/extract_earliest_year.html">extract_earliest_year</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">%&gt;%</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">earliest_year</span><span class="op">)</span></code></pre></div>
+<span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">left_join</span><span class="op">(</span><span class="va">earliest_year</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="generate-ftp-download-paths-for-a-collection-of-isolates">Generate ftp download paths for a collection of isolates<a class="anchor" aria-label="anchor" href="#generate-ftp-download-paths-for-a-collection-of-isolates"></a>
@@ -130,13 +130,13 @@
 
 <span class="co"># only download isolates from swine after 2015</span>
 <span class="va">meta_filt</span> <span class="op">&lt;-</span>
-  <span class="va">meta</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">&gt;</span> <span class="fl">2015</span> <span class="op">&amp;</span> <span class="va">ag_match</span> <span class="op">==</span> <span class="st">'Swine'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="va">meta</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">&gt;</span> <span class="fl">2015</span> <span class="op">&amp;</span> <span class="va">ag_match</span> <span class="op">==</span> <span class="st">'Swine'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">write_tsv</span><span class="op">(</span><span class="st">'./data/swine_2015_meta.tsv'</span><span class="op">)</span>
 
 <span class="va">ftp_paths</span> <span class="op">&lt;-</span> 
-  <span class="va">meta_filt</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/make_fna_urls.html">make_fna_urls</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">asm_acc</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="va">meta_filt</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/make_fna_urls.html">make_fna_urls</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">asm_acc</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">write_lines</span><span class="op">(</span><span class="st">'./data/ftp_download_paths.txt'</span><span class="op">)</span>
 
 <span class="co"># download from the command line:</span>
@@ -160,7 +160,7 @@
 
 <span class="va">fna_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">'./data/'</span>, <span class="st">'.fna'</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
-<span class="fu"><a href="reference/build_ppanggolin_file_fastas.html">build_ppanggolin_file_fastas</a></span><span class="op">(</span>incomplete_genome_paths <span class="op">=</span> <span class="va">fna_files</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="fu"><a href="reference/build_ppanggolin_file_fastas.html">build_ppanggolin_file_fastas</a></span><span class="op">(</span>incomplete_genome_paths <span class="op">=</span> <span class="va">fna_files</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">write_tsv</span><span class="op">(</span><span class="st">'ppanggolin_file.tsv'</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level4">
@@ -169,8 +169,8 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Read in presence/absence matrix and format correctly:</span>
 <span class="va">pan_PA</span> <span class="op">&lt;-</span>
-  <span class="fu">read_tsv</span><span class="op">(</span><span class="st">'./pan/gene_presence_absence.Rtab'</span><span class="op">)</span>  <span class="op">%&gt;%</span> 
-  <span class="fu">column_to_rownames</span><span class="op">(</span>var <span class="op">=</span> <span class="st">'Gene'</span><span class="op">)</span>  <span class="op">%&gt;%</span> 
+  <span class="fu">read_tsv</span><span class="op">(</span><span class="st">'./pan/gene_presence_absence.Rtab'</span><span class="op">)</span>  <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">column_to_rownames</span><span class="op">(</span>var <span class="op">=</span> <span class="st">'Gene'</span><span class="op">)</span>  <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span> 
 
 <span class="co"># this will return a a small set of genomes that contain at least the proportion of</span>

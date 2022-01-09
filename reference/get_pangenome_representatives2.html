@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pdtools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -70,29 +70,29 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="generate_pangenome.html">generate_pangenome</a></span><span class="op">(</span><span class="op">)</span> |&gt; <span class="fu"><a href="pan_mat_to_gene_vec_tibble.html">pan_mat_to_gene_vec_tibble</a></span><span class="op">(</span><span class="op">)</span> |&gt; <span class="fu">get_pangenome_representatives2</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="generate_pangenome.html">generate_pangenome</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="pan_mat_to_gene_vec_tibble.html">pan_mat_to_gene_vec_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">get_pangenome_representatives2</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "calculating total number of genes, you can speed this up if you supply the best_possible_score parameter"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "99 total genomes"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1000 = best possible score"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "0.95 = desired coverage"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "950 = desired score"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "starting score = 770"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "new score = 873"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "proportion covered = 0.873"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "new score = 918"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "proportion covered = 0.918"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "new score = 946"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "proportion covered = 0.946"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "new score = 968"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "proportion covered = 0.968"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "new score = 871"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "proportion covered = 0.871"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "new score = 914"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "proportion covered = 0.914"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "new score = 944"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "proportion covered = 0.944"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "new score = 967"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "proportion covered = 0.967"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "genome_55" "genome_61" "genome_92" "genome_9"  "genome_99"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "genome_60" "genome_55" "genome_6"  "genome_63" "genome_99"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 770 873 918 946 968</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 770 871 914 944 967</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.770 0.873 0.918 0.946 0.968</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.770 0.871 0.914 0.944 0.967</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
