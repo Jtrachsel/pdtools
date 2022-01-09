@@ -15,17 +15,17 @@ list_PDGs <- function(organism){
 
   PDD_url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/', organism)
 
-  PDGs <- rvest::read_html(PDD_url) |>
-    rvest::html_text2() |>
-    stringr::str_split(pattern = '-PDG') |>
+  PDGs <- rvest::read_html(PDD_url) %>%
+    rvest::html_text2() %>%
+    stringr::str_split(pattern = '-PDG') %>%
     base::unlist()
   PDGs <- PDGs[-c(1, length(PDGs))]
 
   PDG_table <-
     tibble::tibble(raw=PDGs,  # 1st and last lines are not PDGs
             PDG=paste('PDG',sub('(.*)/(.*)','\\1',.data$raw), sep = ''),
-            release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) |>
-    dplyr::select(-.data$raw) |>
+            release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) %>%
+    dplyr::select(-.data$raw) %>%
     dplyr::arrange(dplyr::desc(.data$release_date))
 
   return(PDG_table)
@@ -134,8 +134,8 @@ check_complete_PDG <- function(organism, PDG){
   clusters_url <-  paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/',PDG,'/Clusters/',PDG,'.reference_target.cluster_list.tsv')
 
   all_urls_exist <-
-    c(amr_url, clusters_url) |>
-    RCurl::url.exists() |>
+    c(amr_url, clusters_url) %>%
+    RCurl::url.exists() %>%
     base::all()
 
   return(all_urls_exist)
@@ -154,7 +154,7 @@ check_complete_PDG <- function(organism, PDG){
 #' @noRd
 ftp_paths_from_assem_sum <- function(filename){
   # browser()
-  dat <- readr::read_tsv(filename, skip=1) |>
+  dat <- readr::read_tsv(filename, skip=1) %>%
     dplyr::transmute(asm_acc=.data$`# assembly_accession`,
               .data$ftp_path)
   return(dat)
@@ -175,7 +175,7 @@ make_fna_urls <- function(asm_accessions, assembly_summary_path){
   # assembly summary needs to have the accessions changed from
   # `# assembly_accession` to asm_acc
   selected_ftp_paths <-
-    ftp_paths_from_assem_sum(assembly_summary_path) |>
+    ftp_paths_from_assem_sum(assembly_summary_path) %>%
     dplyr::filter(.data$asm_acc %in% asm_accessions)
 
   base::paste0(selected_ftp_paths$ftp_path,
@@ -206,7 +206,7 @@ make_SNPtree_urls <- function(organism, data, PDG){
 
   num_no_clust <- base::sum(base::is.na(data$PDS_acc))
 
-  PDSs <- data |> dplyr::filter(!is.na(.data$PDS_acc)) |> dplyr::pull(.data$PDS_acc) |> base::unique()
+  PDSs <- data %>% dplyr::filter(!is.na(.data$PDS_acc)) %>% dplyr::pull(.data$PDS_acc) %>% base::unique()
   urls <- base::paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/', PDG, '/SNP_trees/', PDSs, '.tar.gz')
   base::message(base::paste(num_no_clust, 'Isolates in the collection are not represented in SNP trees'))
   return(urls)
@@ -222,16 +222,16 @@ list_organisms <- function(){
   url <- 'https://ftp.ncbi.nlm.nih.gov/pathogen/Results/'
 
   organisms <-
-    rvest::read_html(url) |>
-    rvest::html_text2() |>
-    stringr::str_split(pattern = ' -') |>
+    rvest::read_html(url) %>%
+    rvest::html_text2() %>%
+    stringr::str_split(pattern = ' -') %>%
     base::unlist()
   organisms <- organisms[-c(1, length(organisms))]
 
   organism_table <-
     tibble::tibble(raw=organisms,
                    organism=base::sub('(.*)/(.*)','\\1',.data$raw),
-                   release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) |>
+                   release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) %>%
     dplyr::select(-.data$raw)
 
   return(organism_table)

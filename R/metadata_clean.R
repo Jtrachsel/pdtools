@@ -18,7 +18,7 @@ matches_from_vector_of_patterns <-
 
   match_vec <- purrr::map_lgl(.x =pattern_vec, .f=~base::grepl(.x, search_string, ignore.case = TRUE))
 
-  res <- names(match_vec)[match_vec] |>
+  res <- names(match_vec)[match_vec] %>%
     base::paste(collapse = '_')
   return(res)
 }
@@ -52,36 +52,36 @@ extract_consensus_ag_species <- function(dat, parallel=FALSE){
 
   if (parallel){
     first_pass <-
-      dat |>
+      dat %>%
       dplyr::transmute(target_acc=.data$target_acc,
-                       search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) |>
+                       search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) %>%
       dplyr::mutate(ag_match=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
 
 
   } else {
     first_pass <-
-      dat |>
+      dat %>%
       dplyr::transmute(target_acc=.data$target_acc,
-                       search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) |>
+                       search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) %>%
       dplyr::mutate(ag_match=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
 
 
   }
 
-    finished <- first_pass |>
+    finished <- first_pass %>%
       dplyr::filter(.data$ag_match != '')
 
     if (base::nrow(finished) == base::nrow(dat)) {
-      result <- finished |> dplyr::select(.data$target_acc, .data$ag_match)
+      result <- finished %>% dplyr::select(.data$target_acc, .data$ag_match)
       return(result)
     } else {
 
-      second_pass <- first_pass |>
-        dplyr::filter(.data$ag_match == '') |>
+      second_pass <- first_pass %>%
+        dplyr::filter(.data$ag_match == '') %>%
         dplyr::mutate(ag_match=base::ifelse(base::grepl('clinical', .data$search_vals), 'Human', 'Other'))
 
 
-      result <- dplyr::bind_rows(finished, second_pass) |>
+      result <- dplyr::bind_rows(finished, second_pass) %>%
         dplyr::select(.data$target_acc, .data$ag_match)
 
       return(result)
@@ -107,12 +107,12 @@ extract_consensus_ag_species <- function(dat, parallel=FALSE){
 extract_earliest_year <- function(PDD_metadata_table){
   # was return_earliest_year
     result <-
-    PDD_metadata_table |>
-    dplyr::select(.data$target_acc, dplyr::ends_with('date')) |>
-    dplyr::mutate(dplyr::across(.cols = dplyr::ends_with('date'), .fns = base::as.character)) |>
-    tidyr::pivot_longer(cols = dplyr::ends_with('date'), names_to = 'type', values_to = 'date') |>
-    dplyr::mutate(year = base::as.numeric(base::sub('([0-9][0-9][0-9][0-9]).*','\\1',.data$date))) |>
-    dplyr::group_by(.data$target_acc) |>
+    PDD_metadata_table %>%
+    dplyr::select(.data$target_acc, dplyr::ends_with('date')) %>%
+    dplyr::mutate(dplyr::across(.cols = dplyr::ends_with('date'), .fns = base::as.character)) %>%
+    tidyr::pivot_longer(cols = dplyr::ends_with('date'), names_to = 'type', values_to = 'date') %>%
+    dplyr::mutate(year = base::as.numeric(base::sub('([0-9][0-9][0-9][0-9]).*','\\1',.data$date))) %>%
+    dplyr::group_by(.data$target_acc) %>%
     dplyr::summarise(Year=.data$year[base::which.min(.data$year)])
 
   return(result)
@@ -130,7 +130,7 @@ extract_earliest_year <- function(PDD_metadata_table){
 #' @return a tibble with 2 columns, 1 = target_acc, 2 = collection_agency
 #' @export
 #'
-#' @examples klebsiella_example_dat |> extract_collection_agency()
+#' @examples klebsiella_example_dat %>% extract_collection_agency()
 extract_collection_agency <-
   function(meta, parallel=FALSE){
   pattern_vec <-
@@ -143,23 +143,23 @@ extract_collection_agency <-
 
   if (parallel){
     first_pass <-
-      meta |>
+      meta %>%
       dplyr::transmute(target_acc=.data$target_acc,
-                       search_vals=base::paste(.data$collected_by, .data$bioproject_center, sep = '_')) |>
+                       search_vals=base::paste(.data$collected_by, .data$bioproject_center, sep = '_')) %>%
       dplyr::mutate(collection_agency=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
 
   } else {
     first_pass <-
-      meta |>
+      meta %>%
       dplyr::transmute(target_acc=.data$target_acc,
-                       search_vals=base::paste(.data$collected_by, .data$bioproject_center, sep = '_')) |>
+                       search_vals=base::paste(.data$collected_by, .data$bioproject_center, sep = '_')) %>%
       dplyr::mutate(collection_agency=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
 
   }
 
 
-  finished <- first_pass |>
-    dplyr::filter(.data$collection_agency != '') |>
+  finished <- first_pass %>%
+    dplyr::filter(.data$collection_agency != '') %>%
     dplyr::select(.data$target_acc, .data$collection_agency)
   return(finished)
 }
@@ -172,7 +172,7 @@ extract_collection_agency <-
 #' @return a two column tibble with target_acc and country as columns
 #' @export
 #'
-#' @examples klebsiella_example_dat |> extract_country()
+#' @examples klebsiella_example_dat %>% extract_country()
 extract_country <- function(meta, parallel=FALSE){
   # return an acceptable country column from a metadata table
 
@@ -180,22 +180,22 @@ extract_country <- function(meta, parallel=FALSE){
 
   if (parallel){
     first_pass <-
-      meta |>
+      meta %>%
       dplyr::transmute(target_acc=.data$target_acc,
-                       search_vals=base::tolower(.data$geo_loc_name)) |>
+                       search_vals=base::tolower(.data$geo_loc_name)) %>%
       dplyr::mutate(country=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
 
   } else {
     first_pass <-
-      meta |>
+      meta %>%
       dplyr::transmute(target_acc=.data$target_acc,
-                       search_vals=base::tolower(.data$geo_loc_name)) |>
+                       search_vals=base::tolower(.data$geo_loc_name)) %>%
       dplyr::mutate(country=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
 
   }
 
-  finished <- first_pass |>
-    dplyr::filter(.data$country != '') |>
+  finished <- first_pass %>%
+    dplyr::filter(.data$country != '') %>%
     dplyr::select(.data$target_acc, .data$country)
   return(finished)
 
@@ -208,9 +208,9 @@ extract_country <- function(meta, parallel=FALSE){
 #   pattern_vec <- state_vector
 #
 #   first_pass <-
-#     data |>
+#     data %>%
 #     dplyr::transmute(target_acc=.data$target_acc,
-#                      search_vals=base::tolower(.data$geo_loc_name)) |>
+#                      search_vals=base::tolower(.data$geo_loc_name)) %>%
 #     dplyr::mutate(country=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
 #
 #

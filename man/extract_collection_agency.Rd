@@ -18,5 +18,5 @@ a tibble with 2 columns, 1 = target_acc, 2 = collection_agency
 extract collecting agency from several metadata fields
 }
 \examples{
-klebsiella_example_dat |> extract_collection_agency()
+klebsiella_example_dat \%>\% extract_collection_agency()
 }
