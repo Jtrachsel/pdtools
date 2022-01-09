@@ -1,6 +1,6 @@
 Package: pdtools
 Title: Tools to interact with NCBI's Pathogen Detection project
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: 
     person("Julian", "Trachsel", , "julestrachsel@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "https://orcid.org/0000-0003-2357-7737"))
@@ -19,7 +19,6 @@ Imports:
     tidyr,
     purrr,
     lubridate,
-    curl,
     RCurl,
     tibble,
     Biostrings,
