@@ -64,9 +64,9 @@ download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
   # print('downloading metadata...')
   # curl_download(url = meta_url, destfile = meta_dest)
   print('downloading amr data...')
-  curl::curl_download(url = amr_url, destfile = amr_dest)
+  base::download.file(url = amr_url, destfile = amr_dest)
   print('downloading cluster data...')
-  curl::curl_download(url = cluster_url, destfile = cluster_dest)
+  base::download.file(url = cluster_url, destfile = cluster_dest)
 }
 
 
