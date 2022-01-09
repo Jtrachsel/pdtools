@@ -47,12 +47,18 @@ list_PDGs <- function(organism){
 #' @examples #download_PDD_metadata(organism = 'Campylobacter',PDG = 'PDG000000003.1517')
 download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
   # browser()
+
+  # some of these files are large, change timeout to 10 min within this function
+  # the options call to change the timeout returns the original options
+  original_options <- options(timeout = 600)
+  on.exit(options(original_options))
+
   # Given an organism and a PDG accession
   # downloads the 3 metadata files from ncbi
   # seems like I dont need the "metadata" becuase the AMR table has the same info
   # meta_url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism, '/',PDG,'/Metadata/',PDG,'.metadata.tsv')
   # meta_dest <- paste0(folder_prefix, PDG, '.metadata.tsv')
-
+  options(timeout = max(500, getOption("timeout")))
   # wget https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Salmonella/"$PDG"/AMR/"$PDG".amr.metadata.tsv
   amr_url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/',PDG,'/AMR/',PDG,'.amr.metadata.tsv')
   amr_dest <- paste0(folder_prefix, PDG, '.amr.metadata.tsv')
