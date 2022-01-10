@@ -35,7 +35,7 @@ test_that('return_earliest_year warns about NA coersions', {
 
 test_that('extract_earliest_year adds an appropriate year column',{
   tst <-function(dat){
-    extract_earliest_year(dat) |> dplyr::pull(Year) |> is.numeric()
+    extract_earliest_year(dat) %>% dplyr::pull(Year) %>% is.numeric()
   }
   quiet_tst <- purrr::quietly(tst)
   res <- quiet_tst(klebsiella_example_dat)
@@ -47,9 +47,9 @@ test_that('extract_earliest_year adds an appropriate year column',{
 
 
 test_that('extract_collection_agency() extracts the appropriate values',{
-  test <- klebsiella_example_dat |>
-          extract_collection_agency() |>
-          dplyr::pull() |>
+  test <- klebsiella_example_dat %>%
+          extract_collection_agency() %>%
+          dplyr::pull() %>%
           base::unique()
   expect_equal(test, 'CDC')
 
