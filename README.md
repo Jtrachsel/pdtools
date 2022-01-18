@@ -3,8 +3,8 @@ pdtools
 
 ## Installation
 
-*Requires R &gt;= 4.1* *Requires biostrings, need to install from
-biocmanager*
+*Requires R &gt;= 4.0* *Requires Biostrings, need to install from
+BiocManager*
 
 ``` r
 BiocManager::install('Biostrings')
@@ -23,11 +23,9 @@ Detection project](https://www.ncbi.nlm.nih.gov/pathogens/)
 #### List available organisms
 
 ``` r
-
 library(pdtools)
 
 list_organisms()
-
 ```
 
 #### Download the most recent metadata for an organism:
@@ -36,7 +34,6 @@ list_organisms()
 system('mkdir data')
 download_most_recent_complete('Campylobacter', folder_prefix = './data/')
 ```
-
 
 #### Join downloads: metadata and SNP clusters
 
@@ -89,7 +86,7 @@ ftp_paths <-
 
 # or within R:
 # set names to the desired path 
-names(ftp_paths) <-paste0('./data/',meta_filt$asm_acc, '.fna')
+names(ftp_paths) <-paste0('./data/',meta_filt$asm_acc, '.fna.gz')
 
 Map(function(u, d) download.file(u, d, mode="wb"), ftp_paths, names(ftp_paths))
 ```
@@ -125,6 +122,8 @@ get_pangenome_representatives(pan_mat = pan_PA, SEED = 2, desired_coverage = .99
 
 ## TODO
 
+-   Stats on available organisms, num clusters, most recent isolate
+    <https://www.ncbi.nlm.nih.gov/pathogens/organisms/>
 -   update\_collection() function?
     -   Should take and old metadata file and a new metadata file as
         inputs.  
