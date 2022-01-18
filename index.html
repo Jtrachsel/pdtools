@@ -63,7 +63,7 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p><em>Requires R &gt;= 4.1</em> <em>Requires biostrings, need to install from biocmanager</em></p>
+<p><em>Requires R &gt;= 4.0</em> <em>Requires Biostrings, need to install from BiocManager</em></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="st">'Biostrings'</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'jtrachsel/pdtools'</span><span class="op">)</span></code></pre></div>
@@ -81,8 +81,7 @@
 <h4 id="list-available-organisms">List available organisms<a class="anchor" aria-label="anchor" href="#list-available-organisms"></a>
 </h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pdtools</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pdtools</span><span class="op">)</span>
 
 <span class="fu"><a href="reference/list_organisms.html">list_organisms</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
@@ -145,7 +144,7 @@
 
 <span class="co"># or within R:</span>
 <span class="co"># set names to the desired path </span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ftp_paths</span><span class="op">)</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'./data/'</span>,<span class="va">meta_filt</span><span class="op">$</span><span class="va">asm_acc</span>, <span class="st">'.fna'</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ftp_paths</span><span class="op">)</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'./data/'</span>,<span class="va">meta_filt</span><span class="op">$</span><span class="va">asm_acc</span>, <span class="st">'.fna.gz'</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">u</span>, <span class="va">d</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="va">u</span>, <span class="va">d</span>, mode<span class="op">=</span><span class="st">"wb"</span><span class="op">)</span>, <span class="va">ftp_paths</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ftp_paths</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
@@ -184,6 +183,8 @@
 <h2 id="todo">TODO<a class="anchor" aria-label="anchor" href="#todo"></a>
 </h2>
 <ul>
+<li>Stats on available organisms, num clusters, most recent isolate <a href="https://www.ncbi.nlm.nih.gov/pathogens/organisms/" class="external-link uri">https://www.ncbi.nlm.nih.gov/pathogens/organisms/</a>
+</li>
 <li>update_collection() function?
 <ul>
 <li>Should take and old metadata file and a new metadata file as inputs.<br>
@@ -238,7 +239,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
