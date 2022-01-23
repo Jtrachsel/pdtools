@@ -148,50 +148,43 @@ check_complete_PDG <- function(organism, PDG){
 }
 
 
-#' Generate a two column tibble mapping ftp paths to assembly accessions
+#' generate ftp download paths for a selection of assembly accessions
 #'
-#' @param filename path to the ncbi genbank assembly_summary.txt
-#'     curl -O https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt
+#' @param asm_acc a vector of assembly accessions, in the same order as the ftp_paths
+#' @param ftp_paths a vector of ftp_paths, in the same order as the asm_acc vector
+#' @param type type of download path to generate, one of: 'fna', 'gbff', 'gff', 'gtf', 'faa', 'cds'
 #'
-#' @return returns a two column tibble of asm_acc and ftp
-#'
-#' @examples #ftp_paths <- ftp_paths_from_assem_sum('./data/assembly_summary.txt')
-#' @importFrom rlang .data
-#' @noRd
-ftp_paths_from_assem_sum <- function(filename){
-  # browser()
-  dat <- readr::read_tsv(filename, skip=1) %>%
-    dplyr::transmute(asm_acc=.data$`# assembly_accession`,
-              .data$ftp_path)
-  return(dat)
-}
-
-
-
-#' generate fasta ftp download paths for a vector of assembly accessions
-#'
-#' @param asm_accessions vector of assembly accessions to generate ftp paths for
-#' @param assembly_summary_path path to an assembly_summary.txt file downloaded from ncbi
-#'
-#' @return returns a vector of ftp paths for use with curl wget etc.
+#' @return returns a two column tibble, 1st column= asm_acc ; 2nd column= download_path
 #' @export
 #'
-#' @examples # tst <- make_fna_urls(klebsiella_example_dat$asm_acc, './data/assembly_summary.txt')
-make_fna_urls <- function(asm_accessions, assembly_summary_path){
-  # assembly summary needs to have the accessions changed from
-  # `# assembly_accession` to asm_acc
-  selected_ftp_paths <-
-    ftp_paths_from_assem_sum(assembly_summary_path) %>%
-    dplyr::filter(.data$asm_acc %in% asm_accessions)
+#' @examples make_download_urls(asm_acc = klebsiella_example_dat$asm_acc,
+#'                              ftp_paths = klebsiella_example_dat$ftp_path, type='fna')
+#'
 
-  base::paste0(selected_ftp_paths$ftp_path,
+
+make_download_urls <- function(asm_acc, ftp_paths, type){
+
+  suffixes=base::c(fasta='_genomic.fna.gz',
+                   gbff='_genomic.gbff.gz',
+                   gff='_genomic.gff.gz',
+                   gtf='_genomic.gtf.gz ',
+                   faa='_protein.faa.gz',
+                   cds='_cds_from_genomic.fna.gz')
+
+  if (!(type %in% base::names(suffixes))){
+    base::errorCondition(base::paste0('"type" must be one of ','"', base::paste(base::names(suffixes), collapse = ' '),'"'))
+  }
+
+  tibble::tibble(asm_acc,
+         download_path=
+           base::paste0(ftp_paths,
                '/',
                base::sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
-                         selected_ftp_paths$ftp_path),
-               '_genomic.fna.gz')
+                         ftp_paths),
+               suffixes[type])
+         )
 
 }
-
 
 
 #' generate ftp site download urls for all SNP trees containing the provided isolates
@@ -245,5 +238,47 @@ list_organisms <- function(){
 
 }
 
+
+
+#' generate ftp site paths for a selection of assembly accessions
+#'
+#' @param asm_accessions vector of assembly accessions
+#' @param assembly_summary_path path to genbank assembly_summary.txt, see download_gbk_assembly_summary()
+#'
+#'
+#' @return a two column tibble 1= asm_acc ; 2= ftp_path
+#' @export
+#'
+#' @examples #make_ftp_paths(klebsiella_example_data$asm_acc, './test/kleb_assembly_summary.txt')
+make_ftp_paths <- function(asm_accessions, assembly_summary_path){
+
+  # browser()
+  selected_ftp_paths <-
+    readr::read_tsv(assembly_summary_path, skip=1) %>%
+    dplyr::transmute(asm_acc=.data$`# assembly_accession`,
+                     .data$ftp_path) %>%
+    dplyr::filter(.data$asm_acc %in% asm_accessions)
+
+
+  return(selected_ftp_paths)
+
+}
+
+#' Convenience function to download the assembly_summary.txt file from genbank
+#'
+#' @param destfile passed to download.file()'s destfile, path to store the downloaded file
+#'
+#' @return returns nothing but probably should...
+#' @export
+#'
+#' @examples #not run download_gbk_assembly_summary(destfile='assembly_summary.txt')
+download_gbk_assembly_summary <- function(destfile){
+  original_options <- base::options(timeout = 6000)
+  base::on.exit(base::options(original_options))
+
+  utils::download.file('https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt',
+                      destfile = destfile)
+
+}
 
 
