@@ -148,23 +148,20 @@ check_complete_PDG <- function(organism, PDG){
 }
 
 
-#' generate ftp download paths for a selection of assembly accessions
+#' make specific ftp download paths for a dataframe with ftp_paths and assembly accessions
 #'
-#' @param asm_acc a vector of assembly accessions, in the same order as the ftp_paths
-#' @param ftp_paths a vector of ftp_paths, in the same order as the asm_acc vector
 #' @param type type of download path to generate, one of: 'fna', 'gbff', 'gff', 'gtf', 'faa', 'cds'
+#' @param data a dataframe with the columns 'ftp_path' and 'asm_acc'
+#' ftp_path should be a column produced by the function make_ftp_paths()
 #'
-#' @return returns a two column tibble, 1st column= asm_acc ; 2nd column= download_path
+#' @return returns the original dataframe with an added column, named "{type}_download"
 #' @export
 #'
-#' @examples make_download_urls(asm_acc = klebsiella_example_dat$asm_acc,
-#'                              ftp_paths = klebsiella_example_dat$ftp_path, type='fna')
-#'
+#' @examples make_download_urls(klebsiella_example_dat, type='fna')
+#' @importFrom rlang :=
+make_download_urls <- function(data, type){
 
-
-make_download_urls <- function(asm_acc, ftp_paths, type){
-
-  suffixes=base::c(fasta='_genomic.fna.gz',
+  suffixes=base::c(fna='_genomic.fna.gz',
                    gbff='_genomic.gbff.gz',
                    gff='_genomic.gff.gz',
                    gtf='_genomic.gtf.gz ',
@@ -175,14 +172,17 @@ make_download_urls <- function(asm_acc, ftp_paths, type){
     base::errorCondition(base::paste0('"type" must be one of ','"', base::paste(base::names(suffixes), collapse = ' '),'"'))
   }
 
-  tibble::tibble(asm_acc,
-         download_path=
-           base::paste0(ftp_paths,
-               '/',
-               base::sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
-                         ftp_paths),
-               suffixes[type])
-         )
+
+
+  result <-
+    data %>%
+    dplyr::mutate("{type}_download":=
+             base::paste0(.data$ftp_path,
+                          '/',
+                          base::sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
+                                    .data$ftp_path),
+                          suffixes[type]))
+  return(result)
 
 }
 
@@ -242,25 +242,26 @@ list_organisms <- function(){
 
 #' generate ftp site paths for a selection of assembly accessions
 #'
-#' @param asm_accessions vector of assembly accessions
 #' @param assembly_summary_path path to genbank assembly_summary.txt, see download_gbk_assembly_summary()
 #'
+#' @param data a dataframe containing an asm_acc
 #'
 #' @return a two column tibble 1= asm_acc ; 2= ftp_path
 #' @export
 #'
-#' @examples #make_ftp_paths(klebsiella_example_data$asm_acc, './test/kleb_assembly_summary.txt')
-make_ftp_paths <- function(asm_accessions, assembly_summary_path){
+#' @examples #make_ftp_paths(klebsiella_example_data './test/assembly_summary.txt')
+make_ftp_paths <- function(data, assembly_summary_path){
 
   # browser()
-  selected_ftp_paths <-
+
+  ftp_asm_map <-
     readr::read_tsv(assembly_summary_path, skip=1) %>%
     dplyr::transmute(asm_acc=.data$`# assembly_accession`,
-                     .data$ftp_path) %>%
-    dplyr::filter(.data$asm_acc %in% asm_accessions)
+                     .data$ftp_path)
 
+  result <- data %>% dplyr::left_join(ftp_asm_map)
 
-  return(selected_ftp_paths)
+  return(result)
 
 }
 

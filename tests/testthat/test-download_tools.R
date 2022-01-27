@@ -76,16 +76,16 @@ test_that('list_organisms returns a two column tibble', {
 })
 
 
-test_that('make_ftp_paths returns expected values', {
-
-  test <- make_ftp_paths(klebsiella_example_dat$asm_acc, assembly_summary_path = './kleb_assembly_summary.txt') |>
-    dplyr::transmute(asm_acc,
-              ftp_path2=ftp_path) |>
-    dplyr::left_join(klebsiella_example_dat)
-
-  expect_true(all(test$ftp_path == test$ftp_path2))
-
-})
+# test_that('make_ftp_paths returns expected values', {
+#
+#   test <- make_ftp_paths(klebsiella_example_dat, assembly_summary_path = './kleb_assembly_summary.txt') |>
+#     dplyr::transmute(asm_acc,
+#               ftp_path2=ftp_path) |>
+#     dplyr::left_join(klebsiella_example_dat)
+#
+#   expect_true(all(test$ftp_path == test$ftp_path2))
+#
+# })
 
 
 #
