@@ -28,6 +28,9 @@
     <loc>/reference/download_PDD_metadata.html</loc>
   </url>
   <url>
+    <loc>/reference/download_gbk_assembly_summary.html</loc>
+  </url>
+  <url>
     <loc>/reference/download_most_recent_complete.html</loc>
   </url>
   <url>
@@ -73,7 +76,10 @@
     <loc>/reference/make_SNPtree_urls.html</loc>
   </url>
   <url>
-    <loc>/reference/make_fna_urls.html</loc>
+    <loc>/reference/make_download_urls.html</loc>
+  </url>
+  <url>
+    <loc>/reference/make_ftp_paths.html</loc>
   </url>
   <url>
     <loc>/reference/pan_mat_to_gene_vec_tibble.html</loc>
