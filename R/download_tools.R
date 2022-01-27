@@ -157,11 +157,8 @@ check_complete_PDG <- function(organism, PDG){
 #' @return returns the original dataframe with an added column, named "{type}_download"
 #' @export
 #'
-#' @examples #make_download_urls(asm_acc = klebsiella_example_dat$asm_acc,
-#'                              ftp_paths = klebsiella_example_dat$ftp_path, type='fna')
+#' @examples make_download_urls(klebsiella_example_dat, type='fna')
 #'
-
-
 make_download_urls <- function(data, type){
 
   suffixes=base::c(fna='_genomic.fna.gz',
@@ -252,7 +249,7 @@ list_organisms <- function(){
 #' @return a two column tibble 1= asm_acc ; 2= ftp_path
 #' @export
 #'
-#' @examples #make_ftp_paths(klebsiella_example_data$asm_acc, './test/kleb_assembly_summary.txt')
+#' @examples #make_ftp_paths(klebsiella_example_data './test/assembly_summary.txt')
 make_ftp_paths <- function(data, assembly_summary_path){
 
   # browser()
