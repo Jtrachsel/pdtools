@@ -261,7 +261,8 @@ make_ftp_paths <- function(data, assembly_summary_path){
     readr::read_tsv(assembly_summary_path, skip=1) %>%
     dplyr::transmute(asm_acc=.data$`# assembly_accession`,
                      .data$ftp_path)
-  data %>% left_join(ftp_asm_map)
+
+  result <- data %>% left_join(ftp_asm_map)
 
   return(result)
 
