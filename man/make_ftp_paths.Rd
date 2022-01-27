@@ -18,5 +18,5 @@ a two column tibble 1= asm_acc ; 2= ftp_path
 generate ftp site paths for a selection of assembly accessions
 }
 \examples{
-#make_ftp_paths(klebsiella_example_data$asm_acc, './test/kleb_assembly_summary.txt')
+#make_ftp_paths(klebsiella_example_data './test/assembly_summary.txt')
 }

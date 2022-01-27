@@ -158,7 +158,7 @@ check_complete_PDG <- function(organism, PDG){
 #' @export
 #'
 #' @examples make_download_urls(klebsiella_example_dat, type='fna')
-#'
+#' @importFrom rlang :=
 make_download_urls <- function(data, type){
 
   suffixes=base::c(fna='_genomic.fna.gz',
@@ -176,11 +176,11 @@ make_download_urls <- function(data, type){
 
   result <-
     data %>%
-    mutate("{type}_download":=
-             base::paste0(ftp_paths,
+    dplyr::mutate("{type}_download":=
+             base::paste0(.data$ftp_paths,
                           '/',
                           base::sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
-                                    ftp_paths),
+                                    .data$ftp_paths),
                           suffixes[type]))
   return(result)
 

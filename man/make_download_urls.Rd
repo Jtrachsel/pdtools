@@ -19,7 +19,6 @@ returns the original dataframe with an added column, named "{type}_download"
 make specific ftp download paths for a dataframe with ftp_paths and assembly accessions
 }
 \examples{
-#make_download_urls(asm_acc = klebsiella_example_dat$asm_acc,
-                             ftp_paths = klebsiella_example_dat$ftp_path, type='fna')
+make_download_urls(klebsiella_example_dat, type='fna')
 
 }
