@@ -2,25 +2,24 @@
 % Please edit documentation in R/download_tools.R
 \name{make_download_urls}
 \alias{make_download_urls}
-\title{generate ftp download paths for a selection of assembly accessions}
+\title{make specific ftp download paths for a dataframe with ftp_paths and assembly accessions}
 \usage{
-make_download_urls(asm_acc, ftp_paths, type)
+make_download_urls(data, type)
 }
 \arguments{
-\item{asm_acc}{a vector of assembly accessions, in the same order as the ftp_paths}
-
-\item{ftp_paths}{a vector of ftp_paths, in the same order as the asm_acc vector}
+\item{data}{a dataframe with the columns 'ftp_path' and 'asm_acc'
+ftp_path should be a column produced by the function make_ftp_paths()}
 
 \item{type}{type of download path to generate, one of: 'fna', 'gbff', 'gff', 'gtf', 'faa', 'cds'}
 }
 \value{
-returns a two column tibble, 1st column= asm_acc ; 2nd column= download_path
+returns the original dataframe with an added column, named "{type}_download"
 }
 \description{
-generate ftp download paths for a selection of assembly accessions
+make specific ftp download paths for a dataframe with ftp_paths and assembly accessions
 }
 \examples{
-make_download_urls(asm_acc = klebsiella_example_dat$asm_acc,
+#make_download_urls(asm_acc = klebsiella_example_dat$asm_acc,
                              ftp_paths = klebsiella_example_dat$ftp_path, type='fna')
 
 }
