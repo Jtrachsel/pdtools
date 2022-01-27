@@ -177,10 +177,10 @@ make_download_urls <- function(data, type){
   result <-
     data %>%
     dplyr::mutate("{type}_download":=
-             base::paste0(.data$ftp_paths,
+             base::paste0(.data$ftp_path,
                           '/',
                           base::sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
-                                    .data$ftp_paths),
+                                    .data$ftp_path),
                           suffixes[type]))
   return(result)
 
@@ -242,9 +242,9 @@ list_organisms <- function(){
 
 #' generate ftp site paths for a selection of assembly accessions
 #'
-#' @param asm_accessions vector of assembly accessions
 #' @param assembly_summary_path path to genbank assembly_summary.txt, see download_gbk_assembly_summary()
 #'
+#' @param data a dataframe containing an asm_acc
 #'
 #' @return a two column tibble 1= asm_acc ; 2= ftp_path
 #' @export
@@ -259,7 +259,7 @@ make_ftp_paths <- function(data, assembly_summary_path){
     dplyr::transmute(asm_acc=.data$`# assembly_accession`,
                      .data$ftp_path)
 
-  result <- data %>% left_join(ftp_asm_map)
+  result <- data %>% dplyr::left_join(ftp_asm_map)
 
   return(result)
 

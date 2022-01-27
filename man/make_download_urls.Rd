@@ -20,5 +20,4 @@ make specific ftp download paths for a dataframe with ftp_paths and assembly acc
 }
 \examples{
 make_download_urls(klebsiella_example_dat, type='fna')
-
 }

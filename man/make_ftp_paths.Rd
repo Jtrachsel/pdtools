@@ -7,9 +7,9 @@
 make_ftp_paths(data, assembly_summary_path)
 }
 \arguments{
-\item{assembly_summary_path}{path to genbank assembly_summary.txt, see download_gbk_assembly_summary()}
+\item{data}{a dataframe containing an asm_acc}
 
-\item{asm_accessions}{vector of assembly accessions}
+\item{assembly_summary_path}{path to genbank assembly_summary.txt, see download_gbk_assembly_summary()}
 }
 \value{
 a two column tibble 1= asm_acc ; 2= ftp_path
