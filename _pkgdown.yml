@@ -1,7 +1,7 @@
 url: ~
 
 reference:
-- title: Download helpers
+- title: Metadata download helpers
 - contents:
   - list_PDGs
   - list_organisms
@@ -13,7 +13,14 @@ reference:
   - make_ftp_paths
   - make_download_urls
   - make_SNPtree_urls
-
+- title: Genome download helpers
+- contents:
+  - download_gbk_assembly_summary
+  - make_SNPtree_urls
+  - make_ftp_paths
+  - make_download_urls
+  - make_dest_paths
+  - download_genomes
 - title: Metadata manipulations
 - contents:
   - extract_consensus_ag_species
