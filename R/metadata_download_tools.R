@@ -1,3 +1,34 @@
+#' List organisms available in the Pathogens database
+#'
+#' @return a tibble of available organisms
+#' @export
+#'
+#' @examples  list_organisms()
+list_organisms <- function(){
+  url <- 'https://ftp.ncbi.nlm.nih.gov/pathogen/Results/'
+
+  organisms <-
+    rvest::read_html(url) %>%
+    rvest::html_text2() %>%
+    stringr::str_split(pattern = ' -') %>%
+    base::unlist()
+  organisms <- organisms[-c(1, length(organisms))]
+
+  organism_table <-
+    tibble::tibble(raw=organisms,
+                   organism=base::sub('(.*)/(.*)','\\1',.data$raw),
+                   release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) %>%
+    dplyr::select(-.data$raw)
+
+  return(organism_table)
+
+
+}
+
+
+
+
+
 #' List available PDG accessions for an organism
 #'
 #' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
@@ -23,8 +54,8 @@ list_PDGs <- function(organism){
 
   PDG_table <-
     tibble::tibble(raw=PDGs,  # 1st and last lines are not PDGs
-            PDG=paste('PDG',sub('(.*)/(.*)','\\1',.data$raw), sep = ''),
-            release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) %>%
+                   PDG=paste('PDG',sub('(.*)/(.*)','\\1',.data$raw), sep = ''),
+                   release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) %>%
     dplyr::select(-.data$raw) %>%
     dplyr::arrange(dplyr::desc(.data$release_date))
 
@@ -146,140 +177,3 @@ check_complete_PDG <- function(organism, PDG){
 
   return(all_urls_exist)
 }
-
-
-#' make specific ftp download paths for a dataframe with ftp_paths and assembly accessions
-#'
-#' @param type type of download path to generate, one of: 'fna', 'gbff', 'gff', 'gtf', 'faa', 'cds'
-#' @param data a dataframe with the columns 'ftp_path' and 'asm_acc'
-#' ftp_path should be a column produced by the function make_ftp_paths()
-#'
-#' @return returns the original dataframe with an added column, named "{type}_download"
-#' @export
-#'
-#' @examples make_download_urls(klebsiella_example_dat, type='fna')
-#' @importFrom rlang :=
-make_download_urls <- function(data, type){
-
-  suffixes=base::c(fna='_genomic.fna.gz',
-                   gbff='_genomic.gbff.gz',
-                   gff='_genomic.gff.gz',
-                   gtf='_genomic.gtf.gz ',
-                   faa='_protein.faa.gz',
-                   cds='_cds_from_genomic.fna.gz')
-
-  if (!(type %in% base::names(suffixes))){
-    base::errorCondition(base::paste0('"type" must be one of ','"', base::paste(base::names(suffixes), collapse = ' '),'"'))
-  }
-
-
-
-  result <-
-    data %>%
-    dplyr::mutate("{type}_download":=
-             base::paste0(.data$ftp_path,
-                          '/',
-                          base::sub('https://ftp.ncbi.nlm.nih.gov/genomes/all/.*/.*/.*/.*/(.*)', '\\1',
-                                    .data$ftp_path),
-                          suffixes[type]))
-  return(result)
-
-}
-
-
-#' generate ftp site download urls for all SNP trees containing the provided isolates
-#'
-#' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
-#' @param data a metadata table, must contain the column 'PDS_acc' from merging in the SNP cluster data
-#' @param PDG The PDG version the metadata is from.
-#'
-#' @return returns a vector of ftp download urls for each tar.gz file containing the SNP tree info
-#' @export
-#'
-#' @examples make_SNPtree_urls(organism = 'Klebsiella',
-#'  data = klebsiella_example_dat, PDG = 'PDG000000012.1053')
-make_SNPtree_urls <- function(organism, data, PDG){
-  # One SNP tree for each PDG represented in the data
-  # Organism <- 'Klebsiella'
-  # PDG <- 'PDG000000012.1053'
-
-  num_no_clust <- base::sum(base::is.na(data$PDS_acc))
-
-  PDSs <- data %>% dplyr::filter(!is.na(.data$PDS_acc)) %>% dplyr::pull(.data$PDS_acc) %>% base::unique()
-  urls <- base::paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/', PDG, '/SNP_trees/', PDSs, '.tar.gz')
-  base::message(base::paste(num_no_clust, 'Isolates in the collection are not represented in SNP trees'))
-  return(urls)
-}
-
-#' List organisms available in the Pathogens database
-#'
-#' @return a tibble of available organisms
-#' @export
-#'
-#' @examples  list_organisms()
-list_organisms <- function(){
-  url <- 'https://ftp.ncbi.nlm.nih.gov/pathogen/Results/'
-
-  organisms <-
-    rvest::read_html(url) %>%
-    rvest::html_text2() %>%
-    stringr::str_split(pattern = ' -') %>%
-    base::unlist()
-  organisms <- organisms[-c(1, length(organisms))]
-
-  organism_table <-
-    tibble::tibble(raw=organisms,
-                   organism=base::sub('(.*)/(.*)','\\1',.data$raw),
-                   release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) %>%
-    dplyr::select(-.data$raw)
-
-  return(organism_table)
-
-
-}
-
-
-
-#' generate ftp site paths for a selection of assembly accessions
-#'
-#' @param assembly_summary_path path to genbank assembly_summary.txt, see download_gbk_assembly_summary()
-#'
-#' @param data a dataframe containing an asm_acc
-#'
-#' @return a two column tibble 1= asm_acc ; 2= ftp_path
-#' @export
-#'
-#' @examples #make_ftp_paths(klebsiella_example_data './test/assembly_summary.txt')
-make_ftp_paths <- function(data, assembly_summary_path){
-
-  # browser()
-
-  ftp_asm_map <-
-    readr::read_tsv(assembly_summary_path, skip=1) %>%
-    dplyr::transmute(asm_acc=.data$`# assembly_accession`,
-                     .data$ftp_path)
-
-  result <- data %>% dplyr::left_join(ftp_asm_map)
-
-  return(result)
-
-}
-
-#' Convenience function to download the assembly_summary.txt file from genbank
-#'
-#' @param destfile passed to download.file()'s destfile, path to store the downloaded file
-#'
-#' @return returns nothing but probably should...
-#' @export
-#'
-#' @examples #not run download_gbk_assembly_summary(destfile='assembly_summary.txt')
-download_gbk_assembly_summary <- function(destfile){
-  original_options <- base::options(timeout = 6000)
-  base::on.exit(base::options(original_options))
-
-  utils::download.file('https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt',
-                      destfile = destfile)
-
-}
-
-
