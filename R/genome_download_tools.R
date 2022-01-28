@@ -60,8 +60,8 @@ make_ftp_paths <- function(data, assembly_summary_path){
   ftp_asm_map <-
     readr::read_tsv(assembly_summary_path, skip=1) %>%
     dplyr::transmute(asm_acc=.data$`# assembly_accession`,
-                     .data$ftp_path)
-  dplyr::filter(grepl('https://ftp.ncbi.nlm.nih.gov',.data$ftp_path))
+                     .data$ftp_path) %>%
+    dplyr::filter(grepl('https://ftp.ncbi.nlm.nih.gov',.data$ftp_path))
 
   result <- data %>% dplyr::left_join(ftp_asm_map)
 
