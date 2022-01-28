@@ -159,7 +159,7 @@ download_genomes <-
 #' @param type a user input string to check
 #'
 #' @return returns a named vector of acceptable files and they appropriate suffixes
-#'
+#' @noRd
 #' @examples # supported_download_types('fna')
 supported_download_types <-
   function(type){
