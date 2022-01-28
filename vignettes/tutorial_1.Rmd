@@ -1,0 +1,117 @@
+---
+title: "Downloading and organizing a collection of NCBI pathogen genomes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Downloading and organizing a collection of NCBI pathogen genomes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(pdtools)
+library(tidyverse)
+library(knitr)
+```
+
+## Introduction  
+
+[https://www.ncbi.nlm.nih.gov/pathogens](NCBI Pathogen Detection) is a great resource for accessing publicly available pathogen genomes and their associated metadata.  This package,`pdtools`, provides functions to help organize projects utilizing Pathogen Detection data within R.  
+
+## Download metadata from NCBI pathogen detection 
+
+
+```{r}
+getwd()
+list_organisms() |> kable()
+```
+
+```{r, cache=TRUE}
+# create a data directory
+dir.create('./data/')
+
+# download them most recent version of the Campylobacter data
+dl_res <- download_most_recent_complete(organism = 'Campylobacter', folder_prefix = './data/')
+
+# two files, [1] = metadata, [2] = SNP clusters (PDS_acc)
+list.files('./data/')
+
+metadata_files <- list.files('./data/', full.names = TRUE, pattern = 'PDG')
+
+# all the information NCBI has about these pathogen isolates/genomes
+metadata <- 
+  read_tsv(metadata_files[1]) %>% 
+  left_join(read_tsv(metadata_files[2]))
+
+dim(metadata)
+
+```
+
+## Clean-up and extract usable information from the metadata  
+
+
+```{r, cache=TRUE}
+
+ag_hosts <- extract_consensus_ag_species(metadata)
+years <- extract_earliest_year(metadata)
+countries <- extract_country(metadata)
+
+metadata <- 
+  metadata |> 
+  left_join(ag_hosts) |> 
+  left_join(years) |> 
+  left_join(countries)
+
+```
+
+
+## Select genomes/isolates of interest  
+
+
+```{r}
+
+selected_isolates <- 
+  metadata |> 
+  filter(Year == 2020) |> 
+  filter(ag_match %in% c('Swine', 'Human')) |> 
+  filter(country == 'USA') |> 
+  filter(!is.na(asm_acc))
+
+dim(selected_isolates)
+```
+
+
+## Download genome assemblies for selected isolates  
+
+```{r, cache=TRUE}
+# first we need information from genbank giving ftp site paths for assemblies
+download_gbk_assembly_summary('./data/assembly_summary.txt')
+
+dir.create('./data/genomes')
+
+download_data <- 
+  selected_isolates |>
+  select(asm_acc) |> 
+  make_ftp_paths(assembly_summary_path = './data/assembly_summary.txt') |> 
+  make_download_urls('fna') |> 
+  make_dest_paths(type = 'fna', dest_dir = './data/genomes/')
+
+download_data
+
+
+```
+
+
+
+
+
+
+
+
+
