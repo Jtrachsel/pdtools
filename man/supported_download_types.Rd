@@ -10,7 +10,7 @@ supported_download_types(type)
 \item{type}{a user input string to check}
 }
 \value{
-
+returns a named vector of acceptable files and they appropriate suffixes
 }
 \description{
 helper function to check if user supplied type is in the supported types

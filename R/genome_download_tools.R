@@ -61,7 +61,7 @@ make_ftp_paths <- function(data, assembly_summary_path){
     readr::read_tsv(assembly_summary_path, skip=1) %>%
     dplyr::transmute(asm_acc=.data$`# assembly_accession`,
                      .data$ftp_path)
-  filter(grepl('https://ftp.ncbi.nlm.nih.gov',ftp_path))
+  dplyr::filter(grepl('https://ftp.ncbi.nlm.nih.gov',.data$ftp_path))
 
   result <- data %>% dplyr::left_join(ftp_asm_map)
 
@@ -119,7 +119,7 @@ download_files <-
     safe_download <- purrr::safely(utils::download.file)
 
     data %>%
-      dplyr::select(asm_acc, dplyr::starts_with(type)) %>%
+      dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
       dplyr::mutate("{type}_dl":=purrr::map2(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(.x, .y))) %>%
       tidyr::unnest_wider(glue::glue('{type}_dl'),
                           names_sep = '_',
@@ -157,7 +157,7 @@ make_dest_paths <- function(data, type, dest_dir){
 #'
 #' @param type a user input string to check
 #'
-#' @return
+#' @return returns a named vector of acceptable files and they appropriate suffixes
 #'
 #' @examples # supported_download_types('fna')
 supported_download_types <-
