@@ -31,6 +31,9 @@
     <loc>/reference/download_gbk_assembly_summary.html</loc>
   </url>
   <url>
+    <loc>/reference/download_genomes.html</loc>
+  </url>
+  <url>
     <loc>/reference/download_most_recent_complete.html</loc>
   </url>
   <url>
@@ -74,6 +77,9 @@
   </url>
   <url>
     <loc>/reference/make_SNPtree_urls.html</loc>
+  </url>
+  <url>
+    <loc>/reference/make_dest_paths.html</loc>
   </url>
   <url>
     <loc>/reference/make_download_urls.html</loc>
