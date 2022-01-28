@@ -95,6 +95,25 @@ make_download_urls <- function(data, type){
 
 }
 
+#' Make download destination paths
+#'
+#' @param data A dataframe containing an asm_acc column
+#' @param type the type of files you want to download, one of: 'fna', 'gbff', 'gff', 'gtf', 'faa', 'cds'
+#' @param dest_dir path to the directory you want to use, must exist, should include a trailing '/'
+#'
+#' @return returns a dataframe with an added "{type}_dest" column containing the paths to pass to download.file
+#' @export
+#' @importFrom rlang :=
+#'
+#' @examples # download_data %>% make_dest_faths(type='fna', dest_dir='./data/')
+make_dest_paths <- function(data, type, dest_dir){
+
+  base::file.exists(dest_dir)
+  supported_download_types(type)
+
+  data %>%
+    dplyr::mutate("{type}_dest":=paste0(dest_dir, .data$asm_acc, '.', type, '.gz'))
+}
 
 #' Download specified files from NCBI ftp site
 #'
@@ -108,8 +127,8 @@ make_download_urls <- function(data, type){
 #' @export
 #'
 #' @importFrom rlang :=
-#' @examples # download_data %>% download_files('fna')
-download_files <-
+#' @examples # download_data %>% download_genomes('fna')
+download_genomes <-
   function(data, type){
     supported_download_types(type)
     url_var <- base::paste0(type, '_download')
@@ -130,25 +149,7 @@ download_files <-
 
 
 
-#' Make download destination paths
-#'
-#' @param data A dataframe containing an asm_acc column
-#' @param type the type of files you want to download, one of: 'fna', 'gbff', 'gff', 'gtf', 'faa', 'cds'
-#' @param dest_dir path to the directory you want to use, must exist, should include a trailing '/'
-#'
-#' @return returns a dataframe with an added "{type}_dest" column containing the paths to pass to download.file
-#' @export
-#' @importFrom rlang :=
-#'
-#' @examples # download_data %>% make_dest_faths(type='fna', dest_dir='./data/')
-make_dest_paths <- function(data, type, dest_dir){
 
-  base::file.exists(dest_dir)
-  supported_download_types(type)
-
-  data %>%
-    dplyr::mutate("{type}_dest":=paste0(dest_dir, .data$asm_acc, '.', type, '.gz'))
-}
 
 
 
