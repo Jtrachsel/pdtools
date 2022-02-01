@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pdtools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.3</span>
       </span>
     </div>
 
@@ -132,33 +132,32 @@
 <span class="va">meta</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">left_join</span><span class="op">(</span><span class="va">earliest_year</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="generate-ftp-download-paths-for-a-collection-of-isolates">Generate ftp download paths for a collection of isolates<a class="anchor" aria-label="anchor" href="#generate-ftp-download-paths-for-a-collection-of-isolates"></a>
+<h4 id="generate-ftp-download-paths-for-a-selection-of-isolates">Generate ftp download paths for a selection of isolates<a class="anchor" aria-label="anchor" href="#generate-ftp-download-paths-for-a-selection-of-isolates"></a>
 </h4>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># download most recent assembly summary</span>
-<span class="fu">curl</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/curl/man/curl_download.html" class="external-link">curl_download</a></span><span class="op">(</span><span class="st">'https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt'</span>,
-                    destfile <span class="op">=</span> <span class="st">'./data/assembly_summary.txt'</span><span class="op">)</span>
+<span class="fu"><a href="reference/download_gbk_assembly_summary.html">download_gbk_assembly_summary</a></span><span class="op">(</span><span class="st">'./data/assembly_summary.txt'</span><span class="op">)</span>
 
-<span class="co"># only download isolates from swine after 2015</span>
+<span class="co"># select isolates associated with swine from after 2015</span>
 <span class="va">meta_filt</span> <span class="op">&lt;-</span>
   <span class="va">meta</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">&gt;</span> <span class="fl">2015</span> <span class="op">&amp;</span> <span class="va">ag_match</span> <span class="op">==</span> <span class="st">'Swine'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">write_tsv</span><span class="op">(</span><span class="st">'./data/swine_2015_meta.tsv'</span><span class="op">)</span>
 
-<span class="va">ftp_paths</span> <span class="op">&lt;-</span> 
+
+<span class="co"># make a 'download data' tibble to organize and track downloads</span>
+<span class="co"># downloads both fna and gff files for each genome in the metadata</span>
+<span class="va">download_data</span> <span class="op">&lt;-</span> 
   <span class="va">meta_filt</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">make_fna_urls</span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">asm_acc</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">write_lines</span><span class="op">(</span><span class="st">'./data/ftp_download_paths.txt'</span><span class="op">)</span>
-
-<span class="co"># download from the command line:</span>
-<span class="co"># cd data</span>
-<span class="co"># cat ftp_download_paths.txt | parallel -j 2 'wget {}'</span>
-
-<span class="co"># or within R:</span>
-<span class="co"># set names to the desired path </span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ftp_paths</span><span class="op">)</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'./data/'</span>,<span class="va">meta_filt</span><span class="op">$</span><span class="va">asm_acc</span>, <span class="st">'.fna.gz'</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">u</span>, <span class="va">d</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="va">u</span>, <span class="va">d</span>, mode<span class="op">=</span><span class="st">"wb"</span><span class="op">)</span>, <span class="va">ftp_paths</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ftp_paths</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu">select</span><span class="op">(</span><span class="va">asm_acc</span>, <span class="va">ftp_path</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/make_ftp_paths.html">make_ftp_paths</a></span><span class="op">(</span>assembly_summary_path <span class="op">=</span> <span class="st">'./data/assembly_summary.txt'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/make_download_urls.html">make_download_urls</a></span><span class="op">(</span><span class="st">'fna'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/make_download_urls.html">make_download_urls</a></span><span class="op">(</span><span class="st">'gff'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/make_dest_paths.html">make_dest_paths</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">'fna'</span>, dest_dir <span class="op">=</span> <span class="st">'./data/'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/make_dest_paths.html">make_dest_paths</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">'gff'</span>, dest_dir <span class="op">=</span> <span class="st">'./data/'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/download_genomes.html">download_genomes</a></span><span class="op">(</span><span class="st">'fna'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/download_genomes.html">download_genomes</a></span><span class="op">(</span><span class="st">'gff'</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">write_tsv</span><span class="op">(</span><span class="st">'./data/download_data.tsv'</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="generate-an-input-file-for-caclulating-a-pangenome-with-ppanggolin">Generate an input file for caclulating a pangenome with <a href="https://github.com/labgem/PPanGGOLiN" class="external-link">ppanggolin</a>
@@ -169,10 +168,15 @@
 <span class="co"># feed their paths into the 'complete_genome_paths parameter and the function</span>
 <span class="co"># will correctly specify cirular contigs for ppanggolin.  </span>
 
-<span class="va">fna_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">'./data/'</span>, <span class="st">'.fna'</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
+<span class="fu">download_reference_genomes</span><span class="op">(</span><span class="st">'LT2'</span>, <span class="st">'fna'</span>, <span class="st">'./reference_genomes/'</span><span class="op">)</span>
+<span class="va">complete_genomes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">'./reference_genomes/'</span>, <span class="st">'.fna'</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
-<span class="fu"><a href="reference/build_ppanggolin_file_fastas.html">build_ppanggolin_file_fastas</a></span><span class="op">(</span>incomplete_genome_paths <span class="op">=</span> <span class="va">fna_files</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">write_tsv</span><span class="op">(</span><span class="st">'ppanggolin_file.tsv'</span><span class="op">)</span></code></pre></div>
+<span class="va">draft_genomes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">'./data/'</span>, <span class="st">'.fna'</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
+
+
+<span class="fu"><a href="reference/build_ppanggolin_file_fastas.html">build_ppanggolin_file_fastas</a></span><span class="op">(</span>complete_genome_paths <span class="op">=</span> <span class="va">complete_genomes</span>, 
+                             incomplete_genome_paths <span class="op">=</span> <span class="va">fna_files</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">write_tsv</span><span class="op">(</span><span class="st">'ppanggolin_file.tsv'</span>, col_names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="select-a-representative-set-of-isolates-from-a-pangenome">Select a representative set of isolates from a pangenome<a class="anchor" aria-label="anchor" href="#select-a-representative-set-of-isolates-from-a-pangenome"></a>
