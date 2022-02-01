@@ -136,10 +136,10 @@ download_genomes <-
     err_var <- stats::setNames(base::list(base::as.character), glue::glue("{type}_dl_error"))
 
     safe_download <- purrr::safely(utils::download.file)
-
+    print('downloading genomes, please be patient')
     data %>%
       dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
-      dplyr::mutate("{type}_dl":=purrr::map2(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(.x, .y))) %>%
+      dplyr::mutate("{type}_dl":=purrr::map2(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE))) %>%
       tidyr::unnest_wider(glue::glue('{type}_dl'),
                           names_sep = '_',
                           simplify = TRUE,
@@ -177,3 +177,26 @@ supported_download_types <-
   }
 
 
+download_reference_genomes <- function(genome_names,type, data_dir){
+
+  references <- c(
+    LT2='https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/006/945/GCF_000006945.2_ASM694v2/GCF_000006945.2_ASM694v2_genomic',
+    Enteriditis='ENTERIDITIS',
+    USDA15WA1='https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/006/874/805/GCA_006874805.1_ASM687480v1/GCA_006874805.1_ASM687480v1_genomic'
+
+  )
+  # browser()
+  dl_tib <-
+    tibble(NAME=genome_names,
+           download_path=paste0(references[genome_names],'.', type, '.gz'),
+           dest_path=paste0(data_dir,'/', NAME,'.', type,'.gz')) %>%
+    mutate(RESULT=map2_int(.x=download_path, .y=dest_path, .f=~download.file(.x,.y)))
+  return(dl_tib)
+
+
+}
+
+#
+# download_reference_genomes('LT2',type = 'gff', './data/')
+# download_reference_genomes('USDA15WA1', 'gff', './data/')
+#
