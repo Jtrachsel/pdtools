@@ -62,33 +62,32 @@ earliest_year <- meta %>% extract_earliest_year()
 meta <- meta %>% left_join(earliest_year)
 ```
 
-#### Generate ftp download paths for a collection of isolates
+#### Generate ftp download paths for a selection of isolates
 
 ``` r
 # download most recent assembly summary
-curl::curl_download('https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt',
-                    destfile = './data/assembly_summary.txt')
+download_gbk_assembly_summary('./data/assembly_summary.txt')
 
-# only download isolates from swine after 2015
+# select isolates associated with swine from after 2015
 meta_filt <-
   meta %>%
   filter(Year > 2015 & ag_match == 'Swine') %>% 
   write_tsv('./data/swine_2015_meta.tsv')
 
-ftp_paths <- 
+
+# make a 'download data' tibble to organize and track downloads
+# downloads both fna and gff files for each genome in the metadata
+download_data <- 
   meta_filt %>% 
-  make_fna_urls(.$asm_acc) %>% 
-  write_lines('./data/ftp_download_paths.txt')
-
-# download from the command line:
-# cd data
-# cat ftp_download_paths.txt | parallel -j 2 'wget {}'
-
-# or within R:
-# set names to the desired path 
-names(ftp_paths) <-paste0('./data/',meta_filt$asm_acc, '.fna.gz')
-
-Map(function(u, d) download.file(u, d, mode="wb"), ftp_paths, names(ftp_paths))
+  select(asm_acc, ftp_path) %>% 
+  make_ftp_paths(assembly_summary_path = './data/assembly_summary.txt') %>% 
+  make_download_urls('fna') %>% 
+  make_download_urls('gff') %>% 
+  make_dest_paths(type='fna', dest_dir = './data/') %>% 
+  make_dest_paths(type='gff', dest_dir = './data/') %>% 
+  download_genomes('fna') %>% 
+  download_genomes('gff') %>% 
+  write_tsv('./data/download_data.tsv')
 ```
 
 #### Generate an input file for caclulating a pangenome with [ppanggolin](https://github.com/labgem/PPanGGOLiN)
@@ -98,10 +97,15 @@ Map(function(u, d) download.file(u, d, mode="wb"), ftp_paths, names(ftp_paths))
 # feed their paths into the 'complete_genome_paths parameter and the function
 # will correctly specify cirular contigs for ppanggolin.  
 
-fna_files <- list.files('./data/', '.fna', full.names = T)
+download_reference_genomes('LT2', 'fna', './reference_genomes/')
+complete_genomes <- list.files('./reference_genomes/', '.fna', full.names = T)
 
-build_ppanggolin_file_fastas(incomplete_genome_paths = fna_files) %>% 
-  write_tsv('ppanggolin_file.tsv')
+draft_genomes <- list.files('./data/', '.fna', full.names = T)
+
+
+build_ppanggolin_file_fastas(complete_genome_paths = complete_genomes, 
+                             incomplete_genome_paths = fna_files) %>% 
+  write_tsv('ppanggolin_file.tsv', col_names = FALSE)
 ```
 
 #### Select a representative set of isolates from a pangenome
