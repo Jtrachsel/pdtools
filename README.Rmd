@@ -23,7 +23,7 @@ A collection of functions for working with data from the
 
 [https://jtrachsel.github.io/pdtools/index.html](https://jtrachsel.github.io/pdtools/index.html)
 
-## Examples  
+## Quickstart  
 
 #### List available organisms
 
