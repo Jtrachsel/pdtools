@@ -130,20 +130,47 @@ make_dest_paths <- function(data, type, dest_dir){
 #' @examples # download_data %>% download_genomes('fna')
 download_genomes <-
   function(data, type){
+
     supported_download_types(type)
+
     url_var <- base::paste0(type, '_download')
     dest_var <- base::paste0(type, '_dest')
     err_var <- stats::setNames(base::list(base::as.character), glue::glue("{type}_dl_error"))
+    exists_var <- glue::glue("{type}_exists")
 
-    safe_download <- purrr::safely(utils::download.file)
-    print('downloading genomes, please be patient')
-    data %>%
-      dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
-      dplyr::mutate("{type}_dl":=purrr::map2(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE))) %>%
-      tidyr::unnest_wider(glue::glue('{type}_dl'),
-                          names_sep = '_',
-                          simplify = TRUE,
-                          transform = err_var)
+    # check for existing files #
+    # with and without extension in case they've been unzipped
+    print('checking for existing files')
+    exist_dat <-
+      data %>%
+      dplyr::select(.data$asm_acc, dest_var) %>%
+      dplyr::mutate(gunzipped=base::sub('.gz','', !!rlang::sym(dest_var))) %>%
+      dplyr::mutate(EXISTS=purrr::map_lgl(.x = !!rlang::sym(dest_var), .f = base::file.exists),
+                    EXISTS2=purrr::map_lgl(.x = .data$gunzipped, .f = base::file.exists),
+                    "{type}_exists":=.data$EXISTS | .data$EXISTS2) %>%
+      dplyr::select(.data$asm_acc, dplyr::all_of(dest_var), dplyr::all_of(exists_var))
+
+
+    if (base::any(exist_dat[[exists_var]])){
+
+      data <- data %>% dplyr::left_join(exist_dat)
+      base::print(glue::glue('some of the {type} files exist, see {type}_exists column'))
+      return(data)
+
+    } else {
+
+      safe_download <- purrr::safely(utils::download.file)
+      base::print('downloading genomes, please be patient')
+      data %>%
+        dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
+        dplyr::mutate("{type}_dl":=purrr::map2(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE))) %>%
+        tidyr::unnest_wider(glue::glue('{type}_dl'),
+                            names_sep = '_',
+                            simplify = TRUE,
+                            transform = err_var)
+
+    }
+
 
   }
 
@@ -179,7 +206,7 @@ supported_download_types <-
 
 download_reference_genomes <- function(genome_names,type, data_dir){
 
-  references <- c(
+  references <- base::c(
     LT2='https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/006/945/GCF_000006945.2_ASM694v2/GCF_000006945.2_ASM694v2_genomic',
     Enteriditis='ENTERIDITIS',
     USDA15WA1='https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/006/874/805/GCA_006874805.1_ASM687480v1/GCA_006874805.1_ASM687480v1_genomic'
@@ -187,16 +214,11 @@ download_reference_genomes <- function(genome_names,type, data_dir){
   )
   # browser()
   dl_tib <-
-    tibble(NAME=genome_names,
-           download_path=paste0(references[genome_names],'.', type, '.gz'),
-           dest_path=paste0(data_dir,'/', NAME,'.', type,'.gz')) %>%
-    mutate(RESULT=map2_int(.x=download_path, .y=dest_path, .f=~download.file(.x,.y)))
+   tibble::tibble(NAME=genome_names,
+           download_path=base::paste0(references[.data$genome_names],'.', type, '.gz'),
+           dest_path=base::paste0(data_dir,'/', .data$NAME,'.', type,'.gz')) %>%
+    dplyr::mutate(RESULT=purrr::map2_int(.x=.data$download_path, .y=.data$dest_path, .f=~utils::download.file(.x,.y)))
   return(dl_tib)
 
 
 }
-
-#
-# download_reference_genomes('LT2',type = 'gff', './data/')
-# download_reference_genomes('USDA15WA1', 'gff', './data/')
-#

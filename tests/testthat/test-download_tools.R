@@ -32,18 +32,18 @@ test_that('find_most_recent_complete returns a vector of length 2', {
 })
 
 
-test_that('download_PDD_metadata downloads some metadata', {
-  skip_if_offline()
-  skip_on_cran()
-  skip_on_bioc()
-  PDG <- find_most_recent_complete('Serratia')[1]
-  download_PDD_metadata('Serratia', PDG[1])
-  dl_files <- list.files(pattern = 'PDG')
-  expect_equal(length(dl_files), 2)
-  expect_true(file.remove(dl_files[1]))
-  expect_true(file.remove(dl_files[2]))
-
-})
+# test_that('download_PDD_metadata downloads some metadata', {
+#   skip_if_offline()
+#   skip_on_cran()
+#   skip_on_bioc()
+#   PDG <- find_most_recent_complete('Serratia')[1]
+#   download_PDD_metadata('Serratia', PDG[1])
+#   dl_files <- list.files(pattern = 'PDG')
+#   expect_equal(length(dl_files), 2)
+#   expect_true(file.remove(dl_files[1]))
+#   expect_true(file.remove(dl_files[2]))
+#
+# })
 
 
 test_that('check_complete_PDG returns TRUE for a complete PDG',{
