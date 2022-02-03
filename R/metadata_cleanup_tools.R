@@ -50,6 +50,15 @@ extract_consensus_ag_species <- function(dat, parallel=FALSE){
       Duck="duck",
       Goose='goose')
 
+  # check for needed columns #
+  stopifnot({
+
+    check_for_columns(dat, c('isolation_source', 'host', 'ontological_term', 'epi_type'))
+
+  })
+
+  #
+
   if (parallel){
     first_pass <-
       dat %>%
@@ -93,7 +102,19 @@ extract_consensus_ag_species <- function(dat, parallel=FALSE){
 
 }
 
+#' check that all needed columns exist
+#'
+#' @param data
+#' @param column_names
+#'
+#' @return TRUE/FALSE
+#' @noRd
+#'
+#' @examples
+check_for_columns <- function(data, column_names){
+    all(column_names %in% colnames(data))
 
+}
 #' return a Year column containing the earliest year from the
 #' available 'date' fields.
 #'
