@@ -121,21 +121,20 @@ make_dest_paths <- function(data, type, dest_dir){
 #' @param type the type of files you want to download, one of: 'fna', 'gbff', 'gff', 'gtf', 'faa', 'cds'
 #'
 #' @return the results of attempting to download the specified files,
-#'  A dataframe with two added columns:
-#'    1. return of download.file, should be 0
-#'    2. error column from purrr::safely(), should contain any error messages.
+#'  A dataframe with one added column:
+#'    1. return of download.file, 0 == success, 1 == error
 #' @export
 #'
 #' @importFrom rlang :=
 #' @examples # download_data %>% download_genomes('fna')
 download_genomes <-
   function(data, type){
-
+  # browser()
     supported_download_types(type)
 
     url_var <- base::paste0(type, '_download')
     dest_var <- base::paste0(type, '_dest')
-    err_var <- stats::setNames(base::list(base::as.character), glue::glue("{type}_dl_error"))
+    # err_var <- stats::setNames(base::list(base::as.character), glue::glue("{type}_dl_error"))
     exists_var <- glue::glue("{type}_exists")
 
     # check for existing files #
@@ -153,21 +152,21 @@ download_genomes <-
 
     if (base::any(exist_dat[[exists_var]])){
 
-      data <- data %>% dplyr::left_join(exist_dat)
+      data <- data %>% dplyr::left_join(exist_dat) %>% unique()
       base::print(glue::glue('some of the {type} files exist, see {type}_exists column'))
       return(data)
 
     } else {
 
-      safe_download <- purrr::safely(utils::download.file)
+      safe_download <- purrr::possibly(utils::download.file, otherwise = 1)
       base::print('downloading genomes, please be patient')
       data %>%
-        dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
-        dplyr::mutate("{type}_dl":=purrr::map2(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE))) %>%
-        tidyr::unnest_wider(glue::glue('{type}_dl'),
-                            names_sep = '_',
-                            simplify = TRUE,
-                            transform = err_var)
+        # dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
+        dplyr::mutate("{type}_dl":=purrr::map2_dbl(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE))) #%>%
+        # tidyr::unnest_wider(glue::glue('{type}_dl'),
+        #                     names_sep = '_',
+        #                     simplify = TRUE,
+        #                     transform = err_var)
 
     }
 
