@@ -136,64 +136,127 @@ make_dest_paths <- function(data, type, dest_dir){
 #'
 #' @importFrom rlang :=
 #' @examples # download_data %>% download_genomes('fna')
+# download_genomes <-
+#   function(data, type, PARALLEL=FALSE){
+#   # browser()
+#     supported_download_types(type)
+#
+#     url_var <- base::paste0(type, '_download')
+#     dest_var <- base::paste0(type, '_dest')
+#     # err_var <- stats::setNames(base::list(base::as.character), glue::glue("{type}_dl_error"))
+#     exists_var <- glue::glue("{type}_exists")
+#
+#     # check for existing files #
+#     # with and without extension in case they've been unzipped
+#     print('checking for existing files')
+#     exist_dat <-
+#       data %>%
+#       dplyr::select(.data$asm_acc, dest_var) %>%
+#       dplyr::mutate(gunzipped=base::sub('.gz','', !!rlang::sym(dest_var))) %>%
+#       dplyr::mutate(EXISTS=purrr::map_lgl(.x = !!rlang::sym(dest_var), .f = base::file.exists),
+#                     EXISTS2=purrr::map_lgl(.x = .data$gunzipped, .f = base::file.exists),
+#                     "{type}_exists":=.data$EXISTS | .data$EXISTS2) %>%
+#       dplyr::select(.data$asm_acc, dplyr::all_of(dest_var), dplyr::all_of(exists_var))
+#
+#
+#     if (base::any(exist_dat[[exists_var]])){
+#
+#       data <- data %>% dplyr::left_join(exist_dat) %>% unique()
+#       base::print(glue::glue('some of the {type} files exist, see {type}_exists column'))
+#       return(data)
+#
+#     } else {
+#
+#       safe_download <- purrr::possibly(utils::download.file, otherwise = 1)
+#       base::print('downloading genomes, please be patient')
+#
+#       if (PARALLEL){
+#         res <-
+#           data %>%
+#           # dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
+#           dplyr::mutate("{type}_dl":=furrr::future_map2_dbl(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE)))
+#         return(res)
+#       } else {
+#
+#       }
+#       res <- data %>%
+#         # dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
+#         dplyr::mutate("{type}_dl":=purrr::map2_dbl(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE))) #%>%
+#         # tidyr::unnest_wider(glue::glue('{type}_dl'),
+#         #                     names_sep = '_',
+#         #                     simplify = TRUE,
+#         #                     transform = err_var)
+#       return(res)
+#
+#     }
+#
+#
+#   }
+
+
+#' Download a set of specified genome files
+#'
+#' @param data dataframe that both make_download_urls and make_dest_paths have run on
+#' @param type one of the accepted types of files to download
+#' @param PARALLEL should downloads be run in parallel, requires you to set your
+#' future::plan()
+#'
+#' @return the original dataframe with columns added to represent the result of the download attempt
+#' @export
+#'
+#' @examples #
 download_genomes <-
   function(data, type, PARALLEL=FALSE){
-  # browser()
+    # browser()
     supported_download_types(type)
 
     url_var <- base::paste0(type, '_download')
     dest_var <- base::paste0(type, '_dest')
-    # err_var <- stats::setNames(base::list(base::as.character), glue::glue("{type}_dl_error"))
-    exists_var <- glue::glue("{type}_exists")
+    exists_var <-base::paste0(type, "_exists")
+
+    # this may be unecessary
+    safe_download <- purrr::possibly(utils::download.file, otherwise = 1)
 
     # check for existing files #
     # with and without extension in case they've been unzipped
-    print('checking for existing files')
-    exist_dat <-
-      data %>%
-      dplyr::select(.data$asm_acc, dest_var) %>%
-      dplyr::mutate(gunzipped=base::sub('.gz','', !!rlang::sym(dest_var))) %>%
-      dplyr::mutate(EXISTS=purrr::map_lgl(.x = !!rlang::sym(dest_var), .f = base::file.exists),
-                    EXISTS2=purrr::map_lgl(.x = .data$gunzipped, .f = base::file.exists),
-                    "{type}_exists":=.data$EXISTS | .data$EXISTS2) %>%
-      dplyr::select(.data$asm_acc, dplyr::all_of(dest_var), dplyr::all_of(exists_var))
+    # print('checking for existing files')
+    data <- check_if_files_exist(data, 'fna')
+    need_to_download <- data %>% dplyr::filter(!(!!rlang::sym(exists_var)))
+    already_existing <- data %>%
+      dplyr::filter((!!rlang::sym(exists_var))) %>%
+      dplyr::mutate("{type}_dl":='exists')
 
+    if (base::nrow(need_to_download) > 0){
 
-    if (base::any(exist_dat[[exists_var]])){
-
-      data <- data %>% dplyr::left_join(exist_dat) %>% unique()
-      base::print(glue::glue('some of the {type} files exist, see {type}_exists column'))
-      return(data)
-
-    } else {
-
-      safe_download <- purrr::possibly(utils::download.file, otherwise = 1)
       base::print('downloading genomes, please be patient')
 
       if (PARALLEL){
+        print("using parallel downloads, if you haven't set your future::plan()
+              these will still be sequential")
         res <-
-          data %>%
-          # dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
-          dplyr::mutate("{type}_dl":=furrr::future_map2_dbl(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE)))
-        return(res)
-      } else {
+          need_to_download %>%
+          dplyr::mutate("{type}_dl":=furrr::future_map2_chr(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE)))
 
+        res <- bind_rows(already_existing, res) %>% check_if_files_exist(type)
+
+        return(res)
+
+      } else {
+        res <- need_to_download %>%
+          dplyr::mutate("{type}_dl":=purrr::map2_chr(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE))) #%>%
+        res <- bind_rows(already_existing, res)
+
+        return(res)
       }
-      res <- data %>%
-        # dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
-        dplyr::mutate("{type}_dl":=purrr::map2_dbl(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE))) #%>%
-        # tidyr::unnest_wider(glue::glue('{type}_dl'),
-        #                     names_sep = '_',
-        #                     simplify = TRUE,
-        #                     transform = err_var)
-      return(res)
+
+
+    } else {
+
+      return(already_existing)
 
     }
 
-
   }
-
-
 
 
 
@@ -260,11 +323,15 @@ check_if_files_exist <- function(data, type){
                   "{type}_exists":=.data$EXISTS | .data$EXISTS2) %>%
     dplyr::select(.data$asm_acc, dplyr::all_of(dest_var), dplyr::all_of(exists_var))
 
-  if (base::any(exist_dat[[exists_var]])){
+  data <- data %>% dplyr::left_join(exist_dat) %>% unique()
 
-    data <- data %>% dplyr::left_join(exist_dat) %>% unique()
-    base::print(glue::glue('some of the {type} files exist, see {type}_exists column'))
-    return(data)
-
+  if (base::all(exist_dat[[exists_var]])){
+    base::print(glue::glue('all of the {type} files exist'))
   }
+
+  if (base::any(exist_dat[[exists_var]])){
+    base::print(glue::glue('some of the {type} files already exist, skipping these'))
+  }
+
+  return(data)
 }
