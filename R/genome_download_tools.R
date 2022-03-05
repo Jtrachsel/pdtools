@@ -335,3 +335,10 @@ check_if_files_exist <- function(data, type){
 
   return(data)
 }
+
+
+# after downloading files, make sure no asm_acc is repeated
+# if repeats, keep newest accession
+resolve_updated_assemblies <- function(data_dir){
+  list.files(data_dir)
+}
