@@ -177,3 +177,35 @@ check_complete_PDG <- function(organism, PDG){
 
   return(all_urls_exist)
 }
+
+
+
+######## NEW! ###########
+
+get_PDG_version <- function(data_dir){
+  sub('(PDG.*).amr.metadata.tsv','\\1',list.files(data_dir, '(PDG.*).amr.metadata.tsv')[1])
+}
+
+
+download_SNP_trees <- function(data){
+
+  original_options <- base::options(timeout = 10000)
+  base::on.exit(base::options(original_options))
+
+  ### check if SNPS exist here
+  data %>%
+    mutate(SNP_tree_dl=map2(.x = SNP_tree_url, .y=SNP_tree_dest, .f = ~download.file(.x, .y)))
+}
+
+make_SNPtree_urls(organism = 'Salmonella',
+                  data = infmeta,
+                  PDG = get_PDG_version('metadata'))
+
+make_SNP_tree_dest <- function(data, data_dir){
+  data %>%
+    mutate(SNP_tree_dest=
+             paste0(data_dir, '/', sub('.*SNP_trees/(PDS[0-9]+.[0-9]+.tar.gz)','\\1',SNP_tree_url)))
+}
+
+
+

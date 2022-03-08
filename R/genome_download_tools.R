@@ -7,7 +7,7 @@
 #'
 #' @examples #not run download_gbk_assembly_summary(destfile='assembly_summary.txt')
 download_gbk_assembly_summary <- function(destfile){
-  original_options <- base::options(timeout = 6000)
+  original_options <- base::options(timeout = 10000)
   base::on.exit(base::options(original_options))
 
   utils::download.file('https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt',
