@@ -120,9 +120,9 @@ make_download_urls <- function(data, type){
 make_dest_paths <- function(data, type, dest_dir){
   stopifnot({
     base::file.exists(dest_dir)
-    supported_download_types(type)
-  })
 
+  })
+  supported_download_types(type)
   data %>%
     dplyr::mutate("{type}_dest":=paste0(dest_dir, .data$asm_acc, '.', type, '.gz'))
 }
@@ -215,11 +215,10 @@ supported_download_types <-
                      cds='_cds_from_genomic.fna.gz')
 
     if (!(type %in% base::names(suffixes))){
-      base::errorCondition(base::paste0('"type" must be one of ','"', base::paste(base::names(suffixes), collapse = ' '),'"'))
+      return(base::errorCondition(base::paste0('"type" must be one of ','"', base::paste(base::names(suffixes), collapse = ' '),'"')))
     }
     return(suffixes)
   }
-
 
 download_reference_genomes <- function(genome_names,type, data_dir){
 
