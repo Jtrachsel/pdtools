@@ -2,26 +2,24 @@
 % Please edit documentation in R/genome_download_tools.R
 \name{download_genomes}
 \alias{download_genomes}
-\title{Download specified files from NCBI ftp site}
+\title{Download a set of specified genome files}
 \usage{
-download_genomes(data, type)
+download_genomes(data, type, PARALLEL = FALSE)
 }
 \arguments{
-\item{data}{a dataframe with columns created by make_download_urls() and make_dest_paths()}
+\item{data}{dataframe that both make_download_urls and make_dest_paths have run on}
 
-\item{type}{the type of files you want to download, one of: 'fna', 'gbff', 'gff', 'gtf', 'faa', 'cds'}
+\item{type}{one of the accepted types of files to download}
+
+\item{PARALLEL}{should downloads be run in parallel, requires you to set your
+future::plan()}
 }
 \value{
-the results of attempting to download the specified files,
-A dataframe with two added columns:
-\enumerate{
-\item return of download.file, should be 0
-\item error column from purrr::safely(), should contain any error messages.
-}
+the original dataframe with columns added to represent the result of the download attempt
 }
 \description{
-Download specified files from NCBI ftp site
+Download a set of specified genome files
 }
 \examples{
-# download_data \%>\% download_genomes('fna')
+#
 }

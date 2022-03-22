@@ -6,12 +6,18 @@
 #' @export
 #'
 #' @examples #not run download_gbk_assembly_summary(destfile='assembly_summary.txt')
-download_gbk_assembly_summary <- function(destfile){
-  original_options <- base::options(timeout = 10000)
+download_gbk_assembly_summary <- function(destfile, organism=NULL){
+  original_options <- base::options(timeout = 6000)
   base::on.exit(base::options(original_options))
+  if(is.null(organism)){
+    utils::download.file('https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt',
+                         destfile = destfile)
+  } else {
+    download_url <- base::paste0('https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/', organism, '/assembly_summary.txt')
+    utils::download.file(download_url, destfile = destfile)
+  }
 
-  utils::download.file('https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt',
-                       destfile = destfile)
+
 
 }
 
@@ -121,77 +127,6 @@ make_dest_paths <- function(data, type, dest_dir){
     dplyr::mutate("{type}_dest":=paste0(dest_dir, .data$asm_acc, '.', type, '.gz'))
 }
 
-#' Download specified files from NCBI ftp site
-#'
-#' @param data a dataframe with columns created by make_download_urls() and make_dest_paths()
-#' @param type the type of files you want to download, one of: 'fna', 'gbff', 'gff', 'gtf', 'faa', 'cds'
-#' @param PARALLEL boolean, if TRUE use furrr::future_map, you will need to set your 'plan'
-#' ahead of time otherwise the downloads will still be sequential.  It's probably best
-#' to not try and start too many downloads at one time...
-#'
-#' @return the results of attempting to download the specified files,
-#'  A dataframe with one added column:
-#'    1. return of download.file, 0 == success, 1 == error
-#' @export
-#'
-#' @importFrom rlang :=
-#' @examples # download_data %>% download_genomes('fna')
-# download_genomes <-
-#   function(data, type, PARALLEL=FALSE){
-#   # browser()
-#     supported_download_types(type)
-#
-#     url_var <- base::paste0(type, '_download')
-#     dest_var <- base::paste0(type, '_dest')
-#     # err_var <- stats::setNames(base::list(base::as.character), glue::glue("{type}_dl_error"))
-#     exists_var <- glue::glue("{type}_exists")
-#
-#     # check for existing files #
-#     # with and without extension in case they've been unzipped
-#     print('checking for existing files')
-#     exist_dat <-
-#       data %>%
-#       dplyr::select(.data$asm_acc, dest_var) %>%
-#       dplyr::mutate(gunzipped=base::sub('.gz','', !!rlang::sym(dest_var))) %>%
-#       dplyr::mutate(EXISTS=purrr::map_lgl(.x = !!rlang::sym(dest_var), .f = base::file.exists),
-#                     EXISTS2=purrr::map_lgl(.x = .data$gunzipped, .f = base::file.exists),
-#                     "{type}_exists":=.data$EXISTS | .data$EXISTS2) %>%
-#       dplyr::select(.data$asm_acc, dplyr::all_of(dest_var), dplyr::all_of(exists_var))
-#
-#
-#     if (base::any(exist_dat[[exists_var]])){
-#
-#       data <- data %>% dplyr::left_join(exist_dat) %>% unique()
-#       base::print(glue::glue('some of the {type} files exist, see {type}_exists column'))
-#       return(data)
-#
-#     } else {
-#
-#       safe_download <- purrr::possibly(utils::download.file, otherwise = 1)
-#       base::print('downloading genomes, please be patient')
-#
-#       if (PARALLEL){
-#         res <-
-#           data %>%
-#           # dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
-#           dplyr::mutate("{type}_dl":=furrr::future_map2_dbl(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE)))
-#         return(res)
-#       } else {
-#
-#       }
-#       res <- data %>%
-#         # dplyr::select(.data$asm_acc, dplyr::starts_with(type)) %>%
-#         dplyr::mutate("{type}_dl":=purrr::map2_dbl(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE))) #%>%
-#         # tidyr::unnest_wider(glue::glue('{type}_dl'),
-#         #                     names_sep = '_',
-#         #                     simplify = TRUE,
-#         #                     transform = err_var)
-#       return(res)
-#
-#     }
-#
-#
-#   }
 
 
 #' Download a set of specified genome files

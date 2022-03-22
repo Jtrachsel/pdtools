@@ -4,7 +4,7 @@
 \alias{download_gbk_assembly_summary}
 \title{Convenience function to download the assembly_summary.txt file from genbank}
 \usage{
-download_gbk_assembly_summary(destfile)
+download_gbk_assembly_summary(destfile, organism = NULL)
 }
 \arguments{
 \item{destfile}{passed to download.file()'s destfile, path to store the downloaded file}

@@ -236,3 +236,17 @@ extract_country <- function(meta, parallel=FALSE){
 #
 #
 # }
+
+
+### PDS_summary
+
+# for each PDS can calculate:
+#   1. Rank Abundance
+#   2. change from last year
+#   3. increasing/decreasing?
+#   4. rate of increase?
+#   5. Geographic area? (continents?)
+#   6. Countries
+#   7. Ag Hosts
+
+
