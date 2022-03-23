@@ -155,7 +155,7 @@ download_genomes <-
     # check for existing files #
     # with and without extension in case they've been unzipped
     # print('checking for existing files')
-    data <- check_if_files_exist(data, 'fna')
+    data <- check_if_files_exist(data, type)
     need_to_download <- data %>% dplyr::filter(!(!!rlang::sym(exists_var)))
     already_existing <- data %>%
       dplyr::filter((!!rlang::sym(exists_var))) %>%
