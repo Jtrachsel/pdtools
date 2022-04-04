@@ -220,18 +220,20 @@ supported_download_types <-
     return(suffixes)
   }
 
-download_reference_genomes <- function(genome_names,type, data_dir){
+download_reference_genomes <- function(genome_names,type, data_dir, avail=FALSE){
 
   references <- base::c(
     LT2='https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/006/945/GCF_000006945.2_ASM694v2/GCF_000006945.2_ASM694v2_genomic',
     Enteriditis='ENTERIDITIS',
-    USDA15WA1='https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/006/874/805/GCA_006874805.1_ASM687480v1/GCA_006874805.1_ASM687480v1_genomic'
-
-  )
+    USDA15WA1='https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/006/874/805/GCA_006874805.1_ASM687480v1/GCA_006874805.1_ASM687480v1_genomic',
+    FSIS1502916='https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/001/931/575/GCF_001931575.1_ASM193157v1/GCF_001931575.1_ASM193157v1_genomic')
+  if (avail){
+    return(references)
+  }
   # browser()
   dl_tib <-
    tibble::tibble(NAME=genome_names,
-           download_path=base::paste0(references[.data$genome_names],'.', type, '.gz'),
+           download_path=base::paste0(references[.data$NAME],'.', type, '.gz'),
            dest_path=base::paste0(data_dir,'/', .data$NAME,'.', type,'.gz')) %>%
     dplyr::mutate(RESULT=purrr::map2_int(.x=.data$download_path, .y=.data$dest_path, .f=~utils::download.file(.x,.y)))
   return(dl_tib)
