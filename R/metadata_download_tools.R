@@ -209,3 +209,9 @@ make_SNP_tree_dest <- function(data, data_dir){
 
 
 
+# ADD function to download most up to date AMR reference gene catalogue
+# need to look for most recent version 1st
+#  https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/3.10/2021-12-21.1/ReferenceGeneCatalog.txt
+
+
+
