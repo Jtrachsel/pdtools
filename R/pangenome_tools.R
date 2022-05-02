@@ -207,7 +207,7 @@ get_pangenome_representatives <-
       cumulative_genomes <- base::c(cumulative_genomes, best_addition_genome$genome_name[[1]])
       score <- base::length(cumulative_pan)
       scores <- base::c(scores, score)
-      proportion_coverages <- scores/best_score
+
 
       if (verbose){
 
@@ -216,6 +216,9 @@ get_pangenome_representatives <-
 
       }
     }
+    # could move this outside while?
+    proportion_coverages <- scores/best_score
+
     return(base::list(cumulative_genomes, scores, proportion_coverages))
   }
 
@@ -328,10 +331,10 @@ get_pangenome_representatives2 <-
 
 
 
-#' Title
+#' Mark outliers from a distance matrix
 #'
-#' @param DIST
-#' @param outlier_prob
+#' @param DIST a dist object
+#' @param outlier_prob probability to consider an entity an outlier
 #'
 #' @return
 #' @export
@@ -352,7 +355,7 @@ mark_outliers <- function(DIST, outlier_prob=.99){
 #' Needs parallelDist, igraph,
 #'  genomes as rows and genes as columns?
 #'
-#' @param dat_mat
+#' @param dat_mat pan genome presence absence matrix (rows are genes)
 #' @param scut
 #' @param tcut
 #' @param qcut

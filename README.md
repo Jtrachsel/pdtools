@@ -137,4 +137,8 @@ get_pangenome_representatives(pan_mat = pan_PA, SEED = 2, desired_coverage = .99
 -   extract\_consensus\_ag\_species currently assumes isolates are from
     humans if the epi\_type is clinical and no other information is
     available. This is probably wrong in some cases…
--   Reference README? <https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt>
+-   Reference README? <https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt>  
+-   A Greedy Heuristic for the Set-Covering Problem, V. Chvatal, Published Online:1 Aug 1979https://doi.org/10.1287/moor.4.3.233  
+    - I think I may have re-implemented this?  
+    
+    
