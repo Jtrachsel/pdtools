@@ -2,16 +2,21 @@
 % Please edit documentation in R/pangenome_tools.R
 \name{mark_outliers}
 \alias{mark_outliers}
-\title{Title}
+\title{Mark outliers from a distance matrix}
 \usage{
 mark_outliers(DIST, outlier_prob = 0.99)
 }
 \arguments{
-\item{outlier_prob}{}
+\item{DIST}{a dist object}
+
+\item{outlier_prob}{probability to consider an entity an outlier}
 }
 \value{
-
+a tibble with an outlier designation for each genome
 }
 \description{
-Title
+Mark outliers from a distance matrix
+}
+\examples{
+# soon
 }

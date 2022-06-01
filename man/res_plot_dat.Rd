@@ -7,10 +7,9 @@
 res_plot_dat(result, seed_num)
 }
 \arguments{
-\item{seed_num}{}
-}
-\value{
+\item{result}{TODO}
 
+\item{seed_num}{TODO}
 }
 \description{
 Generate a dataframe for plotting the progress of selecting a set of genomes

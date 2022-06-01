@@ -260,13 +260,18 @@ remove_strict_core <- function(pan_PA, rows_are_genes=NULL){
 #' @param desired_coverage proportion of gene content desired 0-1
 #' @param SEED random seed to use (for selecting 1st genome)
 #' @param best_possible_score to save time you can pre-calculate the best possible score (total gene content of pangenome)
+#' @param max_genomes Maximum number of genomes to select
 #'
 #' @return a list of 3; list(cumulative_genomes, scores, proportion_coverages)
 #' @export
 #'
 #' @examples generate_pangenome() %>% pan_mat_to_gene_vec_tibble() %>% get_pangenome_representatives2()
 get_pangenome_representatives2 <-
-  function(gene_vec_tibble, desired_coverage=.95, SEED=3, best_possible_score=NULL){
+  function(gene_vec_tibble,
+           desired_coverage=.95,
+           SEED=3,
+           best_possible_score=NULL,
+           max_genomes=1000){
     # hopefully get smallest set of genomes that gives desired coverage of pangenome
     # browser()
 
@@ -303,7 +308,7 @@ get_pangenome_representatives2 <-
     score <- base::length(cumulative_pan)
     scores <- base::c(score)
     base::print(base::paste0('starting score = ', score))
-    while (score < desired_score){
+    while (score < desired_score & length(cumulative_genomes) < max_genomes){
 
       # calculates the number of new genes each genome would contribute to the cumulative pangenome
       # filters to only genomes that will contribute the max possible new genes
@@ -336,18 +341,18 @@ get_pangenome_representatives2 <-
 #' @param DIST a dist object
 #' @param outlier_prob probability to consider an entity an outlier
 #'
-#' @return
+#' @return a tibble with an outlier designation for each genome
 #' @export
 #'
-#' @examples
+#' @examples # soon
 mark_outliers <- function(DIST, outlier_prob=.99){
 
-  mainmat <- as.matrix(DIST)
-  dists_to_mine <- rowSums(mainmat)
-  outliers <- dists_to_mine > quantile(dists_to_mine, probs = outlier_prob)
-  print(paste0('detected ',sum(outliers), ' outliers', ' at ', outlier_prob ,' prob'))
-  tibble(asm_acc=names(outliers),
-         is_outlier=outliers)
+  mainmat <- base::as.matrix(DIST)
+  dists_to_mine <- base::rowSums(mainmat)
+  outliers <- dists_to_mine > stats::quantile(dists_to_mine, probs = outlier_prob)
+  base::print(base::paste0('detected ',base::sum(outliers), ' outliers', ' at ', outlier_prob ,' prob'))
+  tibble::tibble(asm_acc=names(outliers),
+                 is_outlier=outliers)
 
 }
 
@@ -356,18 +361,18 @@ mark_outliers <- function(DIST, outlier_prob=.99){
 #'  genomes as rows and genes as columns?
 #'
 #' @param dat_mat pan genome presence absence matrix (rows are genes)
-#' @param scut
-#' @param tcut
-#' @param qcut
-#' @param pcut
-#' @param DIST_METHOD
-#' @param output_directory
-#' @param write_dist
+#' @param scut weight for graph pruning at 2nd level
+#' @param tcut weight for graph pruning at 3rd level
+#' @param qcut weight for graph pruning at 4th level
+#' @param pcut weight for graph pruning at 1st level
+#' @param DIST_METHOD distance method for building graph (passed to parallelDist())
+#' @param output_directory output directory to save the graph in
+#' @param write_dist logical, should the dist object be written?
 #'
-#' @return
+#' @return returns a tibble with a cluster designation for each genome at 4 levels
 #' @export
 #'
-#' @examples
+#' @examples # soon
 cluster_genomes <-
   function(dat_mat,
            pcut=0,
@@ -378,105 +383,105 @@ cluster_genomes <-
            output_directory=NULL,
            write_dist=TRUE){
     # browser()
-    dist_filename <- paste0(output_directory, DIST_METHOD, '_dist.rds')
-    graph_file_name <- paste0(output_directory, DIST_METHOD, '_graph.rds')
+    dist_filename <- base::paste0(output_directory, DIST_METHOD, '_dist.rds')
+    graph_file_name <- base::paste0(output_directory, DIST_METHOD, '_graph.rds')
 
-    if (!file.exists(graph_file_name)){
-      print('calculating distances')
+    if (!base::file.exists(graph_file_name)){
+      base::print('calculating distances')
 
       # write dist objs for visualization
       # %>%
 
 
-      if(!file.exists(dist_filename)){
+      if(!base::file.exists(dist_filename)){
         DIST <-  parallelDist::parallelDist(dat_mat, method=DIST_METHOD)
       } else {
-        DIST <- read_rds(dist_filename)
+        DIST <- readr::read_rds(dist_filename)
       }
 
       if(write_dist){
 
-        write_rds(DIST, dist_filename)
+        readr::write_rds(DIST, dist_filename)
       }
       # write_rds('./gifrop_out/islands_overlap_dist.rds')
 
-      print('converting to similarities')
+      base::print('converting to similarities')
 
       sim_mat <-
         (1 - DIST) %>%
-        as.matrix() #%>%
+        base::as.matrix() #%>%
       # Matrix::Matrix(sparse = T)
-      rm(DIST)
+      base::rm(DIST)
 
-      print('building graph')
+      base::print('building graph')
       # maybe errors when no edges have weight 0?
-      g <- graph_from_adjacency_matrix(adjmatrix = sim_mat,  weighted = T, mode='upper', diag = F)
+      g <- igraph::graph_from_adjacency_matrix(adjmatrix = sim_mat,  weighted = T, mode='upper', diag = F)
 
-      print('writing graph')
-      write_rds(g, graph_file_name)
+      base::print('writing graph')
+      readr::write_rds(g, graph_file_name)
       # igraph::write.graph(g, file = graph_file_name, format = 'edgelist')
 
     }  else {
-      print(paste0('graph already exists, reading graph from', graph_file_name))
-      g <- read_rds(graph_file_name)
+      base::print(paste0('graph already exists, reading graph from', graph_file_name))
+      g <- readr::read_rds(graph_file_name)
     }
 
 
-    if ( any(E(g)[weight < pcut]) ){
-      g <- delete_edges(g, E(g)[weight < pcut])
+    if ( base::any(igraph::E(g)[.data$weight < pcut]) ){
+      g <- igraph::delete_edges(g, igraph::E(g)[.data$weight < pcut])
     }
 
     # any connection = same cluster
-    clust1 <- cluster_louvain(g)
+    clust1 <- igraph::cluster_louvain(g)
 
 
-    if ( any(E(g)[weight<scut]) ){
-      g <- delete_edges(g, E(g)[weight<scut])
+    if ( base::any(igraph::E(g)[.data$weight<scut]) ){
+      g <- igraph::delete_edges(g, igraph::E(g)[.data$weight<scut])
     }
 
-    clust2 <- cluster_louvain(g)
+    clust2 <- igraph::cluster_louvain(g)
 
     # print('pruning graph, removing edges with overlap coef of less than XXX')
 
-    if ( any(E(g)[weight<tcut]) ){
-      g <- delete_edges(g, E(g)[weight<tcut])
+    if ( any(igraph::E(g)[.data$weight<tcut]) ){
+      g <- igraph::delete_edges(g, igraph::E(g)[.data$weight<tcut])
     }
 
 
-    clust3 <- cluster_louvain(g)
+    clust3 <- igraph::cluster_louvain(g)
 
-    if ( any(E(g)[weight<qcut]) ){
-      g <- delete_edges(g, E(g)[weight<qcut])
+    if ( base::any(igraph::E(g)[.data$weight<qcut]) ){
+      g <- igraph::delete_edges(g, igraph::E(g)[.data$weight<qcut])
     }
 
-    clust4 <- cluster_louvain(g)
+    clust4 <- igraph::cluster_louvain(g)
 
-    clust_info <- tibble(asm_acc = names(membership(clust1)),
-                         primary_cluster = membership(clust1),
-                         secondary_cluster = membership(clust2),
-                         tertiary_cluster = membership(clust3),
-                         quat_cluster = membership(clust4))
+    clust_info <- tibble::tibble(asm_acc = base::names(igraph::membership(clust1)),
+                                 primary_cluster = igraph::membership(clust1),
+                                 secondary_cluster = igraph::membership(clust2),
+                                 tertiary_cluster = igraph::membership(clust3),
+                                 quat_cluster = igraph::membership(clust4))
 
     return(clust_info)
   }
 
 
-#' Title
+#' helper function to add selection orders to a vector of genomes
 #'
-#' @param VECTOR
+#' @param VECTOR a vector of genome names
 #'
-#' @return
-#' @export
+#' @return a tibble of two columns, 1=genome_name, 2=selected_order
+#'
 #'
 #' @examples
 selection_orders <-
   function(VECTOR){
-    tibble(genome_name=VECTOR,
-           selected_order=1:length(VECTOR))
+    tibble::tibble(genome_name=VECTOR,
+                   selected_order=1:length(VECTOR))
   }
 
 
-# wrapper function to pick de-replication sets for specified NARMS serotype designations
+
 #' Pick multiple de-replication sets from a pangenome
 #'
 #' @param pan_PA A pangenome gene presence/absence matrix, genomes as columns,
@@ -492,29 +497,29 @@ selection_orders <-
 #'
 #' @examples # soon
 pick_derep_sets <-
-  function(pan_PA, output_file, num_sets=25, desired_coverage=.99){
+  function(pan_PA, output_file, num_sets=25, desired_coverage=.95){
 
-    if (!file.exists(output_file)){
+    if (!base::file.exists(output_file)){
       # TIC <- tic()
 
         selection_PA <- pan_PA
-        selection_PA <- selection_PA[rowSums(selection_PA) > 0,]
+        selection_PA <- selection_PA[base::rowSums(selection_PA) > 0,]
 
       derep_sets <-
-        tibble(seed=seq(1:num_sets),
+        tibble::tibble(seed=base::seq(1:num_sets),
                # set90=future_map(.x = seed, .options = furrr_options(seed = 1), ~ get_pangenome_representatives(pan_mat = selection_PA, SEED = .x, desired_coverage = .90)),
                # set95=future_map(.x = seed, .options = furrr_options(seed = 1), ~ get_pangenome_representatives(pan_mat = selection_PA, SEED = .x, desired_coverage = .95)),
-               selection_set=future_map(.x = seed, .options = furrr_options(seed = 1), ~ get_pangenome_representatives(pan_mat = pan_PA, SEED = .x, desired_coverage = desired_coverage)),)
+               selection_set=furrr::future_map(.x = .data$seed, .options = furrr::furrr_options(seed = 1), ~ get_pangenome_representatives(pan_mat = pan_PA, SEED = .x, desired_coverage = desired_coverage)),)
 
-      saveRDS(derep_sets, output_file)
-      print(group)
+      base::saveRDS(derep_sets, output_file)
+
       # TOC <- toc()
       # print(TOC)
 
 
     } else {
-      print('specified output file aready exists...returning it')
-      derep_sets <- read_rds(output_file)
+      base::print('specified output file aready exists...returning it')
+      derep_sets <- readr::read_rds(output_file)
 
     }
 
@@ -525,11 +530,12 @@ pick_derep_sets <-
 
 
 
-#' Calculate genome novelty from a list of selection sets
+#' Calculate genome 'novelty' from a list of selection sets returned by pick_derep_sets
 #'
-#' @param selection_set_results
+#' @param selection_set_results a tibble of selection sets
 #'
 #' @return a dataframe with the novelty scores of all genomes in the list
+#'         'Novelty' score for each genome is (number of selections) / median rank of selection
 #' @export
 #'
 #' @examples # soon
@@ -538,36 +544,36 @@ calculate_novelty <-
     # browser()
     genome_summary <-
       selection_set_results %>%
-      mutate(genome_vectors=map(selection_set, 1),
-             selection_orders=map(genome_vectors, selection_orders)) %>%
-      select(selection_orders) %>%
-      unnest(selection_orders) %>%
-      filter(selected_order !=1) %>%
-      group_by(genome_name) %>%
-      summarise(mean_rank=mean(selected_order),
-                median_rank=median(selected_order),
-                number_selections=n(),
-                best_rank=min(selected_order),
-                worst_rank=max(selected_order)) %>%
-      arrange(median_rank) %>%
-      mutate(novelty_score1=number_selections*((1/(mean_rank + median_rank))),
-             novelty_score2=(number_selections + (number_selections/(mean_rank + median_rank))),
-             novelty_score3=((number_selections^2 / (mean_rank + median_rank))),
-             novelty_score4=((number_selections / (median_rank))),
-             novelty_score5=((number_selections^2 / (median_rank)^2)),
-             novelty_score6=number_selections/max(number_selections) / (median_rank/n())) %>%
+      dplyr::mutate(genome_vectors=purrr::map(.data$selection_set, 1),
+             selection_orders=purrr::map(.data$genome_vectors, selection_orders)) %>%
+      dplyr::select(.data$selection_orders) %>%
+      tidyr::unnest(.data$selection_orders) %>%
+      dplyr::filter(.data$selected_order !=1) %>%
+      dplyr::group_by(.data$genome_name) %>%
+      dplyr::summarise(mean_rank=mean(.data$selected_order),
+                       median_rank=stats::median(.data$selected_order),
+                       number_selections=dplyr::n(),
+                       best_rank=base::min(.data$selected_order),
+                       worst_rank=base::max(.data$selected_order)) %>%
+      dplyr::arrange(.data$median_rank) %>%
+      dplyr::mutate(novelty_score1=.data$number_selections*((1/(.data$mean_rank + .data$median_rank))),
+             novelty_score2=(.data$number_selections + (.data$number_selections/(.data$mean_rank + .data$median_rank))),
+             novelty_score3=((.data$number_selections^2 / (.data$mean_rank + .data$median_rank))),
+             novelty_score4=((.data$number_selections / (.data$median_rank))),
+             novelty_score5=((.data$number_selections^2 / (.data$median_rank)^2)),
+             novelty_score6=.data$number_selections/base::max(.data$number_selections) / (.data$median_rank/dplyr::n())) %>%
 
-      filter(!(number_selections == 1 & best_rank == 1)) %>%
-      transmute(asm_acc=genome_name,
-                median_rank,
-                number_selections,
-                best_rank,
-                worst_rank,
-                novelty_score=novelty_score4,
-                log_novelty=log(novelty_score)) %>%
-      arrange(desc(novelty_score)) %>%
-      ungroup() %>%
-      mutate(RANK=1:n())
+      dplyr::filter(!(.data$number_selections == 1 & .data$best_rank == 1)) %>%
+      dplyr::transmute(asm_acc=.data$genome_name,
+                       .data$median_rank,
+                       .data$number_selections,
+                       .data$best_rank,
+                       .data$worst_rank,
+                novelty_score=.data$novelty_score4,
+                log_novelty=base::log(.data$novelty_score)) %>%
+      dplyr::arrange(dplyr::desc(.data$novelty_score)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(RANK=1:dplyr::n())
 
     return(genome_summary)
 
@@ -578,19 +584,146 @@ calculate_novelty <-
 
 #' Generate a dataframe for plotting the progress of selecting a set of genomes
 #'
-#' @param result
-#' @param seed_num
+#' @param result TODO
+#' @param seed_num TODO
 #'
 #' @return
-#' @export
+#'
 #'
 #' @examples
 res_plot_dat <-
   function(result, seed_num){
     scores <- result[[3]]
     # plot(1:length(scores), scores)
-    tibble(seed_num,num_genomes=1:length(scores), scores)
+    tibble::tibble(seed_num,num_genomes=1:base::length(scores), scores)
   }
+
+
+
+
+#' Get a subset of a pangenome that tries to represent the gene presence absence diversity
+#' Selects a random genome,
+#' then selects the most distant genome from the selected genome
+#' then
+#'
+#' @param pan_mat gene presence absence matrix
+#' @param pan_dist distance matrix if not providing the PA matrix
+#' @param SEED random seed
+#' @param verbose include print statemetns?
+#' @param CUTOFF stop choosing new genomes when distances are below this level
+#' @param max_genomes stop choosing new genomes when this many genomes are chosen
+#'
+#' @return
+#' @export
+#'
+#' @examples
+get_pangenome_representatives_jaccard <-
+  function(pan_mat=NULL,pan_dist=NULL,
+           SEED=3,
+           verbose=FALSE,
+           CUTOFF=.50, # quantile of min_jaccs select until
+           max_genomes=1000){
+    # hopefully get smallest set of genomes that gives desired coverage of pangenome
+    # browser()
+    base::set.seed(SEED)
+
+    # setDTthreads(threads = 1, restore_after_fork = TRUE)
+
+    if(base::is.null(pan_dist)){
+      base::print('calculating distances')
+      pan_dist <- parallelDist::parallelDist(base::t(pan_mat), method = 'binary')
+      base::print('done with distance calculation')
+
+    }
+
+    # pick a starting genome
+
+    rep_genome <- base::sample(attr(pan_dist,"Labels"), size = 1)
+    selected_genomes <- tibble::tibble(to=rep_genome,
+                               min_jacc=100)
+
+    selected_genome <- selected_genomes
+
+    # move the distance matrix to a long format
+    base::print('converting to long')
+    test_long <-
+      pan_dist %>%
+      base::as.matrix() %>%
+      base::as.data.frame() %>%
+      tibble::rownames_to_column(var='from') %>%
+      tidyr::pivot_longer(cols=-.data$from, names_to = 'to', values_to = 'jacc') %>%
+      dplyr::filter(.data$from != .data$to)
+    base::print('done converting to long')
+
+    # calculate the cutoff for when to stop adding genomes to the set
+    base::print('calculating cutoff')
+
+    # these are nearest neighbors
+    min_jaccs <-
+      test_long %>%
+      dplyr::group_by(.data$to) %>%
+      dplyr::summarise(min_jacc=base::min(.data$jacc))
+
+    cutoff <- stats::quantile(min_jaccs$min_jacc, probs = CUTOFF)
+    base::print(base::paste0('cutoff is: ',cutoff))
+    base::rm(min_jaccs)
+
+    # because we will stop when the min_jacc to a selected genome is less than this cutoff, we can
+    # ignore any jacc distances lower than this
+    # og <- nrow(test_long)
+    # test_long <- test_long %>% filter.(from != to & jacc > cutoff)
+    # og - nrow(test_long)
+
+    # TOCS <- list()
+    while (base::nrow(selected_genomes) < max_genomes &
+           # is.na(selected_genome$min_jacc) | # only for 1st 'selected_genome'
+           selected_genome$min_jacc > cutoff){
+      # tic()
+      base::print(base::paste0('selecting genome ', base::nrow(selected_genomes)))
+      # browser()
+
+      # I think uncommenting this line makes this much slower???
+      # now that we've selected a genome, we dont have to consider it as an option
+      # in future iterations.  Should reduce the # of rows we are manipulating by n each iteration
+      # test_long <- test_long %>% filter(!(to %in% selected_genomes$to))
+
+      # what about this: just remove specifically the last genome selected
+      # instead of checking every genome in the current selection set?
+      #HERE
+      # test_long <- test_long %>% filter(to != selected_genome$to)
+
+      selected_genome <-
+        test_long %>%
+        dplyr::filter(.data$from %in% selected_genomes$to & #HERE
+                 !(.data$to %in% selected_genomes$to)
+        ) %>%
+        dplyr::group_by(.data$to) %>%
+        dplyr::summarise(
+          # sum_jacc=sum(jacc), # sum of distances from chosen genome to all selected genomes
+          min_jacc=base::min(.data$jacc)) %>%
+        dplyr::arrange(dplyr::desc(.data$min_jacc)) %>%
+        # arrange(desc(!!rlang::sym(SCORE))) %>%
+        # mutate(var_in_top5)
+        dplyr::slice_head(n=1) #%>%
+      # pull(to)
+
+      selected_genomes <- dplyr::bind_rows(selected_genomes, selected_genome)
+      # TOCS[[nrow(selected_genomes)]] <- toc()
+
+    }
+    selected_genomes <-
+      selected_genomes %>%
+      dplyr::ungroup() %>%
+      dplyr::transmute(asm_acc=.data$to, .data$min_jacc, ORDER=0:(base::sum(dplyr::n()) - 1))
+
+    # return(selected_genomes)
+    return(selected_genomes)
+  }
+
+
+
+
+
 
 #
 #
@@ -605,20 +738,8 @@ res_plot_dat <-
 
 
 
-# artifacts
 
-# return_set_score <- function(pan_mat, set_size){
-#   #subset a pangenome to a random collection of a defined size
-#   # return a score that describes the proportion of pangenomes total gene content
-#   # contained within the reduced set.
-#
-#   pan_mat <- pan_mat[,colSums(pan_mat) > 0]
-#   tot_genomes <- nrow(pan_mat)
-#   set_indicies <- sample(x = 1:tot_genomes, size = set_size)
-#   set_mat <- pan_mat[set_indicies,]
-#   score <- sum(colSums(set_mat) > 1)
-#   return(list(score=score, set_indicies=set_indicies))
-# }
+
 
 
 # THIS IS A BAD WAY TO LOOK FOR REPS look for small sets of pangenomes that produce the desired gene content coverage of a pangenome

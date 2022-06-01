@@ -2,18 +2,19 @@
 % Please edit documentation in R/pangenome_tools.R
 \name{calculate_novelty}
 \alias{calculate_novelty}
-\title{Calculate genome novelty from a list of selection sets}
+\title{Calculate genome 'novelty' from a list of selection sets returned by pick_derep_sets}
 \usage{
 calculate_novelty(selection_set_results)
 }
 \arguments{
-\item{selection_set_results}{}
+\item{selection_set_results}{a tibble of selection sets}
 }
 \value{
 a dataframe with the novelty scores of all genomes in the list
+'Novelty' score for each genome is (number of selections) / median rank of selection
 }
 \description{
-Calculate genome novelty from a list of selection sets
+Calculate genome 'novelty' from a list of selection sets returned by pick_derep_sets
 }
 \examples{
 # soon

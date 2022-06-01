@@ -2,16 +2,16 @@
 % Please edit documentation in R/pangenome_tools.R
 \name{selection_orders}
 \alias{selection_orders}
-\title{Title}
+\title{helper function to add selection orders to a vector of genomes}
 \usage{
 selection_orders(VECTOR)
 }
 \arguments{
-\item{VECTOR}{}
+\item{VECTOR}{a vector of genome names}
 }
 \value{
-
+a tibble of two columns, 1=genome_name, 2=selected_order
 }
 \description{
-Title
+helper function to add selection orders to a vector of genomes
 }

@@ -1,8 +1,9 @@
 #' Convenience function to download the assembly_summary.txt file from genbank
 #'
 #' @param destfile passed to download.file()'s destfile, path to store the downloaded file
+#' @param organism limit the gbk assembly summary to only this organism
 #'
-#' @return returns nothing but probably should...
+#' @return result of download.file
 #' @export
 #'
 #' @examples #not run download_gbk_assembly_summary(destfile='assembly_summary.txt')
@@ -19,30 +20,6 @@ download_gbk_assembly_summary <- function(destfile, organism=NULL){
 
 
 
-}
-
-#' generate ftp site download urls for all SNP trees containing the provided isolates
-#'
-#' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
-#' @param data a metadata table, must contain the column 'PDS_acc' from merging in the SNP cluster data
-#' @param PDG The PDG version the metadata is from.
-#'
-#' @return returns a vector of ftp download urls for each tar.gz file containing the SNP tree info
-#' @export
-#'
-#' @examples make_SNPtree_urls(organism = 'Klebsiella',
-#'  data = klebsiella_example_dat, PDG = 'PDG000000012.1053')
-make_SNPtree_urls <- function(organism, data, PDG){
-  # One SNP tree for each PDG represented in the data
-  # Organism <- 'Klebsiella'
-  # PDG <- 'PDG000000012.1053'
-
-  num_no_clust <- base::sum(base::is.na(data$PDS_acc))
-
-  PDSs <- data %>% dplyr::filter(!is.na(.data$PDS_acc)) %>% dplyr::pull(.data$PDS_acc) %>% base::unique()
-  urls <- base::paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/', PDG, '/SNP_trees/', PDSs, '.tar.gz')
-  base::message(base::paste(num_no_clust, 'Isolates in the collection are not represented in SNP trees'))
-  return(urls)
 }
 
 
@@ -172,14 +149,14 @@ download_genomes <-
           need_to_download %>%
           dplyr::mutate("{type}_dl":=furrr::future_map2_chr(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE)))
 
-        res <- bind_rows(already_existing, res) %>% check_if_files_exist(type)
+        res <- dplyr::bind_rows(already_existing, res) %>% check_if_files_exist(type)
 
         return(res)
 
       } else {
         res <- need_to_download %>%
           dplyr::mutate("{type}_dl":=purrr::map2_chr(.x=!!rlang::sym(url_var), .y=!!rlang::sym(dest_var), .f = ~safe_download(url=.x, destfile=.y, quiet=TRUE))) #%>%
-        res <- bind_rows(already_existing, res)
+        res <- dplyr::bind_rows(already_existing, res)
 
         return(res)
       }

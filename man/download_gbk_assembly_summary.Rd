@@ -8,9 +8,11 @@ download_gbk_assembly_summary(destfile, organism = NULL)
 }
 \arguments{
 \item{destfile}{passed to download.file()'s destfile, path to store the downloaded file}
+
+\item{organism}{limit the gbk assembly summary to only this organism}
 }
 \value{
-returns nothing but probably should...
+result of download.file
 }
 \description{
 Convenience function to download the assembly_summary.txt file from genbank

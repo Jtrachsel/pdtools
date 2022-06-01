@@ -182,11 +182,53 @@ check_complete_PDG <- function(organism, PDG){
 
 ######## NEW! ###########
 
+#' get the version of the PDD metadata
+#'
+#' @param data_dir directory that contains the downloaded PDD metadata
+#'
+#' @return character vector length 1, PDG accession
+#'
+#'
+#' @examples
 get_PDG_version <- function(data_dir){
-  sub('(PDG.*).amr.metadata.tsv','\\1',list.files(data_dir, '(PDG.*).amr.metadata.tsv')[1])
+  base::sub('(PDG.*).amr.metadata.tsv','\\1',base::list.files(data_dir, '(PDG.*).amr.metadata.tsv')[1])
 }
 
 
+#' generate ftp site download urls for all SNP trees containing the provided isolates
+#'
+#' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
+#' @param data a metadata table, must contain the column 'PDS_acc' from merging in the SNP cluster data
+#' @param PDG The PDG version the metadata is from.
+#'
+#' @return returns a vector of ftp download urls for each tar.gz file containing the SNP tree info
+#' @export
+#'
+#' @examples make_SNPtree_urls(organism = 'Klebsiella',
+#'  data = klebsiella_example_dat, PDG = 'PDG000000012.1053')
+make_SNPtree_urls <- function(organism, data, PDG){
+  # One SNP tree for each PDG represented in the data
+  # Organism <- 'Klebsiella'
+  # PDG <- 'PDG000000012.1053'
+
+  num_no_clust <- base::sum(base::is.na(data$PDS_acc))
+
+  PDSs <- data %>% dplyr::filter(!is.na(.data$PDS_acc)) %>% dplyr::pull(.data$PDS_acc) %>% base::unique()
+  urls <- base::paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/', PDG, '/SNP_trees/', PDSs, '.tar.gz')
+  base::message(base::paste(num_no_clust, 'Isolates in the collection are not represented in SNP trees'))
+  return(urls)
+}
+
+
+
+#' Download SNP trees from a dataframe containing SNP_tree_urls and dests
+#'
+#' @param data dataframe with SNP tree URLs and dests
+#'
+#' @return the input dataframe with an added column indicating the status of the download
+#' @export
+#'
+#' @examples # soon
 download_SNP_trees <- function(data){
 
   original_options <- base::options(timeout = 10000)
@@ -194,17 +236,26 @@ download_SNP_trees <- function(data){
 
   ### check if SNPS exist here
   data %>%
-    mutate(SNP_tree_dl=map2(.x = SNP_tree_url, .y=SNP_tree_dest, .f = ~download.file(.x, .y)))
+    dplyr::mutate(SNP_tree_dl=purrr::map2(.x = .data$SNP_tree_url, .y=.data$SNP_tree_dest, .f = ~utils::download.file(.x, .y)))
 }
 #
 # make_SNPtree_urls(organism = 'Salmonella',
 #                   data = infmeta,
 #                   PDG = get_PDG_version('metadata'))
 
+#' Make SNP tree download destination paths
+#'
+#' @param data A dataframe containing the download paths for desired SNP trees
+#' @param data_dir a path to a directory to store the downloaded trees in
+#'
+#' @return the input dataframe with an added column containing the SNP_tree_dest column
+#' @export
+#'
+#' @examples # soon
 make_SNP_tree_dest <- function(data, data_dir){
   data %>%
-    mutate(SNP_tree_dest=
-             paste0(data_dir, '/', sub('.*SNP_trees/(PDS[0-9]+.[0-9]+.tar.gz)','\\1',SNP_tree_url)))
+    dplyr::mutate(SNP_tree_dest=
+             base::paste0(data_dir, '/', base::sub('.*SNP_trees/(PDS[0-9]+.[0-9]+.tar.gz)','\\1',.data$SNP_tree_url)))
 }
 
 

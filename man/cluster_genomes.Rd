@@ -18,13 +18,30 @@ cluster_genomes(
 )
 }
 \arguments{
-\item{write_dist}{}
+\item{dat_mat}{pan genome presence absence matrix (rows are genes)}
+
+\item{pcut}{weight for graph pruning at 1st level}
+
+\item{scut}{weight for graph pruning at 2nd level}
+
+\item{tcut}{weight for graph pruning at 3rd level}
+
+\item{qcut}{weight for graph pruning at 4th level}
+
+\item{DIST_METHOD}{distance method for building graph (passed to parallelDist())}
+
+\item{output_directory}{output directory to save the graph in}
+
+\item{write_dist}{logical, should the dist object be written?}
 }
 \value{
-
+returns a tibble with a cluster designation for each genome at 4 levels
 }
 \description{
 Cluster genomes at 4 levels from a pangenome gene PA matrix
 Needs parallelDist, igraph,
 genomes as rows and genes as columns?
+}
+\examples{
+# soon
 }

@@ -4,7 +4,7 @@
 \alias{pick_derep_sets}
 \title{Pick multiple de-replication sets from a pangenome}
 \usage{
-pick_derep_sets(pan_PA, output_file, num_sets = 25, desired_coverage = 0.99)
+pick_derep_sets(pan_PA, output_file, num_sets = 25, desired_coverage = 0.95)
 }
 \arguments{
 \item{pan_PA}{A pangenome gene presence/absence matrix, genomes as columns,
