@@ -1,105 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/authors.html</loc>
   </url>
   <url>
-    <loc>/articles/tutorial_1.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/index.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/build_ppanggolin_file_fastas.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/calculate_novelty.html</loc>
   </url>
   <url>
-    <loc>/reference/build_ppanggolin_file_fastas.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/check_complete_PDG.html</loc>
   </url>
   <url>
-    <loc>/reference/check_complete_PDG.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/cluster_genomes.html</loc>
   </url>
   <url>
-    <loc>/reference/country_vector.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/country_vector.html</loc>
   </url>
   <url>
-    <loc>/reference/download_PDD_metadata.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/download_PDD_metadata.html</loc>
   </url>
   <url>
-    <loc>/reference/download_gbk_assembly_summary.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/download_SNP_trees.html</loc>
   </url>
   <url>
-    <loc>/reference/download_genomes.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/download_gbk_assembly_summary.html</loc>
   </url>
   <url>
-    <loc>/reference/download_most_recent_complete.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/download_genomes.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_collection_agency.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/download_most_recent_complete.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_consensus_ag_species.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/extract_collection_agency.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_country.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/extract_consensus_ag_species.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_earliest_year.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/extract_country.html</loc>
   </url>
   <url>
-    <loc>/reference/find_most_recent_complete.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/extract_earliest_year.html</loc>
   </url>
   <url>
-    <loc>/reference/generate_genome_vector.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/find_most_recent_complete.html</loc>
   </url>
   <url>
-    <loc>/reference/generate_pangenome.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/generate_genome_vector.html</loc>
   </url>
   <url>
-    <loc>/reference/get_pangenome_representatives.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/generate_pangenome.html</loc>
   </url>
   <url>
-    <loc>/reference/get_pangenome_representatives2.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/get_PDG_version.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/get_pangenome_representatives.html</loc>
   </url>
   <url>
-    <loc>/reference/klebsiella_example_dat.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/get_pangenome_representatives2.html</loc>
   </url>
   <url>
-    <loc>/reference/list_PDGs.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/get_pangenome_representatives_jaccard.html</loc>
   </url>
   <url>
-    <loc>/reference/list_organisms.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/make_SNPtree_urls.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/klebsiella_example_dat.html</loc>
   </url>
   <url>
-    <loc>/reference/make_dest_paths.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/list_PDGs.html</loc>
   </url>
   <url>
-    <loc>/reference/make_download_urls.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/list_organisms.html</loc>
   </url>
   <url>
-    <loc>/reference/make_ftp_paths.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/make_SNP_tree_dest.html</loc>
   </url>
   <url>
-    <loc>/reference/pan_mat_to_gene_vec_tibble.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/make_SNPtree_urls.html</loc>
   </url>
   <url>
-    <loc>/reference/pipe.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/make_dest_paths.html</loc>
   </url>
   <url>
-    <loc>/reference/remove_strict_core.html</loc>
+    <loc>https://jtrachsel.github.io/pdtools/reference/make_download_urls.html</loc>
+  </url>
+  <url>
+    <loc>https://jtrachsel.github.io/pdtools/reference/make_ftp_paths.html</loc>
+  </url>
+  <url>
+    <loc>https://jtrachsel.github.io/pdtools/reference/mark_outliers.html</loc>
+  </url>
+  <url>
+    <loc>https://jtrachsel.github.io/pdtools/reference/pan_mat_to_gene_vec_tibble.html</loc>
+  </url>
+  <url>
+    <loc>https://jtrachsel.github.io/pdtools/reference/pick_derep_sets.html</loc>
+  </url>
+  <url>
+    <loc>https://jtrachsel.github.io/pdtools/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://jtrachsel.github.io/pdtools/reference/remove_strict_core.html</loc>
+  </url>
+  <url>
+    <loc>https://jtrachsel.github.io/pdtools/reference/res_plot_dat.html</loc>
+  </url>
+  <url>
+    <loc>https://jtrachsel.github.io/pdtools/reference/selection_orders.html</loc>
   </url>
 </urlset>

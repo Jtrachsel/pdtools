@@ -1,7 +1,9 @@
 pandoc: 2.7.3
-pkgdown: 2.0.2
+pkgdown: 2.0.3
 pkgdown_sha: ~
-articles:
-  tutorial_1: tutorial_1.html
-last_built: 2022-02-03T20:43Z
+articles: {}
+last_built: 2022-06-06T22:42Z
+urls:
+  reference: https://jtrachsel.github.io/pdtools/reference
+  article: https://jtrachsel.github.io/pdtools/articles
 
