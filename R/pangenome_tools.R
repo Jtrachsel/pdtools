@@ -473,7 +473,7 @@ cluster_genomes <-
 #' @return a tibble of two columns, 1=genome_name, 2=selected_order
 #'
 #'
-#' @examples
+#' @examples # selection_orders(genome_vector)
 selection_orders <-
   function(VECTOR){
     tibble::tibble(genome_name=VECTOR,
@@ -587,10 +587,10 @@ calculate_novelty <-
 #' @param result TODO
 #' @param seed_num TODO
 #'
-#' @return
+#' @return returns a tibble containing the score of the set with each additional genome
 #'
 #'
-#' @examples
+#' @examples # res_plot_dat()
 res_plot_dat <-
   function(result, seed_num){
     scores <- result[[3]]
@@ -613,10 +613,10 @@ res_plot_dat <-
 #' @param CUTOFF stop choosing new genomes when distances are below this level
 #' @param max_genomes stop choosing new genomes when this many genomes are chosen
 #'
-#' @return
+#' @return returns a tibble, 1) asm_acc, 2) min_jacc, 3) order
 #' @export
 #'
-#' @examples
+#' @examples # get_pangenome_representatives_jaccard(pan_dist)
 get_pangenome_representatives_jaccard <-
   function(pan_mat=NULL,pan_dist=NULL,
            SEED=3,

@@ -15,3 +15,6 @@ character vector length 1, PDG accession
 \description{
 get the version of the PDD metadata
 }
+\examples{
+# get_PDG_version('./data/')
+}

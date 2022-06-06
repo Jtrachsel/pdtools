@@ -15,3 +15,6 @@ a tibble of two columns, 1=genome_name, 2=selected_order
 \description{
 helper function to add selection orders to a vector of genomes
 }
+\examples{
+# selection_orders(genome_vector)
+}

@@ -189,7 +189,7 @@ check_complete_PDG <- function(organism, PDG){
 #' @return character vector length 1, PDG accession
 #'
 #'
-#' @examples
+#' @examples # get_PDG_version('./data/')
 get_PDG_version <- function(data_dir){
   base::sub('(PDG.*).amr.metadata.tsv','\\1',base::list.files(data_dir, '(PDG.*).amr.metadata.tsv')[1])
 }

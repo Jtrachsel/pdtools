@@ -11,6 +11,12 @@ res_plot_dat(result, seed_num)
 
 \item{seed_num}{TODO}
 }
+\value{
+returns a tibble containing the score of the set with each additional genome
+}
 \description{
 Generate a dataframe for plotting the progress of selecting a set of genomes
+}
+\examples{
+# res_plot_dat()
 }

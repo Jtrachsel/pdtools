@@ -29,9 +29,15 @@ get_pangenome_representatives_jaccard(
 
 \item{max_genomes}{stop choosing new genomes when this many genomes are chosen}
 }
+\value{
+returns a tibble, 1) asm_acc, 2) min_jacc, 3) order
+}
 \description{
 Get a subset of a pangenome that tries to represent the gene presence absence diversity
 Selects a random genome,
 then selects the most distant genome from the selected genome
 then
+}
+\examples{
+# get_pangenome_representatives_jaccard(pan_dist)
 }

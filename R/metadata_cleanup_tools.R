@@ -104,13 +104,13 @@ extract_consensus_ag_species <- function(dat, parallel=FALSE){
 
 #' check that all needed columns exist
 #'
-#' @param data
-#' @param column_names
+#' @param data dataframe to check
+#' @param column_names which column names should exist?
 #'
 #' @return TRUE/FALSE
 #' @noRd
 #'
-#' @examples
+#' @examples # soon
 check_for_columns <- function(data, column_names){
     all(column_names %in% colnames(data))
 
