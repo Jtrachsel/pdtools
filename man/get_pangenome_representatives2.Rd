@@ -8,7 +8,8 @@ get_pangenome_representatives2(
   gene_vec_tibble,
   desired_coverage = 0.95,
   SEED = 3,
-  best_possible_score = NULL
+  best_possible_score = NULL,
+  max_genomes = 1000
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ get_pangenome_representatives2(
 \item{SEED}{random seed to use (for selecting 1st genome)}
 
 \item{best_possible_score}{to save time you can pre-calculate the best possible score (total gene content of pangenome)}
+
+\item{max_genomes}{Maximum number of genomes to select}
 }
 \value{
 a list of 3; list(cumulative_genomes, scores, proportion_coverages)

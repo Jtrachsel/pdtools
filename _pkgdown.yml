@@ -1,43 +1,4 @@
-url: ~
+url: https://jtrachsel.github.io/pdtools/
+template:
+  bootstrap: 5
 
-reference:
-- title: Metadata download helpers
-- contents:
-  - list_PDGs
-  - list_organisms
-  - download_PDD_metadata
-  - download_most_recent_complete
-  - download_gbk_assembly_summary
-  - find_most_recent_complete
-  - check_complete_PDG
-  - make_ftp_paths
-  - make_download_urls
-  - make_SNPtree_urls
-- title: Genome download helpers
-- contents:
-  - download_gbk_assembly_summary
-  - make_SNPtree_urls
-  - make_ftp_paths
-  - make_download_urls
-  - make_dest_paths
-  - download_genomes
-- title: Metadata manipulations
-- contents:
-  - extract_consensus_ag_species
-  - extract_earliest_year
-  - extract_collection_agency
-  - extract_country
-- title: Pangenome tools
-- contents:
-  - build_ppanggolin_file_fastas
-  - generate_genome_vector
-  - generate_pangenome
-  - pan_mat_to_gene_vec_tibble
-  - get_pangenome_representatives
-  - get_pangenome_representatives2
-  - pan_mat_to_gene_vec_tibble
-  - remove_strict_core
-- title: Data
-- contents:
-  - klebsiella_example_dat
-  - country_vector
