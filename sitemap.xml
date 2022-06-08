@@ -109,9 +109,6 @@
     <loc>https://jtrachsel.github.io/pdtools/reference/mark_outliers.html</loc>
   </url>
   <url>
-    <loc>https://jtrachsel.github.io/pdtools/reference/pan_mat_to_gene_vec_tibble.html</loc>
-  </url>
-  <url>
     <loc>https://jtrachsel.github.io/pdtools/reference/pick_derep_sets.html</loc>
   </url>
   <url>
@@ -122,8 +119,5 @@
   </url>
   <url>
     <loc>https://jtrachsel.github.io/pdtools/reference/res_plot_dat.html</loc>
-  </url>
-  <url>
-    <loc>https://jtrachsel.github.io/pdtools/reference/selection_orders.html</loc>
   </url>
 </urlset>

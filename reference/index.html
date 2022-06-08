@@ -35,9 +35,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="metadata-access">Metadata Access<a class="anchor" aria-label="anchor" href="#metadata-access"></a></h2>
       
-      
+      <p class="section-desc"></p><p>Functions for downloading various types of metadata from the NCBI Pathogens database</p>
 
       
     </div><div id="" class="section level2">
@@ -47,41 +47,9 @@
 
       <dl><dt>
           
-          <code><a href="build_ppanggolin_file_fastas.html">build_ppanggolin_file_fastas()</a></code> 
-        </dt>
-        <dd>Build a ppanggolin file from fastas</dd>
-      </dl><dl><dt>
-          
-          <code><a href="calculate_novelty.html">calculate_novelty()</a></code> 
-        </dt>
-        <dd>Calculate genome 'novelty' from a list of selection sets returned by pick_derep_sets</dd>
-      </dl><dl><dt>
-          
           <code><a href="check_complete_PDG.html">check_complete_PDG()</a></code> 
         </dt>
         <dd>Check if a single PDG is complete (AMR and Cluster metadata)</dd>
-      </dl><dl><dt>
-          
-          <code><a href="cluster_genomes.html">cluster_genomes()</a></code> 
-        </dt>
-        <dd>Cluster genomes at 4 levels from a pangenome gene PA matrix
-Needs parallelDist, igraph,
-genomes as rows and genes as columns?</dd>
-      </dl><dl><dt>
-          
-          <code><a href="country_vector.html">country_vector</a></code> 
-        </dt>
-        <dd>A named vector of country names</dd>
-      </dl><dl><dt>
-          
-          <code><a href="download_PDD_metadata.html">download_PDD_metadata()</a></code> 
-        </dt>
-        <dd>Download Pathogen Detection metadata for a given organism</dd>
-      </dl><dl><dt>
-          
-          <code><a href="download_SNP_trees.html">download_SNP_trees()</a></code> 
-        </dt>
-        <dd>Download SNP trees from a dataframe containing SNP_tree_urls and dests</dd>
       </dl><dl><dt>
           
           <code><a href="download_gbk_assembly_summary.html">download_gbk_assembly_summary()</a></code> 
@@ -89,15 +57,92 @@ genomes as rows and genes as columns?</dd>
         <dd>Convenience function to download the assembly_summary.txt file from genbank</dd>
       </dl><dl><dt>
           
+          <code><a href="download_most_recent_complete.html">download_most_recent_complete()</a></code> 
+        </dt>
+        <dd>Download the most recent complete metadata for a specified organism</dd>
+      </dl><dl><dt>
+          
+          <code><a href="download_PDD_metadata.html">download_PDD_metadata()</a></code> 
+        </dt>
+        <dd>Download Pathogen Detection metadata for a given organism</dd>
+      </dl><dl><dt>
+          
+          <code><a href="find_most_recent_complete.html">find_most_recent_complete()</a></code> 
+        </dt>
+        <dd>Find most recent complete PDG</dd>
+      </dl><dl><dt>
+          
+          <code><a href="get_PDG_version.html">get_PDG_version()</a></code> 
+        </dt>
+        <dd>get the version of the PDD metadata</dd>
+      </dl><dl><dt>
+          
+          <code><a href="list_organisms.html">list_organisms()</a></code> 
+        </dt>
+        <dd>List organisms available in the Pathogens database</dd>
+      </dl><dl><dt>
+          
+          <code><a href="list_PDGs.html">list_PDGs()</a></code> 
+        </dt>
+        <dd>List available PDG accessions for an organism</dd>
+      </dl><dl><dt>
+          
+          <code><a href="make_SNPtree_urls.html">make_SNPtree_urls()</a></code> 
+        </dt>
+        <dd>generate ftp site download urls for all SNP trees containing the provided isolates</dd>
+      </dl><dl><dt>
+          
+          <code><a href="make_SNP_tree_dest.html">make_SNP_tree_dest()</a></code> 
+        </dt>
+        <dd>Make SNP tree download destination paths</dd>
+      </dl><dl><dt>
+          
+          <code><a href="download_SNP_trees.html">download_SNP_trees()</a></code> 
+        </dt>
+        <dd>Download SNP trees from a dataframe containing SNP_tree_urls and dests</dd>
+      </dl></div><div class="section level2">
+      <h2 id="genome-download">Genome download<a class="anchor" aria-label="anchor" href="#genome-download"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions for organizing and downloading pathogen genomes.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
           <code><a href="download_genomes.html">download_genomes()</a></code> 
         </dt>
         <dd>Download a set of specified genome files</dd>
       </dl><dl><dt>
           
-          <code><a href="download_most_recent_complete.html">download_most_recent_complete()</a></code> 
+          <code><a href="make_dest_paths.html">make_dest_paths()</a></code> 
         </dt>
-        <dd>Download the most recent complete metadata for a specified organism</dd>
+        <dd>Make download destination paths</dd>
       </dl><dl><dt>
+          
+          <code><a href="make_download_urls.html">make_download_urls()</a></code> 
+        </dt>
+        <dd>make specific ftp download paths for a dataframe with ftp_paths and assembly accessions</dd>
+      </dl><dl><dt>
+          
+          <code><a href="make_ftp_paths.html">make_ftp_paths()</a></code> 
+        </dt>
+        <dd>generate ftp site paths for a selection of assembly accessions</dd>
+      </dl></div><div class="section level2">
+      <h2 id="metadata-cleanup-tools">Metadata cleanup tools<a class="anchor" aria-label="anchor" href="#metadata-cleanup-tools"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions for organizing and downloading pathogen genomes.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="extract_collection_agency.html">extract_collection_agency()</a></code> 
         </dt>
@@ -118,12 +163,18 @@ genomes as rows and genes as columns?</dd>
         </dt>
         <dd>return a Year column containing the earliest year from the
 available 'date' fields.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="find_most_recent_complete.html">find_most_recent_complete()</a></code> 
-        </dt>
-        <dd>Find most recent complete PDG</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="pangenome-tools">Pangenome tools<a class="anchor" aria-label="anchor" href="#pangenome-tools"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions for working with pangenomes.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="generate_genome_vector.html">generate_genome_vector()</a></code> 
         </dt>
@@ -135,9 +186,21 @@ available 'date' fields.</dd>
         <dd>Generate a random synthetic pangenome gene presence absence matrix</dd>
       </dl><dl><dt>
           
-          <code><a href="get_PDG_version.html">get_PDG_version()</a></code> 
+          <code><a href="build_ppanggolin_file_fastas.html">build_ppanggolin_file_fastas()</a></code> 
         </dt>
-        <dd>get the version of the PDD metadata</dd>
+        <dd>Build a ppanggolin file from fastas</dd>
+      </dl><dl><dt>
+          
+          <code><a href="calculate_novelty.html">calculate_novelty()</a></code> 
+        </dt>
+        <dd>Calculate genome 'novelty' from a list of selection sets returned by pick_derep_sets</dd>
+      </dl><dl><dt>
+          
+          <code><a href="cluster_genomes.html">cluster_genomes()</a></code> 
+        </dt>
+        <dd>Cluster genomes at 4 levels from a pangenome gene PA matrix
+Needs parallelDist, igraph,
+genomes as rows and genes as columns?</dd>
       </dl><dl><dt>
           
           <code><a href="get_pangenome_representatives.html">get_pangenome_representatives()</a></code> 
@@ -158,54 +221,9 @@ then selects the most distant genome from the selected genome
 then</dd>
       </dl><dl><dt>
           
-          <code><a href="klebsiella_example_dat.html">klebsiella_example_dat</a></code> 
-        </dt>
-        <dd>NCBI Pathogen Detection metadata for 200 Klebsiella isolates</dd>
-      </dl><dl><dt>
-          
-          <code><a href="list_PDGs.html">list_PDGs()</a></code> 
-        </dt>
-        <dd>List available PDG accessions for an organism</dd>
-      </dl><dl><dt>
-          
-          <code><a href="list_organisms.html">list_organisms()</a></code> 
-        </dt>
-        <dd>List organisms available in the Pathogens database</dd>
-      </dl><dl><dt>
-          
-          <code><a href="make_SNP_tree_dest.html">make_SNP_tree_dest()</a></code> 
-        </dt>
-        <dd>Make SNP tree download destination paths</dd>
-      </dl><dl><dt>
-          
-          <code><a href="make_SNPtree_urls.html">make_SNPtree_urls()</a></code> 
-        </dt>
-        <dd>generate ftp site download urls for all SNP trees containing the provided isolates</dd>
-      </dl><dl><dt>
-          
-          <code><a href="make_dest_paths.html">make_dest_paths()</a></code> 
-        </dt>
-        <dd>Make download destination paths</dd>
-      </dl><dl><dt>
-          
-          <code><a href="make_download_urls.html">make_download_urls()</a></code> 
-        </dt>
-        <dd>make specific ftp download paths for a dataframe with ftp_paths and assembly accessions</dd>
-      </dl><dl><dt>
-          
-          <code><a href="make_ftp_paths.html">make_ftp_paths()</a></code> 
-        </dt>
-        <dd>generate ftp site paths for a selection of assembly accessions</dd>
-      </dl><dl><dt>
-          
           <code><a href="mark_outliers.html">mark_outliers()</a></code> 
         </dt>
         <dd>Mark outliers from a distance matrix</dd>
-      </dl><dl><dt>
-          
-          <code><a href="pan_mat_to_gene_vec_tibble.html">pan_mat_to_gene_vec_tibble()</a></code> 
-        </dt>
-        <dd>Convert a pangenome PA matrix to a tibble of gene vectors</dd>
       </dl><dl><dt>
           
           <code><a href="pick_derep_sets.html">pick_derep_sets()</a></code> 
@@ -221,13 +239,30 @@ then</dd>
           <code><a href="res_plot_dat.html">res_plot_dat()</a></code> 
         </dt>
         <dd>Generate a dataframe for plotting the progress of selecting a set of genomes</dd>
+      </dl></div><div class="section level2">
+      <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
+      
+      <p class="section-desc"></p><p>included data</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="country_vector.html">country_vector</a></code> 
+        </dt>
+        <dd>A named vector of country names</dd>
       </dl><dl><dt>
           
-          <code><a href="selection_orders.html">selection_orders()</a></code> 
+          <code><a href="klebsiella_example_dat.html">klebsiella_example_dat</a></code> 
         </dt>
-        <dd>helper function to add selection orders to a vector of genomes</dd>
+        <dd>NCBI Pathogen Detection metadata for 200 Klebsiella isolates</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
