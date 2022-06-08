@@ -132,7 +132,7 @@ download_most_recent_complete <- function(organism, folder_prefix=NULL){
 #' @param organism a string ie 'Salmonella' or 'Campylobacter' etc
 #'
 #' @return returns a vector of length 2, 1=PDG accession of most recent complete, 2=release date
-#' @export
+#' @noRd
 #'
 #' @examples #find_most_recent_complete('Salmonella')
 find_most_recent_complete <- function(organism){
@@ -160,7 +160,7 @@ find_most_recent_complete <- function(organism){
 #' @param PDG the ncbi pathogen detection accession to check
 #'
 #' @return TRUE/FALSE depending on if all URLs for download exist
-#' @export
+#' @noRd
 #'
 #' @examples #check_complete_PDG(URL)
 #'

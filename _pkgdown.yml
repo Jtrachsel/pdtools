@@ -7,24 +7,21 @@ reference:
   desc: >
     Functions for downloading various types of metadata from the NCBI Pathogens database
   contents:
-  - check_complete_PDG
-  - download_gbk_assembly_summary
-  - download_most_recent_complete
-  - download_PDD_metadata
-  - find_most_recent_complete
-  - get_PDG_version
   - list_organisms
   - list_PDGs
-  - make_SNPtree_urls
-  - make_SNP_tree_dest
-  - download_SNP_trees
-- title: "Genome download"
+  - check_complete_PDG
+  - find_most_recent_complete
+  - download_most_recent_complete
+  - download_PDD_metadata
+  - get_PDG_version
+  - download_gbk_assembly_summary
+- title: "Genome downloads"
   desc: "Functions for organizing and downloading pathogen genomes."
   contents:
-  - download_genomes
+  - make_ftp_paths
   - make_dest_paths
   - make_download_urls
-  - make_ftp_paths
+  - download_genomes
 - title: "Metadata cleanup tools"
   desc: "Functions for organizing and downloading pathogen genomes."
   contents:
@@ -47,6 +44,11 @@ reference:
   - pick_derep_sets
   - remove_strict_core
   - res_plot_dat
+- title: 'SNP tree downloads'
+  desc: 'functions to organize and download SNP trees from NCBI'
+  - make_SNPtree_urls
+  - make_SNP_tree_dest
+  - download_SNP_trees
 - title: "Data"
   desc: "included data"
   contents:
