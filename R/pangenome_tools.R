@@ -56,7 +56,7 @@ build_ppanggolin_file_fastas <-
 #' @param core_genome_fraction fraction of the genome that is part of the 'core pangenome'
 #'
 #' @return 3 column tibble 1) genome_name; 2) gene_name 3) gene_presence
-#' @export
+#' @noRd
 #'
 #' @examples generate_genome_vector(genome_name='genome_1', num_genes=2000)
 generate_genome_vector <- function(genome_name, num_genes, core_genome_fraction=.75){
@@ -94,7 +94,7 @@ generate_genome_vector <- function(genome_name, num_genes, core_genome_fraction=
 #' @param core_genome_fraction fraction of genes that are part of the core genome
 #'
 #' @return gene presence absence matrix (0/1), rows are genes, columns are genomes
-#' @export
+#' @noRd
 #'
 #' @examples generate_pangenome()
 #' @importFrom rlang .data
