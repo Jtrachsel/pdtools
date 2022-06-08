@@ -22,9 +22,6 @@
     <loc>https://jtrachsel.github.io/pdtools/reference/calculate_novelty.html</loc>
   </url>
   <url>
-    <loc>https://jtrachsel.github.io/pdtools/reference/check_complete_PDG.html</loc>
-  </url>
-  <url>
     <loc>https://jtrachsel.github.io/pdtools/reference/cluster_genomes.html</loc>
   </url>
   <url>
@@ -56,9 +53,6 @@
   </url>
   <url>
     <loc>https://jtrachsel.github.io/pdtools/reference/extract_earliest_year.html</loc>
-  </url>
-  <url>
-    <loc>https://jtrachsel.github.io/pdtools/reference/find_most_recent_complete.html</loc>
   </url>
   <url>
     <loc>https://jtrachsel.github.io/pdtools/reference/generate_genome_vector.html</loc>

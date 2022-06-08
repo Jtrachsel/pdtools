@@ -47,14 +47,14 @@
 
       <dl><dt>
           
-          <code><a href="check_complete_PDG.html">check_complete_PDG()</a></code> 
+          <code><a href="list_organisms.html">list_organisms()</a></code> 
         </dt>
-        <dd>Check if a single PDG is complete (AMR and Cluster metadata)</dd>
+        <dd>List organisms available in the Pathogens database</dd>
       </dl><dl><dt>
           
-          <code><a href="download_gbk_assembly_summary.html">download_gbk_assembly_summary()</a></code> 
+          <code><a href="list_PDGs.html">list_PDGs()</a></code> 
         </dt>
-        <dd>Convenience function to download the assembly_summary.txt file from genbank</dd>
+        <dd>List available PDG accessions for an organism</dd>
       </dl><dl><dt>
           
           <code><a href="download_most_recent_complete.html">download_most_recent_complete()</a></code> 
@@ -67,41 +67,16 @@
         <dd>Download Pathogen Detection metadata for a given organism</dd>
       </dl><dl><dt>
           
-          <code><a href="find_most_recent_complete.html">find_most_recent_complete()</a></code> 
-        </dt>
-        <dd>Find most recent complete PDG</dd>
-      </dl><dl><dt>
-          
           <code><a href="get_PDG_version.html">get_PDG_version()</a></code> 
         </dt>
         <dd>get the version of the PDD metadata</dd>
       </dl><dl><dt>
           
-          <code><a href="list_organisms.html">list_organisms()</a></code> 
+          <code><a href="download_gbk_assembly_summary.html">download_gbk_assembly_summary()</a></code> 
         </dt>
-        <dd>List organisms available in the Pathogens database</dd>
-      </dl><dl><dt>
-          
-          <code><a href="list_PDGs.html">list_PDGs()</a></code> 
-        </dt>
-        <dd>List available PDG accessions for an organism</dd>
-      </dl><dl><dt>
-          
-          <code><a href="make_SNPtree_urls.html">make_SNPtree_urls()</a></code> 
-        </dt>
-        <dd>generate ftp site download urls for all SNP trees containing the provided isolates</dd>
-      </dl><dl><dt>
-          
-          <code><a href="make_SNP_tree_dest.html">make_SNP_tree_dest()</a></code> 
-        </dt>
-        <dd>Make SNP tree download destination paths</dd>
-      </dl><dl><dt>
-          
-          <code><a href="download_SNP_trees.html">download_SNP_trees()</a></code> 
-        </dt>
-        <dd>Download SNP trees from a dataframe containing SNP_tree_urls and dests</dd>
+        <dd>Convenience function to download the assembly_summary.txt file from genbank</dd>
       </dl></div><div class="section level2">
-      <h2 id="genome-download">Genome download<a class="anchor" aria-label="anchor" href="#genome-download"></a></h2>
+      <h2 id="genome-downloads">Genome downloads<a class="anchor" aria-label="anchor" href="#genome-downloads"></a></h2>
       
       <p class="section-desc"></p><p>Functions for organizing and downloading pathogen genomes.</p>
 
@@ -113,14 +88,9 @@
 
       <dl><dt>
           
-          <code><a href="download_genomes.html">download_genomes()</a></code> 
+          <code><a href="make_ftp_paths.html">make_ftp_paths()</a></code> 
         </dt>
-        <dd>Download a set of specified genome files</dd>
-      </dl><dl><dt>
-          
-          <code><a href="make_dest_paths.html">make_dest_paths()</a></code> 
-        </dt>
-        <dd>Make download destination paths</dd>
+        <dd>generate ftp site paths for a selection of assembly accessions</dd>
       </dl><dl><dt>
           
           <code><a href="make_download_urls.html">make_download_urls()</a></code> 
@@ -128,9 +98,14 @@
         <dd>make specific ftp download paths for a dataframe with ftp_paths and assembly accessions</dd>
       </dl><dl><dt>
           
-          <code><a href="make_ftp_paths.html">make_ftp_paths()</a></code> 
+          <code><a href="make_dest_paths.html">make_dest_paths()</a></code> 
         </dt>
-        <dd>generate ftp site paths for a selection of assembly accessions</dd>
+        <dd>Make download destination paths</dd>
+      </dl><dl><dt>
+          
+          <code><a href="download_genomes.html">download_genomes()</a></code> 
+        </dt>
+        <dd>Download a set of specified genome files</dd>
       </dl></div><div class="section level2">
       <h2 id="metadata-cleanup-tools">Metadata cleanup tools<a class="anchor" aria-label="anchor" href="#metadata-cleanup-tools"></a></h2>
       
@@ -239,6 +214,32 @@ then</dd>
           <code><a href="res_plot_dat.html">res_plot_dat()</a></code> 
         </dt>
         <dd>Generate a dataframe for plotting the progress of selecting a set of genomes</dd>
+      </dl></div><div class="section level2">
+      <h2 id="snp-tree-downloads">SNP tree downloads<a class="anchor" aria-label="anchor" href="#snp-tree-downloads"></a></h2>
+      
+      <p class="section-desc"></p><p>functions to organize and download SNP trees from NCBI</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="make_SNPtree_urls.html">make_SNPtree_urls()</a></code> 
+        </dt>
+        <dd>generate ftp site download urls for all SNP trees containing the provided isolates</dd>
+      </dl><dl><dt>
+          
+          <code><a href="make_SNP_tree_dest.html">make_SNP_tree_dest()</a></code> 
+        </dt>
+        <dd>Make SNP tree download destination paths</dd>
+      </dl><dl><dt>
+          
+          <code><a href="download_SNP_trees.html">download_SNP_trees()</a></code> 
+        </dt>
+        <dd>Download SNP trees from a dataframe containing SNP_tree_urls and dests</dd>
       </dl></div><div class="section level2">
       <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
       
