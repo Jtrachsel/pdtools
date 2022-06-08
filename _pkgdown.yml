@@ -46,6 +46,7 @@ reference:
   - res_plot_dat
 - title: 'SNP tree downloads'
   desc: 'functions to organize and download SNP trees from NCBI'
+  contents:
   - make_SNPtree_urls
   - make_SNP_tree_dest
   - download_SNP_trees
