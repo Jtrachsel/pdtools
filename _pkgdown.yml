@@ -2,3 +2,54 @@ url: https://jtrachsel.github.io/pdtools/
 template:
   bootstrap: 5
 
+reference:
+- title: "Metadata Access"
+  desc: >
+    Functions for downloading various types of metadata from the NCBI Pathogens database
+  contents:
+  - check_complete_PDG
+  - download_gbk_assembly_summary
+  - download_most_recent_complete
+  - download_PDD_metadata
+  - find_most_recent_complete
+  - get_PDG_version
+  - list_organisms
+  - list_PDGs
+  - make_SNPtree_urls
+  - make_SNP_tree_dest
+  - download_SNP_trees
+- title: "Genome download"
+  desc: "Functions for organizing and downloading pathogen genomes."
+  contents:
+  - download_genomes
+  - make_dest_paths
+  - make_download_urls
+  - make_ftp_paths
+- title: "Metadata cleanup tools"
+  desc: "Functions for organizing and downloading pathogen genomes."
+  contents:
+  - extract_collection_agency
+  - extract_consensus_ag_species
+  - extract_country
+  - extract_earliest_year
+- title: "Pangenome tools"
+  desc: "Functions for working with pangenomes."
+  contents:
+  - generate_genome_vector
+  - generate_pangenome
+  - build_ppanggolin_file_fastas
+  - calculate_novelty
+  - cluster_genomes
+  - get_pangenome_representatives
+  - get_pangenome_representatives2
+  - get_pangenome_representatives_jaccard
+  - mark_outliers
+  - pick_derep_sets
+  - remove_strict_core
+  - res_plot_dat
+- title: "Data"
+  desc: "included data"
+  contents:
+  - country_vector
+  - klebsiella_example_dat
+

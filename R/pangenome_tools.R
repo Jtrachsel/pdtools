@@ -121,7 +121,7 @@ generate_pangenome <- function(num_genomes=100, num_genes=1000, core_genome_frac
 #' @param pan_mat presence absence matrix, genes are columns, rows are genomes 1/0
 #'
 #' @return a tibble with gene vectors for each genome
-#' @export
+#' @noRd
 #'
 #' @examples #pan_mat_to_gene_vec_tibble(pangenome_presence_absence_matrix)
 #'
@@ -471,7 +471,7 @@ cluster_genomes <-
 #' @param VECTOR a vector of genome names
 #'
 #' @return a tibble of two columns, 1=genome_name, 2=selected_order
-#'
+#' @noRd
 #'
 #' @examples # selection_orders(genome_vector)
 selection_orders <-
