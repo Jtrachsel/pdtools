@@ -9,8 +9,6 @@ reference:
   contents:
   - list_organisms
   - list_PDGs
-  - check_complete_PDG
-  - find_most_recent_complete
   - download_most_recent_complete
   - download_PDD_metadata
   - get_PDG_version
@@ -19,8 +17,8 @@ reference:
   desc: "Functions for organizing and downloading pathogen genomes."
   contents:
   - make_ftp_paths
-  - make_dest_paths
   - make_download_urls
+  - make_dest_paths
   - download_genomes
 - title: "Metadata cleanup tools"
   desc: "Functions for organizing and downloading pathogen genomes."
