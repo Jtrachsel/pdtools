@@ -21,7 +21,7 @@ reference:
   - make_dest_paths
   - download_genomes
 - title: "Metadata cleanup tools"
-  desc: "Functions for organizing and downloading pathogen genomes."
+  desc: "Functions for extracting information from provided metadata"
   contents:
   - extract_collection_agency
   - extract_consensus_ag_species

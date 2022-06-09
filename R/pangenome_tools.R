@@ -263,7 +263,7 @@ remove_strict_core <- function(pan_PA, rows_are_genes=NULL){
 #' @param max_genomes Maximum number of genomes to select
 #'
 #' @return a list of 3; list(cumulative_genomes, scores, proportion_coverages)
-#' @export
+#' @noRd
 #'
 #' @examples generate_pangenome() %>% pan_mat_to_gene_vec_tibble() %>% get_pangenome_representatives2()
 get_pangenome_representatives2 <-
