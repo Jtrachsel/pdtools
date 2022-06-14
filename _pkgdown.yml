@@ -26,6 +26,7 @@ reference:
   - extract_collection_agency
   - extract_consensus_ag_species
   - extract_country
+  - extract_state
   - extract_earliest_year
 - title: "Pangenome tools"
   desc: "Functions for working with pangenomes."

@@ -58,7 +58,7 @@ build_ppanggolin_file_fastas <-
 #' @return 3 column tibble 1) genome_name; 2) gene_name 3) gene_presence
 #' @noRd
 #'
-#' @examples generate_genome_vector(genome_name='genome_1', num_genes=2000)
+#' @examples #generate_genome_vector(genome_name='genome_1', num_genes=2000)
 generate_genome_vector <- function(genome_name, num_genes, core_genome_fraction=.75){
 
   core_genome_size= base::floor(num_genes * core_genome_fraction)
@@ -96,7 +96,7 @@ generate_genome_vector <- function(genome_name, num_genes, core_genome_fraction=
 #' @return gene presence absence matrix (0/1), rows are genes, columns are genomes
 #' @noRd
 #'
-#' @examples generate_pangenome()
+#' @examples #generate_pangenome()
 #' @importFrom rlang .data
 generate_pangenome <- function(num_genomes=100, num_genes=1000, core_genome_fraction=.75){
   genomes <- base::paste0('genome_', 1:num_genomes)
@@ -222,8 +222,6 @@ get_pangenome_representatives <-
     return(base::list(cumulative_genomes, scores, proportion_coverages))
   }
 
-# genomes <- pan_mat_to_gene_vec_tibble(pan_mat)
-
 
 #' Removes genes present in all genomes from pangenome presence/absence matrix
 #'
@@ -233,7 +231,7 @@ get_pangenome_representatives <-
 #' @return returns a pangenome presence/absence matrix with the strict core removed
 #' @export
 #'
-#' @examples generate_pangenome() %>% remove_strict_core()
+#' @examples #generate_pangenome() %>% remove_strict_core()
 remove_strict_core <- function(pan_PA, rows_are_genes=NULL){
   # check that strict core exists first!
 
@@ -265,7 +263,7 @@ remove_strict_core <- function(pan_PA, rows_are_genes=NULL){
 #' @return a list of 3; list(cumulative_genomes, scores, proportion_coverages)
 #' @noRd
 #'
-#' @examples generate_pangenome() %>% pan_mat_to_gene_vec_tibble() %>% get_pangenome_representatives2()
+#' @examples #generate_pangenome() %>% pan_mat_to_gene_vec_tibble() %>% get_pangenome_representatives2()
 get_pangenome_representatives2 <-
   function(gene_vec_tibble,
            desired_coverage=.95,

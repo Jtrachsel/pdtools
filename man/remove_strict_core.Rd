@@ -18,5 +18,5 @@ returns a pangenome presence/absence matrix with the strict core removed
 Removes genes present in all genomes from pangenome presence/absence matrix
 }
 \examples{
-generate_pangenome() \%>\% remove_strict_core()
+#generate_pangenome() \%>\% remove_strict_core()
 }
