@@ -37,14 +37,14 @@ matches_from_vector_of_patterns <-
 extract_consensus_ag_species <- function(dat, parallel=FALSE){
   # browser()
   pattern_vec <-
-    base::c(Swine="swine|pork|porcine|sow|sus|hog|pig|scrofa",
-      Bovine="bovine|beef|veal|cow|cattle|bos|steer|taurus|calf|bull|dairy|milk",
+    base::c(Swine="swine|pork|porcine|sow|sus|hog|pig|scrofa|\\bham\\b",
+      Bovine="bovine|beef|veal|cow|cattle|bos|steer|taurus|calf|bull",
       Chicken="chicken|chick|gallus|broiler|egg",
       Turkey="turkey|meleagris|gallopavo",
       Human="human|homo|sapiens",
       Horse="equine|equus|horse|caballus",
-      Dog="canine|dog|canis",
-      Cat= "\\bcat\\b|felis|catus",
+      Dog="canine|dog|canis|canine",
+      Cat= "\\bcat\\b|felis|catus|feline",
       Goat="caprine|goat",
       Sheep="\\bovine|sheep|lamb",
       Duck="duck",
@@ -63,15 +63,16 @@ extract_consensus_ag_species <- function(dat, parallel=FALSE){
     first_pass <-
       dat %>%
       dplyr::transmute(target_acc=.data$target_acc,
-                       search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) %>%
+                       search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type)) %>%
       dplyr::mutate(ag_match=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
 
 
   } else {
+
     first_pass <-
       dat %>%
       dplyr::transmute(target_acc=.data$target_acc,
-                       search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type, sep = '_')) %>%
+                       search_vals=base::paste(.data$isolation_source, .data$host, .data$ontological_term,.data$epi_type)) %>%
       dplyr::mutate(ag_match=purrr::map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
 
 
@@ -84,7 +85,7 @@ extract_consensus_ag_species <- function(dat, parallel=FALSE){
       result <- finished %>% dplyr::select(.data$target_acc, .data$ag_match)
       return(result)
     } else {
-
+      # This assumes that any clinical isolate without other info is a human isolate
       second_pass <- first_pass %>%
         dplyr::filter(.data$ag_match == '') %>%
         dplyr::mutate(ag_match=base::ifelse(base::grepl('clinical', .data$search_vals), 'Human', 'Other'))
@@ -222,20 +223,31 @@ extract_country <- function(meta, parallel=FALSE){
 
 }
 
-
 #### WORK ON THIS
-# extract_state <- function(data){
-#
-#   pattern_vec <- state_vector
-#
-#   first_pass <-
-#     data %>%
-#     dplyr::transmute(target_acc=.data$target_acc,
-#                      search_vals=base::tolower(.data$geo_loc_name)) %>%
-#     dplyr::mutate(country=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x)))
-#
-#
-# }
+
+#' Extract the state name from the geo_loc_name column, this only makes sence for USA isolates
+#'
+#' @param data a dataframe containing a `geo_loc_name` column
+#'
+#' @return a tibble with 2 columns, `target_acc` and `State`
+#' @export
+#'
+#' @examples klebsiella_example_dat %>% extract_state()
+extract_state <- function(data){
+
+  state_vector <- paste('\\b',state.name,'\\b', '|', '\\b', state.abb,'\\b', sep = '')
+  names(state_vector) <- state.abb
+  pattern_vec <- state_vector
+
+  first_pass <-
+    data %>%
+    dplyr::transmute(target_acc=.data$target_acc,
+                     search_vals=base::tolower(.data$geo_loc_name)) %>%
+    dplyr::mutate(State=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x))) %>%
+    dplyr::select(target_acc, State)
+
+  return(first_pass)
+}
 
 
 ### PDS_summary
