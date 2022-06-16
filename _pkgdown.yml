@@ -20,6 +20,7 @@ reference:
   - make_download_urls
   - make_dest_paths
   - download_genomes
+  - download_reference_genomes
 - title: "Metadata cleanup tools"
   desc: "Functions for extracting information from provided metadata"
   contents:

@@ -81,7 +81,7 @@ download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
 
   # some of these files are large, change timeout to 10 min within this function
   # the options call to change the timeout returns the original options
-  original_options <- options(timeout = 600)
+  original_options <- options(timeout = 6000)
   on.exit(options(original_options))
 
   # Given an organism and a PDG accession
@@ -98,12 +98,22 @@ download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
   cluster_url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/',PDG,'/Clusters/',PDG,'.reference_target.cluster_list.tsv')
   cluster_dest <- paste0(folder_prefix, PDG, '.cluster_list.tsv')
 
-  # print('downloading metadata...')
-  # curl_download(url = meta_url, destfile = meta_dest)
-  print('downloading amr data...')
-  utils::download.file(url = amr_url, destfile = amr_dest)
-  print('downloading cluster data...')
-  utils::download.file(url = cluster_url, destfile = cluster_dest)
+
+  if(!file.exists(amr_dest)){
+    print('downloading amr data...')
+    utils::download.file(url = amr_url, destfile = amr_dest)
+  } else {
+    print(paste('file', amr_dest, 'already exists...', 'skipping'))
+  }
+
+  if(file.exists(cluster_dest)){
+    print('downloading cluster data...')
+    utils::download.file(url = cluster_url, destfile = cluster_dest)
+  }else {
+    print(paste('file', cluster_dest, 'already exists...', 'skipping'))
+  }
+
+
 }
 
 
@@ -263,6 +273,5 @@ make_SNP_tree_dest <- function(data, data_dir){
 # ADD function to download most up to date AMR reference gene catalogue
 # need to look for most recent version 1st
 #  https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/3.10/2021-12-21.1/ReferenceGeneCatalog.txt
-
 
 

@@ -197,6 +197,17 @@ supported_download_types <-
     return(suffixes)
   }
 
+#' Download reference genomes
+#'
+#' @param genome_names one of LT2, USDA15WA1, FSIS1502916
+#' @param type fna, gff, etc...
+#' @param data_dir destination directory
+#' @param avail TRUE/FALSE, if TRUE, return available genome_name options
+#'
+#' @return tibble of download results (or vector of genome_names if avail == TRUE)
+#' @export
+#'
+#' @examples # download_reference_genome('LT2')
 download_reference_genomes <- function(genome_names,type, data_dir, avail=FALSE){
 
   references <- base::c(
@@ -219,6 +230,15 @@ download_reference_genomes <- function(genome_names,type, data_dir, avail=FALSE)
 }
 
 
+#' Check if genome assemblies already exist
+#'
+#' @param data dataframe with "XXX_dest" columns
+#' @param type type of dest to check (fna, gbk, gff etc.)
+#'
+#' @return the input data with a column indicating if the fna/gff/gbk ect exists
+#' @noRd
+#'
+#' @examples # data %>% check_if_files_exist('fna')
 check_if_files_exist <- function(data, type){
   dest_var <- base::paste0(type, '_dest')
   # err_var <- stats::setNames(base::list(base::as.character), glue::glue("{type}_dl_error"))
@@ -249,9 +269,9 @@ check_if_files_exist <- function(data, type){
   return(data)
 }
 
-
-# after downloading files, make sure no asm_acc is repeated
-# if repeats, keep newest accession
-resolve_updated_assemblies <- function(data_dir){
-  list.files(data_dir)
-}
+#
+# # after downloading files, make sure no asm_acc is repeated
+# # if repeats, keep newest accession
+# resolve_updated_assemblies <- function(data_dir){
+#   list.files(data_dir)
+# }
