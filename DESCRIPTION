@@ -13,9 +13,9 @@ Depends:
     R (>= 4.0.0)
 Imports:
     Biostrings,
+    datasets,
     dplyr,
     furrr,
-    future,
     glue,
     igraph,
     lubridate,
@@ -34,7 +34,8 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
-    tidyverse
+    tidyverse,
+    future
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

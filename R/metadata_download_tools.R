@@ -106,7 +106,7 @@ download_PDD_metadata <- function(organism, PDG, folder_prefix=NULL){
     print(paste('file', amr_dest, 'already exists...', 'skipping'))
   }
 
-  if(file.exists(cluster_dest)){
+  if(!file.exists(cluster_dest)){
     print('downloading cluster data...')
     utils::download.file(url = cluster_url, destfile = cluster_dest)
   }else {

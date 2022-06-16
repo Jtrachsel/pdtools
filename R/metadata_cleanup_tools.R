@@ -235,8 +235,8 @@ extract_country <- function(meta, parallel=FALSE){
 #' @examples klebsiella_example_dat %>% extract_state()
 extract_state <- function(data){
 
-  state_vector <- paste('\\b',state.name,'\\b', '|', '\\b', state.abb,'\\b', sep = '')
-  names(state_vector) <- state.abb
+  state_vector <- base::paste('\\b',datasets::state.name,'\\b', '|', '\\b', datasets::state.abb,'\\b', sep = '')
+  base::names(state_vector) <- datasets::state.abb
   pattern_vec <- state_vector
 
   first_pass <-
@@ -244,7 +244,7 @@ extract_state <- function(data){
     dplyr::transmute(target_acc=.data$target_acc,
                      search_vals=base::tolower(.data$geo_loc_name)) %>%
     dplyr::mutate(State=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x))) %>%
-    dplyr::select(target_acc, State)
+    dplyr::select(.data$target_acc, .data$State)
 
   return(first_pass)
 }
