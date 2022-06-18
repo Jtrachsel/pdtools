@@ -39,16 +39,23 @@ make_ftp_paths <- function(data, assembly_summary_path){
   # should check for NAs or weirdly formatted asm_acc
 
   # check_asm_acc
+  if(any(data$asm_acc == 'NULL')){
+    message('ERROR!!! Some of your isolates have "NULL" as their asm_acc')
+    message('Please filter these isolates out of your data and try again')
+    errorCondition('got "NULL" for asm_acc')
+  } else {
+    ftp_asm_map <-
+      readr::read_tsv(assembly_summary_path, skip=1) %>%
+      dplyr::transmute(asm_acc=.data$`# assembly_accession`,
+                       .data$ftp_path) %>%
+      dplyr::filter(grepl('https://ftp.ncbi.nlm.nih.gov',.data$ftp_path))
 
-  ftp_asm_map <-
-    readr::read_tsv(assembly_summary_path, skip=1) %>%
-    dplyr::transmute(asm_acc=.data$`# assembly_accession`,
-                     .data$ftp_path) %>%
-    dplyr::filter(grepl('https://ftp.ncbi.nlm.nih.gov',.data$ftp_path))
+    result <- data %>% dplyr::left_join(ftp_asm_map)
 
-  result <- data %>% dplyr::left_join(ftp_asm_map)
+    return(result)
+  }
 
-  return(result)
+
 
 }
 
