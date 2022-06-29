@@ -480,7 +480,8 @@ selection_orders <-
 
 
 
-#' Pick multiple de-replication sets from a pangenome
+#' Pick multiple de-replication sets from a pangenome, uses furrr::future_map
+#' Be sure to set your 'plan()'!!!
 #'
 #' @param pan_PA A pangenome gene presence/absence matrix, genomes as columns,
 #' genes as rows
