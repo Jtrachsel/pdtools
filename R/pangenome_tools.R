@@ -25,9 +25,9 @@ build_ppanggolin_file_fastas <-
       complete_genomes_table <-
        tibble::tibble(paths=complete_genome_paths,
                  ID=sub('(.*)\\.f.*a$','\\1',base::basename(.data$paths)),
-                 fasta=purrr::map(.x = .data$paths, .f=Biostrings::readDNAStringSet),
-                 c_names=purrr::map(.x=.data$fasta, .f=base::names),
-                 c_ids=purrr::map(.data$c_names,~base::sub('(\\w+).*', '\\1', .x)),
+                 # fasta=purrr::map(.x = .data$paths, .f=Biostrings::readDNAStringSet),
+                 # c_names=purrr::map(.x=.data$fasta, .f=base::names),
+                 c_ids=purrr::map(.data$paths,~get_fasta_contig_names(.x)),
                  contig_names=purrr::map_chr(.x=.data$c_ids, .f=~base::paste(.x, collapse='\t'))) %>%
         dplyr::select(.data$ID, .data$paths, .data$contig_names)
     }
@@ -46,6 +46,32 @@ build_ppanggolin_file_fastas <-
 
 
   }
+
+
+#' get contig names from a fasta file
+#'
+#' @param path path to a fasta file
+#'
+#' @return a vector of contig names
+#' @noRd
+#'
+#' @examples # soon
+get_fasta_contig_names <- function(path){
+
+  con <- base::file(path, "r")
+  lines <- base::c()
+  while(TRUE) {
+    line = base::readLines(con, 1)
+    if(base::length(line) == 0) break
+    else if(base::grepl("^>", line)){
+      line <- base::sub('>','',line)
+      lines <- base::c(lines, line)
+
+      }
+  }
+  base::close.connection(con)
+  return(lines)
+}
 
 
 
