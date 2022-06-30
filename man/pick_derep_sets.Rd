@@ -2,7 +2,8 @@
 % Please edit documentation in R/pangenome_tools.R
 \name{pick_derep_sets}
 \alias{pick_derep_sets}
-\title{Pick multiple de-replication sets from a pangenome}
+\title{Pick multiple de-replication sets from a pangenome, uses furrr::future_map
+Be sure to set your 'plan()'!!!}
 \usage{
 pick_derep_sets(pan_PA, output_file, num_sets = 25, desired_coverage = 0.95)
 }
@@ -24,7 +25,8 @@ a tibble with two columns:
 }
 }
 \description{
-Pick multiple de-replication sets from a pangenome
+Pick multiple de-replication sets from a pangenome, uses furrr::future_map
+Be sure to set your 'plan()'!!!
 }
 \examples{
 # soon
