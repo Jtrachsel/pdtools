@@ -1,13 +1,17 @@
 pdtools
 ================
 
+<!-- badges: start -->
+
+[![Codecov test
+coverage](https://codecov.io/gh/Jtrachsel/pdtools/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Jtrachsel/pdtools?branch=main)
+<!-- badges: end -->
+
 ## Installation
 
-*Requires R &gt;= 4.0* *Requires Biostrings, need to install from
-BiocManager*
+*Requires R \>= 4.0*
 
 ``` r
-BiocManager::install('Biostrings')
 remotes::install_github('jtrachsel/pdtools')
 ```
 
@@ -16,9 +20,7 @@ remotes::install_github('jtrachsel/pdtools')
 A collection of functions for working with data from the [NCBI Pathogen
 Detection project](https://www.ncbi.nlm.nih.gov/pathogens/)
 
-<https://jtrachsel.github.io/pdtools/index.html>
-
-## Examples
+## Quickstart
 
 #### List available organisms
 
@@ -128,17 +130,17 @@ get_pangenome_representatives(pan_mat = pan_PA, SEED = 2, desired_coverage = .99
 
 -   Stats on available organisms, num clusters, most recent isolate
     <https://www.ncbi.nlm.nih.gov/pathogens/organisms/>
--   update\_collection() function?
+-   update_collection() function?
     -   Should take and old metadata file and a new metadata file as
         inputs.  
     -   return a vector of new genomes that were not present in the old
         list.
     -   also return genomes with newer assembly accession version  
--   extract\_consensus\_ag\_species currently assumes isolates are from
-    humans if the epi\_type is clinical and no other information is
+-   extract_consensus_ag_species currently assumes isolates are from
+    humans if the epi_type is clinical and no other information is
     available. This is probably wrong in some cases…
--   Reference README? <https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt>  
--   A Greedy Heuristic for the Set-Covering Problem, V. Chvatal, Published Online:1 Aug 1979https://doi.org/10.1287/moor.4.3.233  
-    - I think I may have re-implemented this?  
-    
-    
+-   Reference README? <https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt>
+-   Download a more appropriate assembly summary file
+    -   Or an assembly summary file for a species from the appropriate
+        directory under genbank or refseq. e.g.
+        <ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/Salmonella_enterica/assembly_summary.txt>

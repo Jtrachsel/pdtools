@@ -14,9 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Installation
 
 *Requires R >= 4.0* 
-*Requires Biostrings, need to install from BiocManager*
 ```{r, eval=FALSE}
-BiocManager::install('Biostrings')
 remotes::install_github('jtrachsel/pdtools')
 ```
 
@@ -25,7 +23,6 @@ remotes::install_github('jtrachsel/pdtools')
 A collection of functions for working with data from the
 [NCBI Pathogen Detection project](https://www.ncbi.nlm.nih.gov/pathogens/)  
 
-[https://jtrachsel.github.io/pdtools/index.html](https://jtrachsel.github.io/pdtools/index.html)
 
 ## Quickstart  
 
