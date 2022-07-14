@@ -545,7 +545,7 @@ calculate_novelty <-
 #' @param seed_num TODO
 #'
 #' @return returns a tibble containing the score of the set with each additional genome
-#'
+#' @noRd
 #'
 #' @examples # res_plot_dat()
 res_plot_dat <-
