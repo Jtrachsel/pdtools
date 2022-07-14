@@ -7,7 +7,7 @@
 #' @return a tibble satisfying the ppanggolin file requirements with the complete genome contigs indicated as circular
 #' @export
 #'
-#' @examples #build_ppanggolin_file_fastas(incomplete_genome_paths=c('genome1.fasta', 'genome2.fasta))
+#' @examples build_ppanggolin_file_fastas(incomplete_genome_paths=c('./genomes/genome1.fasta', './genomes/genome2.fasta'))
 #' @importFrom rlang .data
 build_ppanggolin_file_fastas <-
   function(complete_genome_paths=NULL,
@@ -55,7 +55,10 @@ build_ppanggolin_file_fastas <-
 #' @return a vector of contig names
 #' @noRd
 #'
-#' @examples # soon
+#'#'@examples
+#'\dontrun{
+#'get_fasta_contig_names('genome_1.fasta')
+#'}
 get_fasta_contig_names <- function(path){
 
   con <- base::file(path, "r")
@@ -84,7 +87,7 @@ get_fasta_contig_names <- function(path){
 #' @return 3 column tibble 1) genome_name; 2) gene_name 3) gene_presence
 #' @noRd
 #'
-#' @examples #generate_genome_vector(genome_name='genome_1', num_genes=2000)
+#' @examples #genome1_vec <- generate_genome_vector(genome_name='genome_1', num_genes=2000)
 generate_genome_vector <- function(genome_name, num_genes, core_genome_fraction=.75){
 
   core_genome_size= base::floor(num_genes * core_genome_fraction)
@@ -110,7 +113,6 @@ generate_genome_vector <- function(genome_name, num_genes, core_genome_fraction=
 
 
 }
-# generate_genome_vector(genome_name = 'genome_1', num_genes = 5000)
 
 #' Generate a random synthetic pangenome gene presence absence matrix
 #'
@@ -122,7 +124,9 @@ generate_genome_vector <- function(genome_name, num_genes, core_genome_fraction=
 #' @return gene presence absence matrix (0/1), rows are genes, columns are genomes
 #' @noRd
 #'
-#' @examples #generate_pangenome()
+#' @examples
+#' pangenome <- generate_pangenome()
+#' pangenome[1:5, 1:5]
 #' @importFrom rlang .data
 generate_pangenome <- function(num_genomes=100, num_genes=1000, core_genome_fraction=.75){
   genomes <- base::paste0('genome_', 1:num_genomes)
@@ -149,7 +153,9 @@ generate_pangenome <- function(num_genomes=100, num_genes=1000, core_genome_frac
 #' @return a tibble with gene vectors for each genome
 #' @noRd
 #'
-#' @examples #pan_mat_to_gene_vec_tibble(pangenome_presence_absence_matrix)
+#' @examples
+#' gvt <- pan_mat_to_gene_vec_tibble(example_pangenome_matrix)
+#' gvt[1:5,]
 #'
 pan_mat_to_gene_vec_tibble <- function(pan_mat){
   # browser()
@@ -180,7 +186,12 @@ pan_mat_to_gene_vec_tibble <- function(pan_mat){
 #' @return returns a list of length 3. 1:names of the genomes, 2:scores for each iteration , 3:proportion coverage for each iteration
 #' @export
 #'
-#' @examples #gen_pangenome_representatives(pan_mat)
+#' @examples
+#' # this example pangenome has 100 genomes with 1000 total genes
+#' # ~5 genomes can provide > 95% gene coverage
+#' pan_reps <- get_pangenome_representatives(example_pangenome_matrix)
+#' pan_reps
+#'
 #' @importFrom rlang .data
 get_pangenome_representatives <-
   function(pan_mat, desired_coverage=.95, SEED=3, verbose=FALSE){
@@ -257,7 +268,10 @@ get_pangenome_representatives <-
 #' @return returns a pangenome presence/absence matrix with the strict core removed
 #' @export
 #'
-#' @examples #generate_pangenome() %>% remove_strict_core()
+#' @examples
+#' dim(example_pangenome_matrix)
+#' pan_mat <- example_pangenome_matrix %>% remove_strict_core()
+#' dim(pan_mat)
 remove_strict_core <- function(pan_PA, rows_are_genes=NULL){
   # check that strict core exists first!
 
@@ -278,85 +292,85 @@ remove_strict_core <- function(pan_PA, rows_are_genes=NULL){
 }
 
 
-#' Get pangenome representatives from a gene_vec_tibble
+#' #' Get pangenome representatives from a gene_vec_tibble
+#' #'
+#' #' @param gene_vec_tibble an object returned by pan_mat_to_gene_vec_tibble()
+#' #' @param desired_coverage proportion of gene content desired 0-1
+#' #' @param SEED random seed to use (for selecting 1st genome)
+#' #' @param best_possible_score to save time you can pre-calculate the best possible score (total gene content of pangenome)
+#' #' @param max_genomes Maximum number of genomes to select
+#' #'
+#' #' @return a list of 3; list(cumulative_genomes, scores, proportion_coverages)
+#' #' @noRd
+#' #'
+#' #' @examples #generate_pangenome() %>% pan_mat_to_gene_vec_tibble() %>% get_pangenome_representatives2()
+#' get_pangenome_representatives2 <-
+#'   function(gene_vec_tibble,
+#'            desired_coverage=.95,
+#'            SEED=3,
+#'            best_possible_score=NULL,
+#'            max_genomes=1000){
+#'     # hopefully get smallest set of genomes that gives desired coverage of pangenome
+#'     # browser()
 #'
-#' @param gene_vec_tibble an object returned by pan_mat_to_gene_vec_tibble()
-#' @param desired_coverage proportion of gene content desired 0-1
-#' @param SEED random seed to use (for selecting 1st genome)
-#' @param best_possible_score to save time you can pre-calculate the best possible score (total gene content of pangenome)
-#' @param max_genomes Maximum number of genomes to select
+#'     # can save time by providing the best possible score
+#'     # which will be total number of genes in not strict core genome
+#'     if(base::is.null(best_possible_score)){
+#'       base::print('calculating total number of genes, you can speed this up if you supply the best_possible_score parameter')
+#'       best_possible_score <-
+#'         purrr::reduce(gene_vec_tibble$gene_vec, ~base::c(.x, .y) %>% base::unique()) %>%
+#'         base::length()
+#'     }
 #'
-#' @return a list of 3; list(cumulative_genomes, scores, proportion_coverages)
-#' @noRd
+#'     # gene_vec_tibble
+#'     # random starting genome
+#'     chosen_genome_index <- base::sample(1:base::nrow(gene_vec_tibble), size = 1)
 #'
-#' @examples #generate_pangenome() %>% pan_mat_to_gene_vec_tibble() %>% get_pangenome_representatives2()
-get_pangenome_representatives2 <-
-  function(gene_vec_tibble,
-           desired_coverage=.95,
-           SEED=3,
-           best_possible_score=NULL,
-           max_genomes=1000){
-    # hopefully get smallest set of genomes that gives desired coverage of pangenome
-    # browser()
-
-    # can save time by providing the best possible score
-    # which will be total number of genes in not strict core genome
-    if(base::is.null(best_possible_score)){
-      base::print('calculating total number of genes, you can speed this up if you supply the best_possible_score parameter')
-      best_possible_score <-
-        purrr::reduce(gene_vec_tibble$gene_vec, ~base::c(.x, .y) %>% base::unique()) %>%
-        base::length()
-    }
-
-    # gene_vec_tibble
-    # random starting genome
-    chosen_genome_index <- base::sample(1:base::nrow(gene_vec_tibble), size = 1)
-
-    # starting pangenome
-    cumulative_pan <- gene_vec_tibble$gene_vec[[chosen_genome_index]]
-    cumulative_genomes <- gene_vec_tibble$genome_name[[chosen_genome_index]]
-
-    # remove starting genome from remaining genomes
-    gene_vec_tibble <- gene_vec_tibble[-chosen_genome_index,]
-    # best_score <- gene_vec_tibble$gene_vec %>% unique() %>% length()
-    # best score = total number of genes in pangenome
-    best_score <- best_possible_score
-    tot_genomes <- base::nrow(gene_vec_tibble)
-    desired_score <- best_score * desired_coverage
-
-    base::print(base::paste(tot_genomes, 'total genomes'))
-    base::print(base::paste(best_score, '= best possible score'))
-    base::print(base::paste(desired_coverage, '= desired coverage'))
-    base::print(base::paste(desired_score, '= desired score'))
-
-    score <- base::length(cumulative_pan)
-    scores <- base::c(score)
-    base::print(base::paste0('starting score = ', score))
-    while (score < desired_score & length(cumulative_genomes) < max_genomes){
-
-      # calculates the number of new genes each genome would contribute to the cumulative pangenome
-      # filters to only genomes that will contribute the max possible new genes
-      # selects a random one (because all that make it through filter will contibute equally).
-      best_addition_genome <-
-        gene_vec_tibble %>%
-        dplyr::mutate(num_new=purrr::map_int(.x = .data$gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) %>%
-        # dplyr::arrange(dplyr::desc(.data$num_new)) %>%
-        dplyr::filter(.data$num_new == max(.data$num_new)) %>%
-        dplyr::slice_sample(n = 1)
-
-      # remove selected genome from remaining genomes
-      gene_vec_tibble <- gene_vec_tibble %>% dplyr::filter(.data$genome_name != best_addition_genome$genome_name)
-
-      cumulative_pan <- base::c(cumulative_pan, best_addition_genome$gene_vec[[1]]) %>% base::unique()
-      cumulative_genomes <- base::c(cumulative_genomes, best_addition_genome$genome_name[[1]])
-      score <- base::length(cumulative_pan)
-      scores <- base::c(scores, score)
-      base::print(base::paste0('new score = ', score))
-      proportion_coverages <- scores/best_score
-      print(base::paste0('proportion covered = ', base::round(score/best_score, digits = 3)))
-    }
-    return(base::list(cumulative_genomes, scores, proportion_coverages))
-  }
+#'     # starting pangenome
+#'     cumulative_pan <- gene_vec_tibble$gene_vec[[chosen_genome_index]]
+#'     cumulative_genomes <- gene_vec_tibble$genome_name[[chosen_genome_index]]
+#'
+#'     # remove starting genome from remaining genomes
+#'     gene_vec_tibble <- gene_vec_tibble[-chosen_genome_index,]
+#'     # best_score <- gene_vec_tibble$gene_vec %>% unique() %>% length()
+#'     # best score = total number of genes in pangenome
+#'     best_score <- best_possible_score
+#'     tot_genomes <- base::nrow(gene_vec_tibble)
+#'     desired_score <- best_score * desired_coverage
+#'
+#'     base::print(base::paste(tot_genomes, 'total genomes'))
+#'     base::print(base::paste(best_score, '= best possible score'))
+#'     base::print(base::paste(desired_coverage, '= desired coverage'))
+#'     base::print(base::paste(desired_score, '= desired score'))
+#'
+#'     score <- base::length(cumulative_pan)
+#'     scores <- base::c(score)
+#'     base::print(base::paste0('starting score = ', score))
+#'     while (score < desired_score & length(cumulative_genomes) < max_genomes){
+#'
+#'       # calculates the number of new genes each genome would contribute to the cumulative pangenome
+#'       # filters to only genomes that will contribute the max possible new genes
+#'       # selects a random one (because all that make it through filter will contibute equally).
+#'       best_addition_genome <-
+#'         gene_vec_tibble %>%
+#'         dplyr::mutate(num_new=purrr::map_int(.x = .data$gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) %>%
+#'         # dplyr::arrange(dplyr::desc(.data$num_new)) %>%
+#'         dplyr::filter(.data$num_new == max(.data$num_new)) %>%
+#'         dplyr::slice_sample(n = 1)
+#'
+#'       # remove selected genome from remaining genomes
+#'       gene_vec_tibble <- gene_vec_tibble %>% dplyr::filter(.data$genome_name != best_addition_genome$genome_name)
+#'
+#'       cumulative_pan <- base::c(cumulative_pan, best_addition_genome$gene_vec[[1]]) %>% base::unique()
+#'       cumulative_genomes <- base::c(cumulative_genomes, best_addition_genome$genome_name[[1]])
+#'       score <- base::length(cumulative_pan)
+#'       scores <- base::c(scores, score)
+#'       base::print(base::paste0('new score = ', score))
+#'       proportion_coverages <- scores/best_score
+#'       print(base::paste0('proportion covered = ', base::round(score/best_score, digits = 3)))
+#'     }
+#'     return(base::list(cumulative_genomes, scores, proportion_coverages))
+#'   }
 
 
 
@@ -368,7 +382,8 @@ get_pangenome_representatives2 <-
 #' @return a tibble with an outlier designation for each genome
 #' @export
 #'
-#' @examples # soon
+#' @examples
+#' mark_outliers(example_pan_dist, outlier_prob=.95)
 mark_outliers <- function(DIST, outlier_prob=.99){
 
   mainmat <- base::as.matrix(DIST)
@@ -396,16 +411,28 @@ mark_outliers <- function(DIST, outlier_prob=.99){
 #' @return returns a tibble with a cluster designation for each genome at 4 levels
 #' @export
 #'
-#' @examples # soon
+#' @examples
+#' # note the t() because the dist() function finds dists between rows of a matrix
+#' cluster_genomes(dat_mat=t(example_pangenome_matrix),
+#'                 pcut=.80,
+#'                 scut=.85,
+#'                 tcut=.90,
+#'                 qcut=.95,
+#'                 write_dist=FALSE,
+#'                 write_graph=FALSE)
+#'
+#'
+#'
 cluster_genomes <-
   function(dat_mat,
            pcut=0,
            scut=.5,
            tcut=.75,
            qcut=.75,
-           DIST_METHOD='simpson',
+           DIST_METHOD='binary',
            output_directory=NULL,
-           write_dist=TRUE){
+           write_dist=TRUE,
+           write_graph=TRUE){
     # browser()
     dist_filename <- base::paste0(output_directory, DIST_METHOD, '_dist.rds')
     graph_file_name <- base::paste0(output_directory, DIST_METHOD, '_graph.rds')
@@ -440,9 +467,11 @@ cluster_genomes <-
       base::print('building graph')
       # maybe errors when no edges have weight 0?
       g <- igraph::graph_from_adjacency_matrix(adjmatrix = sim_mat,  weighted = T, mode='upper', diag = F)
+      if(write_graph == TRUE){
+        base::print('writing graph')
+        readr::write_rds(g, graph_file_name)
+      }
 
-      base::print('writing graph')
-      readr::write_rds(g, graph_file_name)
       # igraph::write.graph(g, file = graph_file_name, format = 'edgelist')
 
     }  else {
@@ -450,35 +479,31 @@ cluster_genomes <-
       g <- readr::read_rds(graph_file_name)
     }
 
+    # 1st level:
+    bad_edges <- E(g)[E(g)$weight < pcut]
+    g <- igraph::delete_edges(g, bad_edges)
 
-    if ( base::any(igraph::E(g)[.data$weight < pcut]) ){
-      g <- igraph::delete_edges(g, igraph::E(g)[.data$weight < pcut])
-    }
-
-    # any connection = same cluster
     clust1 <- igraph::cluster_louvain(g)
 
-
-    if ( base::any(igraph::E(g)[.data$weight<scut]) ){
-      g <- igraph::delete_edges(g, igraph::E(g)[.data$weight<scut])
-    }
+    # 2nd level
+    bad_edges <- E(g)[E(g)$weight < scut]
+    g <- igraph::delete_edges(g, bad_edges)
 
     clust2 <- igraph::cluster_louvain(g)
 
-    # print('pruning graph, removing edges with overlap coef of less than XXX')
-
-    if ( any(igraph::E(g)[.data$weight<tcut]) ){
-      g <- igraph::delete_edges(g, igraph::E(g)[.data$weight<tcut])
-    }
-
+    # 3rd level
+    bad_edges <- E(g)[E(g)$weight < tcut]
+    g <- igraph::delete_edges(g, bad_edges)
 
     clust3 <- igraph::cluster_louvain(g)
 
-    if ( base::any(igraph::E(g)[.data$weight<qcut]) ){
-      g <- igraph::delete_edges(g, igraph::E(g)[.data$weight<qcut])
-    }
+    # 4th level
+    bad_edges <- E(g)[E(g)$weight < qcut]
+    g <- igraph::delete_edges(g, bad_edges)
 
     clust4 <- igraph::cluster_louvain(g)
+
+
 
     clust_info <- tibble::tibble(asm_acc = base::names(igraph::membership(clust1)),
                                  primary_cluster = igraph::membership(clust1),
