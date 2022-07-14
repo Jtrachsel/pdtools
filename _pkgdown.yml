@@ -51,4 +51,6 @@ reference:
   contents:
   - country_vector
   - klebsiella_example_dat
+  - example_pangenome_matrix
+  - example_pan_dist
 
