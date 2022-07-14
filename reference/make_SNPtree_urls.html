@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">pdtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/Jtrachsel/pdtools/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -32,7 +38,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>generate ftp site download urls for all SNP trees containing the provided isolates</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/Jtrachsel/pdtools/blob/HEAD/R/metadata_download_tools.R" class="external-link"><code>R/metadata_download_tools.R</code></a></small>
       <div class="d-none name"><code>make_SNPtree_urls.Rd</code></div>
     </div>
 
@@ -70,85 +76,113 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">make_SNPtree_urls</span><span class="op">(</span>organism <span class="op">=</span> <span class="st">'Klebsiella'</span>,</span></span>
 <span class="r-in"><span> data <span class="op">=</span> <span class="va">klebsiella_example_dat</span>, PDG <span class="op">=</span> <span class="st">'PDG000000012.1053'</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 86 Isolates in the collection are not represented in SNP trees</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000012469.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000048063.68.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000098771.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000103219.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000052089.14.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000072037.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000095581.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000074971.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000012621.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000095229.11.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000103191.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000052366.23.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000038612.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000103213.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000096677.2.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000036296.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000036263.5.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000085573.4.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000095239.2.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000052185.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045319.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000012628.23.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000012112.56.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [24] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000077015.12.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000015418.30.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045299.5.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000012124.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000015678.108.tar.gz"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000070361.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [30] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000102667.2.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000060185.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [32] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000040466.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [33] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045368.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [34] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045297.24.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [35] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045394.20.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000041859.6.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045360.10.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [38] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000084730.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [39] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000012626.6.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [40] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000058604.5.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [41] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000096689.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [42] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000006578.57.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [43] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000055633.9.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [44] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000040472.2.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [45] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045443.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [46] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000054005.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [47] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000036176.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [48] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000019488.9.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [49] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000046936.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [50] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000094136.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [51] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000079862.7.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [52] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000005616.2.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [53] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045272.11.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [54] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000101843.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [55] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000085669.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [56] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000048069.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [57] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000038608.2.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [58] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000065414.2.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [59] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045352.23.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [60] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000038923.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [61] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000078629.4.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [62] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000075041.5.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [63] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000066129.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [64] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000101833.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [65] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045410.6.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [66] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000050839.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [67] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000050841.5.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [68] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000036246.5.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [69] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000036336.23.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [70] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000103169.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [71] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000053034.5.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [72] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000103224.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [73] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045421.15.tar.gz" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [74] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000018683.4.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [75] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000084736.1.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [76] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000075219.3.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [77] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045135.6.tar.gz"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [78] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045371.1.tar.gz"  </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 68 Isolates in the collection are not represented in SNP trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045274.27.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [2] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000075206.14.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [3] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000046574.21.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000106733.4.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [5] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000065414.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [6] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000038617.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000076312.12.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [8] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000093447.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [9] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000108381.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [10] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045421.24.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [11] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000050957.3.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [12] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000074851.7.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000110342.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [14] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000110964.4.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [15] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000102692.8.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [16] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000108344.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [17] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000093439.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [18] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000108350.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000072539.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [20] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000074793.3.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [21] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000053739.6.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [22] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000092977.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [23] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000106101.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [24] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000073405.3.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000106321.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [26] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000009754.60.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [27] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000005584.4.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [28] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000074440.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [29] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045311.14.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [30] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000060581.27.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000096688.8.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [32] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000103689.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [33] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000036278.9.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [34] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000110962.5.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [35] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045352.29.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [36] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000049985.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000108393.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [38] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000085658.6.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [39] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000076698.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [40] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000106112.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [41] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045409.6.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [42] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045379.31.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000079406.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [44] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000109110.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [45] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000038923.3.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [46] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000075319.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [47] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045383.7.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [48] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000048063.89.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000076414.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [50] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000106107.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [51] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000074711.11.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [52] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000074871.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [53] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000077214.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [54] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000012628.23.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000077015.19.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [56] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000041774.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [57] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000008550.4.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [58] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000074884.7.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [59] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000098760.10.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [60] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045377.14.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000054762.3.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [62] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000015418.35.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [63] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000056116.12.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [64] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000076415.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [65] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000070357.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [66] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000092786.3.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000007160.3.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [68] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000036336.29.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [69] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000007428.20.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [70] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000052944.11.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [71] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000020244.5.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [72] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000042783.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000085573.5.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [74] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000074874.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [75] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000092162.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000015678.123.tar.gz"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [77] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000093243.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [78] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000054607.10.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000045585.11.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [80] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000006902.5.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [81] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000012626.6.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [82] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000074860.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [83] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000111297.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [84] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000105925.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000088476.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [86] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000036222.5.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [87] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000074849.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [88] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000017083.15.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [89] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000012112.67.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [90] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000085144.5.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000042771.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [92] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000074906.5.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [93] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000040356.4.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [94] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000098787.4.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [95] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000047678.6.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [96] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000075227.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000048064.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [98] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000098771.7.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [99] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000041859.6.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [100] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000110344.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [101] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000015414.22.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [102] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000070365.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [103] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000076862.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [104] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000076556.2.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [105] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000073376.1.tar.gz"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [106] "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1053/SNP_trees/PDS000106129.1.tar.gz"  </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

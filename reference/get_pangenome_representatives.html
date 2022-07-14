@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">pdtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/Jtrachsel/pdtools/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -32,7 +38,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Select a minimum set of genomes that best represent the gene content of the pangenome</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/Jtrachsel/pdtools/blob/HEAD/R/pangenome_tools.R" class="external-link"><code>R/pangenome_tools.R</code></a></small>
       <div class="d-none name"><code>get_pangenome_representatives.Rd</code></div>
     </div>
 
@@ -77,8 +83,20 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#gen_pangenome_representatives(pan_mat)</span></span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># this example pangenome has 100 genomes with 1000 total genes</span></span></span>
+<span class="r-in"><span><span class="co"># ~5 genomes can provide &gt; 95% gene coverage</span></span></span>
+<span class="r-in"><span><span class="va">pan_reps</span> <span class="op">&lt;-</span> <span class="fu">get_pangenome_representatives</span><span class="op">(</span><span class="va">example_pangenome_matrix</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pan_reps</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "genome_65" "genome_8"  "genome_72" "genome_17"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 785 877 920 951</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.785 0.877 0.920 0.951</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

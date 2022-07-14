@@ -18,7 +18,7 @@ genomes as rows and genes as columns?"><!-- mathjax --><script src="https://cdnj
     
     <a class="navbar-brand me-2" href="../index.html">pdtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,13 @@ genomes as rows and genes as columns?"><!-- mathjax --><script src="https://cdnj
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/Jtrachsel/pdtools/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -42,7 +48,7 @@ genomes as rows and genes as columns?"><!-- mathjax --><script src="https://cdnj
       <img src="" class="logo" alt=""><h1>Cluster genomes at 4 levels from a pangenome gene PA matrix
 Needs parallelDist, igraph,
 genomes as rows and genes as columns?</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/Jtrachsel/pdtools/blob/HEAD/R/pangenome_tools.R" class="external-link"><code>R/pangenome_tools.R</code></a></small>
       <div class="d-none name"><code>cluster_genomes.Rd</code></div>
     </div>
 
@@ -60,9 +66,10 @@ genomes as rows and genes as columns?</p>
 <span>  scut <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  tcut <span class="op">=</span> <span class="fl">0.75</span>,</span>
 <span>  qcut <span class="op">=</span> <span class="fl">0.75</span>,</span>
-<span>  DIST_METHOD <span class="op">=</span> <span class="st">"simpson"</span>,</span>
+<span>  DIST_METHOD <span class="op">=</span> <span class="st">"binary"</span>,</span>
 <span>  output_directory <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  write_dist <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  write_dist <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  write_graph <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -99,6 +106,10 @@ genomes as rows and genes as columns?</p>
 <dt>write_dist</dt>
 <dd><p>logical, should the dist object be written?</p></dd>
 
+
+<dt>write_graph</dt>
+<dd><p>logical, should the graph be written to an rds file?</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -109,8 +120,34 @@ genomes as rows and genes as columns?</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># soon</span></span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># note the t() because the dist() function finds dists between rows of a matrix</span></span></span>
+<span class="r-in"><span><span class="fu">cluster_genomes</span><span class="op">(</span>dat_mat<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">example_pangenome_matrix</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                pcut<span class="op">=</span><span class="fl">.80</span>,</span></span>
+<span class="r-in"><span>                scut<span class="op">=</span><span class="fl">.85</span>,</span></span>
+<span class="r-in"><span>                tcut<span class="op">=</span><span class="fl">.90</span>,</span></span>
+<span class="r-in"><span>                qcut<span class="op">=</span><span class="fl">.95</span>,</span></span>
+<span class="r-in"><span>                write_dist<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                write_graph<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "calculating distances"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "converting to similarities"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "building graph"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 100 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    asm_acc   primary_cluster secondary_cluster tertiary_cluster quat_cluster</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;membrshp&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;membrshp&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;membrshp&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;membrshp&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> genome_1  1                1                 1                1          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> genome_2  2                2                 2                2          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> genome_3  3                3                 3                3          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> genome_4  1                4                 4                4          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> genome_5  1                5                 5                5          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> genome_6  4                6                 6                6          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> genome_7  1                7                 7                7          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> genome_8  3                8                 8                8          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> genome_9  2                9                 9                9          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> genome_10 2               10                10               10          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 90 more rows</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">pdtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/Jtrachsel/pdtools/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -183,11 +189,6 @@ genomes as rows and genes as columns?</dd>
         <dd>Removes genes present in all genomes from pangenome presence/absence matrix</dd>
       </dl><dl><dt>
           
-          <code><a href="res_plot_dat.html">res_plot_dat()</a></code> 
-        </dt>
-        <dd>Generate a dataframe for plotting the progress of selecting a set of genomes</dd>
-      </dl><dl><dt>
-          
           <code><a href="calculate_novelty.html">calculate_novelty()</a></code> 
         </dt>
         <dd>Calculate genome 'novelty' from a list of selection sets returned by pick_derep_sets</dd>
@@ -257,6 +258,17 @@ Be sure to set your 'plan()'!!!</dd>
           <code><a href="klebsiella_example_dat.html">klebsiella_example_dat</a></code> 
         </dt>
         <dd>NCBI Pathogen Detection metadata for 200 Klebsiella isolates</dd>
+      </dl><dl><dt>
+          
+          <code><a href="example_pangenome_matrix.html">example_pangenome_matrix</a></code> 
+        </dt>
+        <dd>A gene presence absence matrix for a synthetic pangenome</dd>
+      </dl><dl><dt>
+          
+          <code><a href="example_pan_dist.html">example_pan_dist</a></code> 
+        </dt>
+        <dd>A distance matrix describing the jaccard distance between genomes in the
+provided example pangenome</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
