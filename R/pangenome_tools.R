@@ -7,7 +7,8 @@
 #' @return a tibble satisfying the ppanggolin file requirements with the complete genome contigs indicated as circular
 #' @export
 #'
-#' @examples build_ppanggolin_file_fastas(incomplete_genome_paths=c('./genomes/genome1.fasta', './genomes/genome2.fasta'))
+#' @examples build_ppanggolin_file_fastas(
+#' incomplete_genome_paths=c('./genomes/genome1.fasta', './genomes/genome2.fasta'))
 #' @importFrom rlang .data
 build_ppanggolin_file_fastas <-
   function(complete_genome_paths=NULL,
@@ -54,11 +55,6 @@ build_ppanggolin_file_fastas <-
 #'
 #' @return a vector of contig names
 #' @noRd
-#'
-#'#'@examples
-#'\dontrun{
-#'get_fasta_contig_names('genome_1.fasta')
-#'}
 get_fasta_contig_names <- function(path){
 
   con <- base::file(path, "r")
@@ -292,88 +288,6 @@ remove_strict_core <- function(pan_PA, rows_are_genes=NULL){
 }
 
 
-#' #' Get pangenome representatives from a gene_vec_tibble
-#' #'
-#' #' @param gene_vec_tibble an object returned by pan_mat_to_gene_vec_tibble()
-#' #' @param desired_coverage proportion of gene content desired 0-1
-#' #' @param SEED random seed to use (for selecting 1st genome)
-#' #' @param best_possible_score to save time you can pre-calculate the best possible score (total gene content of pangenome)
-#' #' @param max_genomes Maximum number of genomes to select
-#' #'
-#' #' @return a list of 3; list(cumulative_genomes, scores, proportion_coverages)
-#' #' @noRd
-#' #'
-#' #' @examples #generate_pangenome() %>% pan_mat_to_gene_vec_tibble() %>% get_pangenome_representatives2()
-#' get_pangenome_representatives2 <-
-#'   function(gene_vec_tibble,
-#'            desired_coverage=.95,
-#'            SEED=3,
-#'            best_possible_score=NULL,
-#'            max_genomes=1000){
-#'     # hopefully get smallest set of genomes that gives desired coverage of pangenome
-#'     # browser()
-#'
-#'     # can save time by providing the best possible score
-#'     # which will be total number of genes in not strict core genome
-#'     if(base::is.null(best_possible_score)){
-#'       base::print('calculating total number of genes, you can speed this up if you supply the best_possible_score parameter')
-#'       best_possible_score <-
-#'         purrr::reduce(gene_vec_tibble$gene_vec, ~base::c(.x, .y) %>% base::unique()) %>%
-#'         base::length()
-#'     }
-#'
-#'     # gene_vec_tibble
-#'     # random starting genome
-#'     chosen_genome_index <- base::sample(1:base::nrow(gene_vec_tibble), size = 1)
-#'
-#'     # starting pangenome
-#'     cumulative_pan <- gene_vec_tibble$gene_vec[[chosen_genome_index]]
-#'     cumulative_genomes <- gene_vec_tibble$genome_name[[chosen_genome_index]]
-#'
-#'     # remove starting genome from remaining genomes
-#'     gene_vec_tibble <- gene_vec_tibble[-chosen_genome_index,]
-#'     # best_score <- gene_vec_tibble$gene_vec %>% unique() %>% length()
-#'     # best score = total number of genes in pangenome
-#'     best_score <- best_possible_score
-#'     tot_genomes <- base::nrow(gene_vec_tibble)
-#'     desired_score <- best_score * desired_coverage
-#'
-#'     base::print(base::paste(tot_genomes, 'total genomes'))
-#'     base::print(base::paste(best_score, '= best possible score'))
-#'     base::print(base::paste(desired_coverage, '= desired coverage'))
-#'     base::print(base::paste(desired_score, '= desired score'))
-#'
-#'     score <- base::length(cumulative_pan)
-#'     scores <- base::c(score)
-#'     base::print(base::paste0('starting score = ', score))
-#'     while (score < desired_score & length(cumulative_genomes) < max_genomes){
-#'
-#'       # calculates the number of new genes each genome would contribute to the cumulative pangenome
-#'       # filters to only genomes that will contribute the max possible new genes
-#'       # selects a random one (because all that make it through filter will contibute equally).
-#'       best_addition_genome <-
-#'         gene_vec_tibble %>%
-#'         dplyr::mutate(num_new=purrr::map_int(.x = .data$gene_vec, .f= ~(base::sum(!(base::is.element(.x, cumulative_pan)))))) %>%
-#'         # dplyr::arrange(dplyr::desc(.data$num_new)) %>%
-#'         dplyr::filter(.data$num_new == max(.data$num_new)) %>%
-#'         dplyr::slice_sample(n = 1)
-#'
-#'       # remove selected genome from remaining genomes
-#'       gene_vec_tibble <- gene_vec_tibble %>% dplyr::filter(.data$genome_name != best_addition_genome$genome_name)
-#'
-#'       cumulative_pan <- base::c(cumulative_pan, best_addition_genome$gene_vec[[1]]) %>% base::unique()
-#'       cumulative_genomes <- base::c(cumulative_genomes, best_addition_genome$genome_name[[1]])
-#'       score <- base::length(cumulative_pan)
-#'       scores <- base::c(scores, score)
-#'       base::print(base::paste0('new score = ', score))
-#'       proportion_coverages <- scores/best_score
-#'       print(base::paste0('proportion covered = ', base::round(score/best_score, digits = 3)))
-#'     }
-#'     return(base::list(cumulative_genomes, scores, proportion_coverages))
-#'   }
-
-
-
 #' Mark outliers from a distance matrix
 #'
 #' @param DIST a dist object
@@ -407,6 +321,7 @@ mark_outliers <- function(DIST, outlier_prob=.99){
 #' @param DIST_METHOD distance method for building graph (passed to parallelDist())
 #' @param output_directory output directory to save the graph in
 #' @param write_dist logical, should the dist object be written?
+#' @param write_graph logical, should the graph be written to an rds file?
 #'
 #' @return returns a tibble with a cluster designation for each genome at 4 levels
 #' @export
@@ -480,25 +395,25 @@ cluster_genomes <-
     }
 
     # 1st level:
-    bad_edges <- E(g)[E(g)$weight < pcut]
+    bad_edges <- igraph::E(g)[igraph::E(g)$weight < pcut]
     g <- igraph::delete_edges(g, bad_edges)
 
     clust1 <- igraph::cluster_louvain(g)
 
     # 2nd level
-    bad_edges <- E(g)[E(g)$weight < scut]
+    bad_edges <- igraph::E(g)[igraph::E(g)$weight < scut]
     g <- igraph::delete_edges(g, bad_edges)
 
     clust2 <- igraph::cluster_louvain(g)
 
     # 3rd level
-    bad_edges <- E(g)[E(g)$weight < tcut]
+    bad_edges <- igraph::E(g)[igraph::E(g)$weight < tcut]
     g <- igraph::delete_edges(g, bad_edges)
 
     clust3 <- igraph::cluster_louvain(g)
 
     # 4th level
-    bad_edges <- E(g)[E(g)$weight < qcut]
+    bad_edges <- igraph::E(g)[igraph::E(g)$weight < qcut]
     g <- igraph::delete_edges(g, bad_edges)
 
     clust4 <- igraph::cluster_louvain(g)
@@ -536,42 +451,31 @@ selection_orders <-
 #'
 #' @param pan_PA A pangenome gene presence/absence matrix, genomes as columns,
 #' genes as rows
-#' @param output_file a path to save the resulting R object to (RDS format)
 #' @param num_sets The number of sets to select (25)
-#' @param desired_coverage the proportion of genes in the pangenome to cover (.99)
+#' @param desired_coverage the proportion of genes in the pangenome to cover (.95)
 #'
 #' @return a tibble with two columns:
 #'  1) the random seeds used,
 #'  2) list column containing the dereplication sets
 #' @export
 #'
-#' @examples # soon
+#' @examples
+#' sets <- pick_derep_sets(example_pangenome_matrix)
+#' sets$selection_set[[1]]
+#' sets$selection_set[[10]]
+
+
 pick_derep_sets <-
-  function(pan_PA, output_file, num_sets=25, desired_coverage=.95){
+  function(pan_PA, num_sets=25, desired_coverage=.95){
 
-    if (!base::file.exists(output_file)){
-      # TIC <- tic()
+    # remove genes that don't occur in the provided genomes
+    pan_PA <- pan_PA[base::rowSums(pan_PA) > 0,]
 
-        selection_PA <- pan_PA
-        selection_PA <- selection_PA[base::rowSums(selection_PA) > 0,]
-
-      derep_sets <-
+    # generate a tibble with rows equal to the number of requested sets
+    derep_sets <-
         tibble::tibble(seed=base::seq(1:num_sets),
-               # set90=future_map(.x = seed, .options = furrr_options(seed = 1), ~ get_pangenome_representatives(pan_mat = selection_PA, SEED = .x, desired_coverage = .90)),
-               # set95=future_map(.x = seed, .options = furrr_options(seed = 1), ~ get_pangenome_representatives(pan_mat = selection_PA, SEED = .x, desired_coverage = .95)),
                selection_set=furrr::future_map(.x = .data$seed, .options = furrr::furrr_options(seed = 1), ~ get_pangenome_representatives(pan_mat = pan_PA, SEED = .x, desired_coverage = desired_coverage)),)
 
-      base::saveRDS(derep_sets, output_file)
-
-      # TOC <- toc()
-      # print(TOC)
-
-
-    } else {
-      base::print('specified output file aready exists...returning it')
-      derep_sets <- readr::read_rds(output_file)
-
-    }
 
     return(derep_sets)
 
@@ -588,7 +492,10 @@ pick_derep_sets <-
 #'         'Novelty' score for each genome is (number of selections) / median rank of selection
 #' @export
 #'
-#' @examples # soon
+#' @examples
+#' sets <- pick_derep_sets(example_pangenome_matrix)
+#' genome_novelty <- calculate_novelty(sets)
+#' genome_novelty
 calculate_novelty <-
   function(selection_set_results){
     # browser()
