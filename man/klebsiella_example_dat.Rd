@@ -8,7 +8,7 @@
 A data frame with 200 rows and 64 variables:
 }
 \source{
-\url{https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/PDG000000012.1049/AMR/PDG000000012.1049.amr.metadata.tsv}
+\url{https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/}
 }
 \usage{
 klebsiella_example_dat

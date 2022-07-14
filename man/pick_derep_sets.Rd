@@ -5,17 +5,15 @@
 \title{Pick multiple de-replication sets from a pangenome, uses furrr::future_map
 Be sure to set your 'plan()'!!!}
 \usage{
-pick_derep_sets(pan_PA, output_file, num_sets = 25, desired_coverage = 0.95)
+pick_derep_sets(pan_PA, num_sets = 25, desired_coverage = 0.95)
 }
 \arguments{
 \item{pan_PA}{A pangenome gene presence/absence matrix, genomes as columns,
 genes as rows}
 
-\item{output_file}{a path to save the resulting R object to (RDS format)}
-
 \item{num_sets}{The number of sets to select (25)}
 
-\item{desired_coverage}{the proportion of genes in the pangenome to cover (.99)}
+\item{desired_coverage}{the proportion of genes in the pangenome to cover (.95)}
 }
 \value{
 a tibble with two columns:
@@ -29,5 +27,7 @@ Pick multiple de-replication sets from a pangenome, uses furrr::future_map
 Be sure to set your 'plan()'!!!
 }
 \examples{
-# soon
+sets <- pick_derep_sets(example_pangenome_matrix)
+sets$selection_set[[1]]
+sets$selection_set[[10]]
 }

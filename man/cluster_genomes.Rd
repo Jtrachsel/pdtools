@@ -12,9 +12,10 @@ cluster_genomes(
   scut = 0.5,
   tcut = 0.75,
   qcut = 0.75,
-  DIST_METHOD = "simpson",
+  DIST_METHOD = "binary",
   output_directory = NULL,
-  write_dist = TRUE
+  write_dist = TRUE,
+  write_graph = TRUE
 )
 }
 \arguments{
@@ -33,6 +34,8 @@ cluster_genomes(
 \item{output_directory}{output directory to save the graph in}
 
 \item{write_dist}{logical, should the dist object be written?}
+
+\item{write_graph}{logical, should the graph be written to an rds file?}
 }
 \value{
 returns a tibble with a cluster designation for each genome at 4 levels
@@ -43,5 +46,15 @@ Needs parallelDist, igraph,
 genomes as rows and genes as columns?
 }
 \examples{
-# soon
+# note the t() because the dist() function finds dists between rows of a matrix
+cluster_genomes(dat_mat=t(example_pangenome_matrix),
+                pcut=.80,
+                scut=.85,
+                tcut=.90,
+                qcut=.95,
+                write_dist=FALSE,
+                write_graph=FALSE)
+
+
+
 }

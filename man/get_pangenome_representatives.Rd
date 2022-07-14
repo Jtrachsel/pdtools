@@ -27,5 +27,9 @@ returns a list of length 3. 1:names of the genomes, 2:scores for each iteration 
 Select a minimum set of genomes that best represent the gene content of the pangenome
 }
 \examples{
-#gen_pangenome_representatives(pan_mat)
+# this example pangenome has 100 genomes with 1000 total genes
+# ~5 genomes can provide > 95\% gene coverage
+pan_reps <- get_pangenome_representatives(example_pangenome_matrix)
+pan_reps
+
 }

@@ -18,5 +18,5 @@ a tibble with an outlier designation for each genome
 Mark outliers from a distance matrix
 }
 \examples{
-# soon
+mark_outliers(example_pan_dist, outlier_prob=.95)
 }

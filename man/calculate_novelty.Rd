@@ -17,5 +17,7 @@ a dataframe with the novelty scores of all genomes in the list
 Calculate genome 'novelty' from a list of selection sets returned by pick_derep_sets
 }
 \examples{
-# soon
+sets <- pick_derep_sets(example_pangenome_matrix)
+genome_novelty <- calculate_novelty(sets)
+genome_novelty
 }

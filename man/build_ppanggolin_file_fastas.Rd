@@ -21,5 +21,6 @@ a tibble satisfying the ppanggolin file requirements with the complete genome co
 Build a ppanggolin file from fastas
 }
 \examples{
-#build_ppanggolin_file_fastas(incomplete_genome_paths=c('genome1.fasta', 'genome2.fasta))
+build_ppanggolin_file_fastas(
+incomplete_genome_paths=c('./genomes/genome1.fasta', './genomes/genome2.fasta'))
 }

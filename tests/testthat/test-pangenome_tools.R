@@ -22,12 +22,12 @@ test_that('get_pangenome_representatives() returns an appropriate list',{
   expect_equal(lapply(test, typeof) %>% unlist(), c('character', 'integer', 'double'))
 })
 
-
-test_that('get_pangenome_representatives2() returns an appropriate list',{
-  gvt <- pan_mat_to_gene_vec_tibble(generate_pangenome())
-  test <- get_pangenome_representatives2(gvt, desired_coverage = 1)
-  expect_equal(lapply(test, typeof) %>% unlist(), c('character', 'integer', 'double'))
-})
+#
+# test_that('get_pangenome_representatives2() returns an appropriate list',{
+#   gvt <- pan_mat_to_gene_vec_tibble(generate_pangenome())
+#   test <- get_pangenome_representatives2(gvt, desired_coverage = 1)
+#   expect_equal(lapply(test, typeof) %>% unlist(), c('character', 'integer', 'double'))
+# })
 
 test_that('remove_strict_core returns a PA matrix', {
   test <- generate_pangenome(core_genome_fraction = 1)

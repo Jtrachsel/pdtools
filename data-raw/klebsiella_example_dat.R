@@ -21,7 +21,7 @@ dat <-
 
 
 
-set.seed(1)
+set.seed(7)
 
 klebsiella_example_dat <-
   dat %>%
@@ -37,6 +37,7 @@ usethis::use_data(klebsiella_example_dat, overwrite = TRUE)
 file.remove(files)
 file.remove('./data/assembly_summary.txt')
 
+# probably a better way to do this, since we import country code now? #
 #### country vector #####
 library(tidyverse)
 library(maps)
@@ -56,6 +57,19 @@ country_vector <-
 names(country_vector)
 
 usethis::use_data(country_vector, overwrite = TRUE)
+
+
+### pangenome example data
+# this will only be used for function examples
+example_pangenome_matrix <- pdtools:::generate_pangenome()
+usethis::use_data(example_pangenome_matrix, overwrite = TRUE)
+
+
+# example pangenome distance matrix:
+
+example_pan_dist <- dist(method = 'binary', t(example_pangenome_matrix))
+usethis::use_data(example_pan_dist, overwrite = TRUE)
+
 
 #### gbk assem sum
 # assum <-
