@@ -11,8 +11,6 @@ coverage](https://codecov.io/gh/Jtrachsel/pdtools/branch/main/graph/badge.svg)](
 
 ## Installation
 
-*Requires R \>= 4.0*
-
 ``` r
 remotes::install_github('jtrachsel/pdtools')
 ```
@@ -141,7 +139,6 @@ get_pangenome_representatives(pan_mat = pan_PA, SEED = 2, desired_coverage = .99
 -   extract_consensus_ag_species currently assumes isolates are from
     humans if the epi_type is clinical and no other information is
     available. This is probably wrong in some cases…
--   Reference README? <https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt>
 -   Download a more appropriate assembly summary file
     -   Or an assembly summary file for a species from the appropriate
         directory under genbank or refseq. e.g.
