@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="A package to help work with data from the
+<meta name="description" content="A package to work with data from the
     ncbi pathogen detection project/database.  Has functions for
     downloading the most recent metadata, cleaning metadata, downloading
     genome assemblies, and setting up and working with pangenomes.">
@@ -15,7 +15,7 @@
 <script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Tools to interact with NCBI's Pathogen Detection project">
-<meta property="og:description" content="A package to help work with data from the
+<meta property="og:description" content="A package to work with data from the
     ncbi pathogen detection project/database.  Has functions for
     downloading the most recent metadata, cleaning metadata, downloading
     genome assemblies, and setting up and working with pangenomes.">
@@ -32,7 +32,7 @@
     
     <a class="navbar-brand me-2" href="index.html">pdtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,11 +67,9 @@
 <div class="page-header"><h1 id="pdtools">pdtools<a class="anchor" aria-label="anchor" href="#pdtools"></a>
 </h1></div>
 <!-- badges: start -->
-<p><a href="https://github.com/Jtrachsel/pdtools/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/Jtrachsel/pdtools/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <!-- badges: end --></p>
-<div class="section level2">
+<!-- badges: end --><div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p><em>Requires R &gt;= 4.0</em></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'jtrachsel/pdtools'</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -204,8 +202,6 @@
 </ul>
 </li>
 <li>extract_consensus_ag_species currently assumes isolates are from humans if the epi_type is clinical and no other information is available. This is probably wrong in some cases…</li>
-<li>Reference README? <a href="https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt" class="external-link uri">https://ftp.ncbi.nlm.nih.gov/pathogen/ReadMe.txt</a>
-</li>
 <li>Download a more appropriate assembly summary file<ul><li>Or an assembly summary file for a species from the appropriate directory under genbank or refseq. e.g. <a href="ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/Salmonella_enterica/assembly_summary.txt" class="uri">ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/Salmonella_enterica/assembly_summary.txt</a>
 </li></ul>
 </li>
@@ -246,6 +242,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://github.com/Jtrachsel/pdtools/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/Jtrachsel/pdtools/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/Jtrachsel/pdtools?branch=main" class="external-link"><img src="https://codecov.io/gh/Jtrachsel/pdtools/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
