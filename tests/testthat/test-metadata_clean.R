@@ -81,3 +81,11 @@ test_that('furrr extract_country return the same as the sequential version',{
   expect_equal(furrr_collect, purrr_collect)
 })
 
+test_that('extract_state returns an appropriate tibble',{
+  test <- extract_state(klebsiella_example_dat)
+  expect_equal(dim(test), c(200,2))
+  expect_equal(sapply(test, class), c(target_acc='character', State='character'))
+})
+
+
+

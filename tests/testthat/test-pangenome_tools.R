@@ -72,3 +72,20 @@ test_that('calculate novelty returns an appropriate tibble',{
   expect_true(ncol(test) == 8)
   expect_true(nrow(test) > 0)
 })
+
+
+test_that('build_ppanggolin_file_fasta parses fastas correctly', {
+  test <- build_ppanggolin_file_fastas(complete_genome_paths = 'test.fasta')
+  expect_equal(dim(test), c(1,3) )
+})
+
+
+test_that('get_pangenome_representatives_jaccard returns an appropriate tibble', {
+  test <- get_pangenome_representatives_jaccard(pan_mat = pdtools:::generate_pangenome(num_genomes = 5, num_genes = 100))
+  expect_equal(sapply(test, class), c(asm_acc='character', min_jacc='numeric', ORDER='integer'))
+
+})
+
+
+
+
