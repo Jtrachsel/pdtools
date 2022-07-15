@@ -5,6 +5,8 @@ pdtools
 
 [![Codecov test
 coverage](https://codecov.io/gh/Jtrachsel/pdtools/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Jtrachsel/pdtools?branch=main)
+
+[![R-CMD-check](https://github.com/Jtrachsel/pdtools/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Jtrachsel/pdtools/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## Installation
