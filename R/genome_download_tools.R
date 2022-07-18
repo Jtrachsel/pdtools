@@ -194,12 +194,12 @@ supported_download_types <-
     suffixes=base::c(fna='_genomic.fna.gz',
                      gbff='_genomic.gbff.gz',
                      gff='_genomic.gff.gz',
-                     gtf='_genomic.gtf.gz ',
+                     gtf='_genomic.gtf.gz',
                      faa='_protein.faa.gz',
                      cds='_cds_from_genomic.fna.gz')
 
     if (!(type %in% base::names(suffixes))){
-      return(base::errorCondition(base::paste0('"type" must be one of ','"', base::paste(base::names(suffixes), collapse = ' '),'"')))
+      base::stop(base::paste0('"type" must be one of ','"', base::paste(base::names(suffixes), collapse = ' '),'"'))
     }
     return(suffixes)
   }

@@ -95,17 +95,88 @@ test_that('list_PDGs returns and appropriate tibble',{
 
 
 
-# test_that('make_ftp_paths returns expected values', {
-#
-#   test <- make_ftp_paths(klebsiella_example_dat, assembly_summary_path = './kleb_assembly_summary.txt') |>
-#     dplyr::transmute(asm_acc,
-#               ftp_path2=ftp_path) |>
-#     dplyr::left_join(klebsiella_example_dat)
-#
-#   expect_true(all(test$ftp_path == test$ftp_path2))
-#
-# })
 
+test_that('make_ftp_paths returns expected values', {
+
+  test <- make_ftp_paths(klebsiella_example_dat, assembly_summary_path = './kleb_assembly_summary.txt') |>
+    dplyr::transmute(asm_acc,
+              ftp_path2=ftp_path) |>
+    dplyr::left_join(klebsiella_example_dat)
+
+  expect_true(all(test$ftp_path == test$ftp_path2))
+
+})
+
+
+# genome download related
+test_that('make_download_urls returns correct columns',{
+  test <-
+    klebsiella_example_dat %>%
+    make_download_urls(type = 'fna') %>%
+    make_download_urls(type = 'gff') %>%
+    make_download_urls(type = 'gbff') %>%
+    dplyr::select(ends_with('download'))
+  expect_equal(dim(test), c(200,3))
+  expect_equal(colnames(test), c('fna_download', 'gff_download', 'gbff_download'))
+  })
+
+
+
+
+
+# genome download related
+
+test_that('make_dest_paths returns a correct columns' ,{
+  test <-
+    klebsiella_example_dat %>%
+    make_dest_paths(type='fna', dest_dir = './') %>%
+    dplyr::select(contains('fna'))
+  expect_equal(dim(test), c(200,1))
+  expect_equal(colnames(test), 'fna_dest')
+
+
+
+  })
+
+test_that('supported_download_types returns an error on unsupported type', {
+  expect_error(pdtools:::supported_download_types('bad_type'),
+               regexp = NULL)
+})
+
+
+test_that('supported_download_types returns all supported types', {
+  test <-
+    list(supported_download_types('fna'),
+       supported_download_types('gbff'),
+       supported_download_types('gff'),
+       supported_download_types('gtf'),
+       supported_download_types('faa'),
+       supported_download_types('cds')) %>%
+    unlist() %>%
+    unique()
+  expect_equal(test, c('_genomic.fna.gz', '_genomic.gbff.gz',
+                       '_genomic.gff.gz', '_genomic.gtf.gz',
+                       '_protein.faa.gz', '_cds_from_genomic.fna.gz'))
+})
+
+test_that('check_if_files_exist returns correct columns',{
+  test <-
+    klebsiella_example_dat %>%
+    make_dest_paths(dest_dir = './', type = 'fna') %>%
+    check_if_files_exist(type='fna') %>%
+    dplyr::select(contains('exist'))
+  expect_equal(dim(test), c(200,1))
+  expect_false(test[,1] %>% unlist() %>% unique())
+
+})
+
+# test_that('download_gbk_assembly_summary organism returns a correctly formatted
+#           url',{
+#             expect_error(
+#               download_gbk_assembly_summary('TEST', organism = 'TEST'),
+#               regexp = '.*cannot open URL.*'
+#               )
+#           })
 
 #
 # test_that('make_download_urls returns expected values',{
@@ -113,3 +184,4 @@ test_that('list_PDGs returns and appropriate tibble',{
 #                              ftp_paths = klebsiella_example_dat$ftp_path, type='fna')
 #
 # })
+

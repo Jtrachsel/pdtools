@@ -51,7 +51,7 @@ test_that('extract_collection_agency() extracts the appropriate values',{
           extract_collection_agency() %>%
           dplyr::pull() %>%
           base::unique()
-  expect_equal(test, c('CDC', 'FDA'))
+  expect_equal(test, c('CDC'))
 
 
 })
