@@ -134,7 +134,7 @@ download_genomes <-
     exists_var <-base::paste0(type, "_exists")
 
     # this may be unecessary
-    safe_download <- purrr::possibly(utils::download.file, otherwise = 1)
+    safe_download <- purrr::possibly(utils::download.file, otherwise = '1')
 
     # check for existing files #
     # with and without extension in case they've been unzipped
