@@ -13,12 +13,17 @@ files <- list.files('./data/', pattern = 'PDG', full.names = T)
 
 dat <-
   read_tsv(files[1]) |>
-  left_join(read_tsv(files[2]))
+  left_join(read_tsv(files[2])) %>%
+  filter(asm_acc != 'NULL')
 
 dat <-
   dat|>
   make_ftp_paths(assembly_summary_path = './data/assembly_summary.txt')
 
+
+tmp_ass_sum <- read_tsv('data/assembly_summary.txt', skip = 1)
+
+HEADER <- read_lines('data/assembly_summary.txt', n_max = 2)
 
 
 set.seed(7)
@@ -28,11 +33,31 @@ klebsiella_example_dat <-
   filter(asm_acc != 'NULL') |>
   filter(isolation_source != 'NULL') %>%
   filter(host != 'NULL') %>%
+  filter(grepl('USA', geo_loc_name)) %>%
   slice_sample(n = 200)
 
 klebsiella_example_dat |> pull(ftp_path)
 
+
+example_assem_sum <-
+  tmp_ass_sum %>%
+  filter(ftp_path %in% klebsiella_example_dat$ftp_path)
+
+
+write_lines(HEADER, 'tests/testthat/kleb_assembly_summary.txt')
+
+write_tsv(example_assem_sum,
+          col_names = FALSE,
+          file = 'tests/testthat/kleb_assembly_summary.txt',
+          append = TRUE)
+
+
+klebsiella_example_dat %>%
+  # select(-ftp_path) %>%
+  make_ftp_paths(assembly_summary_path = 'tests/testthat/kleb_assembly_summary.txt')
+
 usethis::use_data(klebsiella_example_dat, overwrite = TRUE)
+
 
 file.remove(files)
 file.remove('./data/assembly_summary.txt')
