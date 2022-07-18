@@ -10,7 +10,7 @@ Description: A package to work with data from the
     genome assemblies, and setting up and working with pangenomes.
 License: GPL (>= 3) + file LICENSE
 Depends: 
-    R (>= 3.6.0)
+    R (>= 4.0.0)
 Imports:
     datasets,
     dplyr,
