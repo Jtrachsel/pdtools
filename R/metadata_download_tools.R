@@ -245,8 +245,9 @@ download_SNP_trees <- function(data){
   base::on.exit(base::options(original_options))
 
   ### check if SNPS exist here
+  safe_download.file <- safely(utils::download.file)
   data %>%
-    dplyr::mutate(SNP_tree_dl=purrr::map2(.x = .data$SNP_tree_url, .y=.data$SNP_tree_dest, .f = ~utils::download.file(.x, .y)))
+    dplyr::mutate(SNP_tree_dl=purrr::map2(.x = .data$SNP_tree_url, .y=.data$SNP_tree_dest, .f = ~safe_download.file(.x, .y)))
 }
 #
 # make_SNPtree_urls(organism = 'Salmonella',
