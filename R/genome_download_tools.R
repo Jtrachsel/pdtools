@@ -51,6 +51,16 @@ make_ftp_paths <- function(data, assembly_summary_path){
       dplyr::filter(grepl('https://ftp.ncbi.nlm.nih.gov',.data$ftp_path))
 
     result <- data %>% dplyr::left_join(ftp_asm_map)
+    num_missing <- sum(is.na(result$ftp_path))
+    if(num_missing > 0){
+      warning_message <-
+        glue::glue('{num_missing} genomes are missing ftp paths.
+                    These genomes present in your data but not the assembly_summary file.
+                    Are you using the most up to date assembly summary info?
+                    Did you provide a partial assembly summary file?')
+      warning(warning_message)
+      result <- result %>% filter(!is.na(ftp_path))
+    }
 
     return(result)
   }
