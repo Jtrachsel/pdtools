@@ -173,28 +173,30 @@ test_that('check_if_files_exist returns correct columns',{
 test_that('download_genomes returns a correct tibble', {
   base::writeLines(text = '>TEST', con = 'GCA_021262205.1.fna.gz')
 
-  test <-
-    klebsiella_example_dat %>%
-    make_download_urls('fna') %>%
-    make_dest_paths('fna', dest_dir = './') %>%
-    dplyr::slice_head(n=2) %>%
-    dplyr::select(asm_acc, contains('fna')) %>%
-    dplyr::mutate(fna_download=sub('https://ftp.ncbi.nlm.nih.gov/', 'BREAK', fna_download)) %>%
-    download_genomes(type = 'fna')
 
-  test_parallel <-
+  expect_warning(test <-
     klebsiella_example_dat %>%
     make_download_urls('fna') %>%
     make_dest_paths('fna', dest_dir = './') %>%
     dplyr::slice_head(n=2) %>%
     dplyr::select(asm_acc, contains('fna')) %>%
     dplyr::mutate(fna_download=sub('https://ftp.ncbi.nlm.nih.gov/', 'BREAK', fna_download)) %>%
-    download_genomes(type = 'fna', PARALLEL = TRUE)
+    download_genomes(type = 'fna'))
+
+  expect_warning(test_parallel <-
+    klebsiella_example_dat %>%
+    make_download_urls('fna') %>%
+    make_dest_paths('fna', dest_dir = './') %>%
+    dplyr::slice_head(n=2) %>%
+    dplyr::select(asm_acc, contains('fna')) %>%
+    dplyr::mutate(fna_download=sub('https://ftp.ncbi.nlm.nih.gov/', 'BREAK', fna_download)) %>%
+    download_genomes(type = 'fna', PARALLEL = TRUE))
 
   expect_true(identical(test, test_parallel))
 
   expect_equal(test$fna_exists, c(TRUE, FALSE))
   expect_equal(test$fna_dl, c('exists', '1'))
+  # expect_warning()
   file.remove('GCA_021262205.1.fna.gz')
 })
 

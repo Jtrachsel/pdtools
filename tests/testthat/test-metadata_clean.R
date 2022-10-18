@@ -35,12 +35,10 @@ test_that('return_earliest_year warns about NA coersions', {
 
 test_that('extract_earliest_year adds an appropriate year column',{
   tst <-function(dat){
-    extract_earliest_year(dat) %>% dplyr::pull(Year) %>% is.numeric()
+    extract_earliest_year(dat) %>% dplyr::pull('Year') %>% is.numeric() %>% unique()
   }
-  quiet_tst <- purrr::quietly(tst)
-  res <- quiet_tst(klebsiella_example_dat)
-  expect_true(res$result)
-  expect_true(grepl('NAs introduced', res$warnings))
+  expect_warning(res <- tst(klebsiella_example_dat))
+  expect_true(res)
 
 
   })
