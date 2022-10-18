@@ -59,7 +59,7 @@ make_ftp_paths <- function(data, assembly_summary_path){
                     Are you using the most up to date assembly summary info?
                     Did you provide a partial assembly summary file?')
       warning(warning_message)
-      result <- result %>% filter(!is.na(ftp_path))
+      result <- result %>% dplyr::filter(!is.na(.data$ftp_path))
     }
 
     return(result)
