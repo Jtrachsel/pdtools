@@ -266,12 +266,12 @@ check_if_files_exist <- function(data, type){
   print('checking for existing files')
   exist_dat <-
     data %>%
-    dplyr::select(.data$asm_acc, dest_var) %>%
+    dplyr::select('asm_acc', dest_var) %>%
     dplyr::mutate(gunzipped=base::sub('.gz','', !!rlang::sym(dest_var))) %>%
     dplyr::mutate(EXISTS=purrr::map_lgl(.x = !!rlang::sym(dest_var), .f = base::file.exists),
                   EXISTS2=purrr::map_lgl(.x = .data$gunzipped, .f = base::file.exists),
                   "{type}_exists":=.data$EXISTS | .data$EXISTS2) %>%
-    dplyr::select(.data$asm_acc, dplyr::all_of(dest_var), dplyr::all_of(exists_var))
+    dplyr::select('asm_acc', dplyr::all_of(dest_var), dplyr::all_of(exists_var))
 
   data <- data %>% dplyr::left_join(exist_dat) %>% unique()
 

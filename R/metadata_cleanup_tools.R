@@ -82,7 +82,7 @@ extract_consensus_ag_species <- function(dat, parallel=FALSE){
       dplyr::filter(.data$ag_match != '')
 
     if (base::nrow(finished) == base::nrow(dat)) {
-      result <- finished %>% dplyr::select(.data$target_acc, .data$ag_match)
+      result <- finished %>% dplyr::select('target_acc', 'ag_match')
       return(result)
     } else {
       # This assumes that any clinical isolate without other info is a human isolate
@@ -92,7 +92,7 @@ extract_consensus_ag_species <- function(dat, parallel=FALSE){
 
 
       result <- dplyr::bind_rows(finished, second_pass) %>%
-        dplyr::select(.data$target_acc, .data$ag_match)
+        dplyr::select('target_acc', 'ag_match')
 
       return(result)
 
@@ -130,7 +130,7 @@ extract_earliest_year <- function(PDD_metadata_table){
   # was return_earliest_year
     result <-
     PDD_metadata_table %>%
-    dplyr::select(.data$target_acc, dplyr::ends_with('date')) %>%
+    dplyr::select('target_acc', dplyr::ends_with('date')) %>%
     dplyr::mutate(dplyr::across(.cols = dplyr::ends_with('date'), .fns = base::as.character)) %>%
     tidyr::pivot_longer(cols = dplyr::ends_with('date'), names_to = 'type', values_to = 'date') %>%
     dplyr::mutate(year = base::as.numeric(base::sub('([0-9][0-9][0-9][0-9]).*','\\1',.data$date))) %>%
@@ -182,7 +182,7 @@ extract_collection_agency <-
 
   finished <- first_pass %>%
     dplyr::filter(.data$collection_agency != '') %>%
-    dplyr::select(.data$target_acc, .data$collection_agency)
+    dplyr::select('target_acc', 'collection_agency')
   return(finished)
 }
 
@@ -218,7 +218,7 @@ extract_country <- function(meta, parallel=FALSE){
 
   finished <- first_pass %>%
     dplyr::filter(.data$country != '') %>%
-    dplyr::select(.data$target_acc, .data$country)
+    dplyr::select('target_acc', 'country')
   return(finished)
 
 }
@@ -244,7 +244,7 @@ extract_state <- function(data){
     dplyr::transmute(target_acc=.data$target_acc,
                      search_vals=base::tolower(.data$geo_loc_name)) %>%
     dplyr::mutate(State=furrr::future_map_chr(.x = .data$search_vals, ~matches_from_vector_of_patterns(pattern_vec, search_string = .x))) %>%
-    dplyr::select(.data$target_acc, .data$State)
+    dplyr::select('target_acc', 'State')
 
   return(first_pass)
 }

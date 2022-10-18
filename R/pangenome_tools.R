@@ -30,7 +30,7 @@ build_ppanggolin_file_fastas <-
                  # c_names=purrr::map(.x=.data$fasta, .f=base::names),
                  c_ids=purrr::map(.data$paths,~get_fasta_contig_names(.x)),
                  contig_names=purrr::map_chr(.x=.data$c_ids, .f=~base::paste(.x, collapse='\t'))) %>%
-        dplyr::select(.data$ID, .data$paths, .data$contig_names)
+        dplyr::select('ID', 'paths', 'contig_names')
     }
 
     if (!base::is.null(incomplete_genome_paths)){
@@ -38,7 +38,7 @@ build_ppanggolin_file_fastas <-
         tibble::tibble(paths=incomplete_genome_paths,
                        ID=base::sub('(.*)\\.f.*a$','\\1',basename(.data$paths)),
                        contig_names='') %>%
-        dplyr::select(.data$ID, .data$paths, .data$contig_names)
+        dplyr::select('ID', 'paths', 'contig_names')
     }
 
     result <- dplyr::bind_rows(complete_genomes_table, incomplete_genomes_table)
@@ -503,7 +503,7 @@ calculate_novelty <-
       selection_set_results %>%
       dplyr::mutate(genome_vectors=purrr::map(.data$selection_set, 1),
              selection_orders=purrr::map(.data$genome_vectors, selection_orders)) %>%
-      dplyr::select(.data$selection_orders) %>%
+      dplyr::select('selection_orders') %>%
       tidyr::unnest(.data$selection_orders) %>%
       dplyr::filter(.data$selected_order !=1) %>%
       dplyr::group_by(.data$genome_name) %>%

@@ -18,7 +18,7 @@ list_organisms <- function(){
     tibble::tibble(raw=organisms,
                    organism=base::sub('(.*)/(.*)','\\1',.data$raw),
                    release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) %>%
-    dplyr::select(-.data$raw)
+    dplyr::select(-'raw')
 
   return(organism_table)
 
@@ -56,7 +56,7 @@ list_PDGs <- function(organism){
     tibble::tibble(raw=PDGs,  # 1st and last lines are not PDGs
                    PDG=paste('PDG',sub('(.*)/(.*)','\\1',.data$raw), sep = ''),
                    release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) %>%
-    dplyr::select(-.data$raw) %>%
+    dplyr::select(-'raw') %>%
     dplyr::arrange(dplyr::desc(.data$release_date))
 
   return(PDG_table)
@@ -223,7 +223,7 @@ make_SNPtree_urls <- function(organism, data, PDG){
 
   num_no_clust <- base::sum(base::is.na(data$PDS_acc))
 
-  PDSs <- data %>% dplyr::filter(!is.na(.data$PDS_acc)) %>% dplyr::pull(.data$PDS_acc) %>% base::unique()
+  PDSs <- data %>% dplyr::filter(!is.na(.data$PDS_acc)) %>% dplyr::pull('PDS_acc') %>% base::unique()
   urls <- base::paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/',organism,'/', PDG, '/SNP_trees/', PDSs, '.tar.gz')
   base::message(base::paste(num_no_clust, 'Isolates in the collection are not represented in SNP trees'))
   return(urls)
