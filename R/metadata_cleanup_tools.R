@@ -25,6 +25,8 @@ matches_from_vector_of_patterns <-
 
 
 #' Extract a consensus ag host species from metadata
+#' This is pretty crude and should not be relied on for 100% accuracy
+#'
 #'
 #' @param dat an ncbi pathogen detection metadata table
 #' @param parallel boolean, should furrr be used to parallelize? need to set your future::plan()
@@ -41,7 +43,7 @@ extract_consensus_ag_species <- function(dat, parallel=FALSE){
       Bovine="bovine|beef|veal|cow|cattle|bos|steer|taurus|calf|bull",
       Chicken="chicken|chick|gallus|broiler|egg",
       Turkey="turkey|meleagris|gallopavo",
-      Human="human|homo|sapiens",
+      Human="human|homo|sapiens|infant",
       Horse="equine|equus|horse|caballus",
       Dog="canine|dog|canis|canine",
       Cat= "\\bcat\\b|felis|catus|feline",
