@@ -14,10 +14,10 @@ list_organisms <- function(){
     base::unlist()
 
   organisms <-
-    sub('Parent Directory', ' ', organisms) %>%
-    pluck(3) %>%
+    base::sub('Parent Directory', ' ', organisms) %>%
+    purrr::pluck(3) %>%
     stringr::str_split(pattern = ' -') %>%
-    unlist()
+    base::unlist()
 
   organisms <- organisms[-c(1, length(organisms))]
 
@@ -26,7 +26,7 @@ list_organisms <- function(){
                    organism=base::sub('(.*)/(.*)','\\1',.data$raw),
                    release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) %>%
     dplyr::select(-'raw') %>%
-    filter(organism != 'BioProject_Hierarchy')
+    dplyr::filter(.data$organism != 'BioProject_Hierarchy')
 
   return(organism_table)
 
