@@ -10,15 +10,23 @@ list_organisms <- function(){
   organisms <-
     rvest::read_html(url) %>%
     rvest::html_text2() %>%
-    stringr::str_split(pattern = ' -') %>%
+    stringr::str_split(pattern = '\n') %>%
     base::unlist()
+
+  organisms <-
+    sub('Parent Directory', ' ', organisms) %>%
+    pluck(3) %>%
+    stringr::str_split(pattern = ' -') %>%
+    unlist()
+
   organisms <- organisms[-c(1, length(organisms))]
 
   organism_table <-
     tibble::tibble(raw=organisms,
                    organism=base::sub('(.*)/(.*)','\\1',.data$raw),
                    release_date=lubridate::ymd_hm(sub('(.*)/(.*)','\\2',.data$raw))) %>%
-    dplyr::select(-'raw')
+    dplyr::select(-'raw') %>%
+    filter(organism != 'BioProject_Hierarchy')
 
   return(organism_table)
 
@@ -41,16 +49,20 @@ list_organisms <- function(){
 list_PDGs <- function(organism){
   #Checks the NCBI Path Det Database for the most recent version number
   # Returns a nicely formatted table
-  #   Listing all available PDGs and their release dates
-  # looks like the one we want is at the top...
-
+  # pretty ugly... needed hacks for orgs with a single result
+  # browser()
   PDD_url <- paste0('https://ftp.ncbi.nlm.nih.gov/pathogen/Results/', organism)
 
   PDGs <- rvest::read_html(PDD_url) %>%
     rvest::html_text2() %>%
-    stringr::str_split(pattern = '-PDG') %>%
+    stringr::str_split(pattern = '\n') %>%
     base::unlist()
-  PDGs <- PDGs[-c(1, length(PDGs))]
+  PDGs <- PDGs[-c(1,2, length(PDGs))]
+  PDGs <- sub('Parent Directory-','',PDGs)
+  PDGs <- sub(' -latest.*','',PDGs)
+  PDGs <- sub('-PDG','PDG',PDGs)
+  PDGs <- PDGs %>% stringr::str_split(pattern = 'PDG',) %>% unlist()
+  PDGs <- PDGs[grepl('[0-9]+\\.[0-9]+/.*', PDGs)]
 
   PDG_table <-
     tibble::tibble(raw=PDGs,  # 1st and last lines are not PDGs
@@ -62,7 +74,6 @@ list_PDGs <- function(organism){
   return(PDG_table)
 
 }
-
 
 
 
